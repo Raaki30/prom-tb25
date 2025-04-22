@@ -5,7 +5,7 @@ export default defineConfig({
   server: {
     host: true, // penting! biar bisa diakses dari luar
     hmr: {
-      host: 'https://d9b1-114-122-108-216.ngrok-free.app/', // GANTI dengan domain ngrok kamu
+      host: 'promtb-25-k95ii.ondigitalocean.app', // Ganti dengan domain DigitalOcean
     },
   },
   plugins: [
