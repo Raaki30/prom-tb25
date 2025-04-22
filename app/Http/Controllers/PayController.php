@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use App\Models\Control;
+use Illuminate\Support\Facades\Storage;
 
 class PayController extends Controller
 {
@@ -73,55 +74,41 @@ class PayController extends Controller
         
     }
 
-    public function uploadbukti(Request $request){
-        $request->validate([
-            'bukti' => 'required|image|mimes:jpeg,jpg,png|max:2048',
-            'order_id' => 'required|exists:tikets,order_id'
+    public function uploadbukti(Request $request)
+{
+    $request->validate([
+        'bukti' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+        'order_id' => 'required|exists:tikets,order_id'
+    ]);
+
+    $tiket = Tiket::where('order_id', $request->order_id)->firstOrFail();
+    $file = $request->file('bukti');
+
+    try {
+        $fileName = 'bukti/' . Str::slug($tiket->nama) . '-' . time() . '.' . $file->extension();
+        
+        Storage::disk('spaces')->put(
+            $fileName, 
+            file_get_contents($file),
+            'public'
+        );
+        
+        $url = env('DO_SPACES_CDN_URL') . '/' . $fileName;
+        $tiket->update(['bukti' => $url]);
+
+        return response()->json([
+            'success' => true,
+            'image_url' => $url,
+            'order_id' => $tiket->order_id,
         ]);
-
-        $file = $request->file('bukti');
-        $tiket = Tiket::where('order_id', $request->order_id)->first();
-
-        try {
-            $newFileName = 'bukti_' . Str::slug($tiket->nama, '_') . '.' . $file->getClientOriginalExtension();
-            $response = Http::asMultipart()
-                ->attach(
-                    'image',
-                    fopen($file->getRealPath(), 'r'),
-                    $newFileName
-                )
-                ->post('https://api.imgbb.com/1/upload?key=' . env('IMGBB_API_KEY'));
-
-            $result = $response->json();
-
-            if (!$response->successful() || !isset($result['data']['url'])) {
-                Log::error('Gagal upload gambar ke imgbb.', [
-                    'response_status' => $response->status(),
-                    'response_body' => $response->body(),
-                    'file_name' => $file->getClientOriginalName(),
-                    'order_id' => $request->order_id,
-                ]);
-
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Gagal upload gambar ke imgbb.'
-                ]);
-            }
-
-            $imageUrl = $result['data']['url'];
-            $tiket->bukti = $imageUrl;
-            $tiket->save();
-
-            return response()->json([
-                'success' => true,
-                'image_url' => $imageUrl,
-                'order_id' => $tiket->order_id,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
-            ]);
-        }
+    } catch (\Exception $e) {
+        Log::error('Upload Error: ' . $e->getMessage());
+        return response()->json([
+            'success' => false,
+            'message' => 'Upload failed. Please try again.'
+        ], 500);
     }
+}
+
+
 }
