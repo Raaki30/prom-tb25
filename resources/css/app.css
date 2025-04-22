@@ -1,0 +1,100 @@
+@import "tailwindcss";
+@source "../views";
+
+@theme {
+    /* warna */
+    --color-gelap-800: #323232;
+    --color-progress: #262626;
+
+    --color-gold-500: #d6b600;
+    --color-gold-800: #625a06;
+
+    /* font */
+    /* --font-fancy: "Imperial Script", cursive; */
+}
+
+.font-fancy-1 {
+    font-family: "Imperial Script", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.font-fancy-2 {
+    font-family: "Lavishly Yours", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.font-fancy-3 {
+    font-family: "Ephesis", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.font-fancy-4 {
+    font-family: "Tangerine", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.font-fancy-5 {
+    font-family: "Tangerine", cursive;
+    font-weight: 700;
+    font-style: normal;
+}
+
+
+.gradient-bg-dark {
+    background: linear-gradient(-45deg, #323232, #520101, #262626, #323232);
+    /* background: linear-gradient(-45deg, #323232, #6a0000, #262626, #625a06);  ada gold nya*/
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    height: 100vh;
+}
+
+.gradient-bg-payment {
+    background: linear-gradient(-45deg, #323232, #262626, #323232, #262626);
+    /* background: linear-gradient(-45deg, #323232, #6a0000, #262626, #625a06);  ada gold nya*/
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    /* height: 100vh; */
+}
+
+@keyframes bouncing-icon {
+    0%   { transform: translateY(0);     animation-timing-function: ease-in;  }
+    30%  { transform: translateY(-15px); animation-timing-function: ease-out; }
+    50%  { transform: translateY(0);     animation-timing-function: ease-in;  }
+    70%  { transform: translateY(-7px);  animation-timing-function: ease-out; }
+    100% { transform: translateY(0);     animation-timing-function: ease-in;  }
+}
+
+
+.about-section{
+    background: linear-gradient(0deg,#262626, #060604 );
+}
+.theme-section{
+    background: linear-gradient(0deg,#060604, #262626 );
+}
+.venue-section{
+    background: linear-gradient(0deg,#2e0705,#060604 );
+}
+.date-time-section{
+    background: linear-gradient(0deg,#060604, #2e0705 );
+}
+
+
+/* BOUNCING ANIMATION */
+@keyframes bouncing {
+    0%, 100% {
+        transform: translateY(0);
+        animation-timing-function: ease-in;
+    }
+    50% {
+        transform: translateY(-20px);
+        animation-timing-function: ease-out;
+    }
+}
+
+.bouncing-icon {
+    animation: bouncing-icon 3s infinite;
+}

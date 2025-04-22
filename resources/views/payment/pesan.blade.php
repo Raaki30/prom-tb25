@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pesan Tiket - Prom Night TB25</title>
+
+    {{-- TAILWIND --}}
+    @vite('resources/css/app.css')
+
+    {{-- Font Awesome --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    {{-- SWEET ALERT --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- FAVICON --}}
+
+    {{-- Google Fonts --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Ephesis&family=Imperial+Script&family=Lavishly+Yours&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="gradient-bg-dark">
+
+    {{-- NAVIGATION - PROSES BAYAR --}}
+    <div id="progress-bar" class="progress-bar m-auto w-full">
+        <ol
+            class="shadow-xs bg-progress rounded-b-4xl mx-auto flex w-fit items-center space-x-2 rounded-t-sm p-5 text-center text-sm font-medium text-gray-500 sm:space-x-4 sm:p-4 sm:text-2xl">
+            <li class="text-gold-500 flex items-center">
+                <span
+                    class="border-gold-500 me-2 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-xs">
+                    1
+                </span>
+                Identitas</span>
+                <svg class="ms-2 h-3 w-3 sm:ms-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 12 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m7 9 4-4-4-4M1 9l4-4-4-4" />
+                </svg>
+            </li>
+            <li class="flex items-center text-white">
+                <span
+                    class="me-2 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-gray-500 text-xs dark:border-gray-400">
+                    2
+                </span>
+                Konfirmasi</span>
+                <svg class="ms-2 h-3 w-3 sm:ms-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 12 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m7 9 4-4-4-4M1 9l4-4-4-4" />
+                </svg>
+            </li>
+            <li class="flex items-center text-white">
+                <span
+                    class="me-2 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-gray-500 text-xs dark:border-gray-400">
+                    3
+                </span>
+                Pembayaran
+            </li>
+        </ol>
+    </div>
+
+    {{-- ISI IDENTITAS --}}
+    <div class="w-full ">
+        <div
+            class="identitas identitas mt-30 mx-auto bg-gelap-800 sm:scale-130 w-full scale-100 rounded-xl px-5 pb-10 pt-5 sm:w-1/3 md:w-2/3 lg:w-1/2 xl:w-1/3">
+            <h1 class="font-fancy-3 mb-10 mt-5 text-center text-6xl text-white sm:text-5xl">Registration</h1>
+            <form id="nisForm" class="space-y-6">
+                @csrf
+
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-200">Nomor Induk Siswa (NIS) / Nama</label>
+                    <div class="relative">
+                        <input type="text" id="nis" name="nis"
+                            placeholder="Masukkan nama kamu atau NIS"
+                            class="w-full rounded-xl border border-gray-300 px-5 py-3 text-white outline-none transition-all focus:border-red-500 focus:ring-2 focus:ring-red-500"
+                            autocomplete="off" required />
+                        <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-200"></i>
+
+                        <!-- Changed from absolute to relative positioning and improved width constraints -->
+                        <div id="searchResults"
+                            class="relative z-50 mt-2 hidden max-h-60 w-full overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-lg">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="siswaInfo"
+                    class="flex hidden items-center gap-4 rounded-xl border border-gray-200 bg-gray-50 p-4 transition-all">
+                    <i class="fas fa-user text-xl text-red-500"></i>
+                    <div>
+                        <p class="text-base font-semibold text-gray-800" id="siswaNama"></p>
+                        <p class="text-sm text-gray-600" id="siswaKelas"></p>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitButton"
+                    class="flex w-full items-center justify-center gap-2 rounded-xl bg-red-500 py-3 font-semibold text-white transition-all hover:bg-red-600 disabled:opacity-50"
+                    disabled>
+                    <span>Lanjutkan ke Pemesanan</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+    <x-footer></x-footer>
+    <x-whatsapp></x-whatsapp>
+
+    {{-- BACKEND STUFF --}}
+    <form class="hidden" action="/payment/detail" method="POST" id="paymentForm">
+        @csrf
+        <input type="hidden" name="nis" id="nisInput">
+        <input type="hidden" name="nama_siswa" id="namaSiswaInput">
+        <input type="hidden" name="kelas" id="kelasInput">
+        
+    </form>
+    <script>
+        async function validateNis(nis) {
+            try {
+                const res = await fetch(`/api/validasi-nis/${nis}`);
+                const data = await res.json();
+
+                const info = document.getElementById('siswaInfo');
+                const submit = document.getElementById('submitButton');
+
+                if (data.valid) {
+                    info.classList.remove('hidden');
+                    document.getElementById('siswaNama').textContent = data.siswa.nama_siswa;
+                    document.getElementById('siswaKelas').textContent = `Kelas: ${data.siswa.kelas}`;
+                    submit.disabled = false;
+                } else {
+                    info.classList.add('hidden');
+                    submit.disabled = true;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Anda Sudah Melakukan Pembelian',
+                        text: 'Pembelian hanya bisa satu kali. Hubungi tim jika ini kesalahan.',
+                        confirmButtonColor: '#3b82f6'
+                    });
+                }
+            } catch {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Terjadi kesalahan. Silakan coba lagi.',
+                    confirmButtonColor: '#3b82f6'
+                });
+            }
+        }
+
+        async function performSearch(query) {
+            const results = document.getElementById('searchResults');
+            if (query.length < 3) return results.classList.add('hidden');
+
+            try {
+                const res = await fetch(`/api/cari-nama?query=${encodeURIComponent(query)}`);
+                const data = await res.json();
+
+                results.innerHTML = '';
+
+                if (!data.length) {
+                    results.innerHTML = `<div class="p-4 text-center text-gray-500">
+                <i class="fas fa-search text-gray-400 mb-2 text-lg"></i>
+                <p class="text-sm">Tidak ada hasil</p>
+            </div>`;
+                } else {
+                    data.forEach(siswa => {
+                        const item = document.createElement('div');
+                        item.className = 'p-3 cursor-pointer hover:bg-gray-50 border-b border-gray-100';
+                        item.innerHTML = `
+                    <div class="text-blue-500 text-sm">${siswa.nis}</div>
+                    <div class="text-gray-900 font-semibold">${siswa.nama_siswa}</div>
+                    <div class="text-gray-500 text-sm">${siswa.kelas}</div>
+                `;
+                        item.onclick = () => {
+                            document.getElementById('nis').value = siswa.nis;
+                            results.classList.add('hidden');
+                            validateNis(siswa.nis);
+                        };
+                        results.appendChild(item);
+                    });
+                }
+
+                results.classList.remove('hidden');
+            } catch (err) {
+                console.error('Search error:', err);
+            }
+        }
+
+        document.getElementById('nis').addEventListener('input', (e) => {
+            const query = e.target.value;
+            setTimeout(() => performSearch(query), 300);
+
+            document.getElementById('submitButton').disabled = true;
+            document.getElementById('siswaInfo').classList.add('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            const nis = document.getElementById('nis');
+            const results = document.getElementById('searchResults');
+            if (!nis.contains(e.target) && !results.contains(e.target)) {
+                results.classList.add('hidden');
+            }
+        });
+
+        document.getElementById('nisForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const info = document.getElementById('siswaInfo');
+            if (info.classList.contains('hidden')) {
+                return Swal.fire({
+                    icon: 'error',
+                    title: 'Data Belum Valid',
+                    text: 'Silakan pilih siswa dari pencarian dulu.',
+                    confirmButtonColor: '#3b82f6'
+                });
+            }
+
+            document.getElementById('nisInput').value = document.getElementById('nis').value;
+            document.getElementById('namaSiswaInput').value = document.getElementById('siswaNama').textContent;
+            document.getElementById('kelasInput').value = document.getElementById('siswaKelas').textContent.replace(
+                'Kelas: ', '');
+            
+
+            document.getElementById('paymentForm').submit();
+        });
+    </script>
+</body>
+
+</html>

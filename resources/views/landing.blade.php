@@ -1,0 +1,661 @@
+@php
+    $is_active = \App\Models\Control::value('is_active');
+@endphp
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Prom Night: Casino de L'Amour</title>
+
+    {{-- TAILWIND --}}
+    @vite('resources/css/app.css')
+
+    {{-- Font Awesome --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    {{-- Google Fonts --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Ephesis&family=Imperial+Script&family=Lavishly+Yours&family=Tangerine&display=swap"
+        rel="stylesheet">
+
+    {{-- AOS --}}
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+
+<body>
+    {{-- Hero Section --}}
+    <section class="hero-section relative flex items-center"
+        style="background-image: url('{{ asset('images/prom-bg.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        <!-- Overlay gelap di atas background image -->
+        <div class="absolute inset-0 z-0 bg-black opacity-50"></div>
+        <div class="relative z-10 min-h-screen w-full">
+
+
+            <div class="relative isolate px-6 pt-14 lg:px-8">
+                <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+                    {{-- <div class="hidden sm:mb-8 sm:flex sm:justify-center">
+                        <div
+                            class="relative rounded-full px-3 py-1 text-sm/6 text-white ring-1 ring-gray-100/20 hover:ring-gray-100/40 bg-black bg-opacity-40">
+                            Announcing our next round of funding. <a href="#"
+                                class="font-semibold text-red-200"><span class="absolute inset-0"
+                                    aria-hidden="true"></span>Read more <span aria-hidden="true">&rarr;</span></a>
+                        </div>
+                    </div> --}}
+                    <div class="text-center">
+                        <h1
+                            class="text-gold-500 font-fancy-3 text-balance text-5xl font-semibold tracking-tight sm:text-8xl">
+                            <span id="type-casino"></span><span id="type-de"></span><span id="type-lamour"></span>
+                        </h1>
+                        <p class="text-md mt-8 text-pretty font-medium text-gray-200 sm:text-xl/6" data-aos="fade-up"
+                            data-aos-delay="200" data-aos-duration="1200">Casino de L’Amour” is
+                            French and translates to “Casino of Love” — a mix of elegance and romance, perfect for a
+                            Monte Carlo-themed prom night. It gives off that luxurious, flirty vibe while still sounding
+                            fancy and classy.</p>
+                        <div class="mt-10 flex items-center justify-center gap-x-6" data-aos="zoom-in"
+                            data-aos-delay="400" data-aos-duration="1200">
+                            @if ($is_active == true)
+                                <a href="/pesan"
+                                    class="shadow-xs rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500">Get
+                                    Your Ticket</a>
+                            @else
+                                <a href="#"
+                                    class="shadow-xs cursor-not-allowed rounded-md bg-gray-500 px-3.5 py-2.5 text-sm font-semibold text-white opacity-50">Coming
+                                    Soon</a>
+                            @endif
+                        </div>
+                        <div class="bouncing-arrow bouncing-icon" data-aos="fade-up" data-aos-delay="600"
+                            data-aos-duration="1200">
+                            <i class="fa-solid fa-angles-down relative top-20 text-xl text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{-- End Hero Section --}}
+
+    {{-- About Section --}}
+    <section class="about-section">
+        <div class="py-24 sm:py-32">
+            <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                <div class="mx-auto max-w-2xl lg:text-center">
+                    {{-- <h2 class="text-base/7 font-semibold text-white" data-aos="fade-down" data-aos-delay="0" data-aos-duration="1200">Acerca de este evento</h2> --}}
+                    <p class="font-fancy-4 mt-2 text-pretty text-5xl font-semibold tracking-tight text-yellow-500 sm:text-6xl lg:text-balance"
+                        data-aos="fade-down" data-aos-delay="50" data-aos-duration="1000">
+                        About This Event</p>
+                    <p class="mt-6 text-lg/8 text-gray-200" data-aos="fade-up" data-aos-delay="100"
+                        data-aos-duration="1200">Quis tellus eget
+                        adipiscing convallis sit sit eget aliquet
+                        quis. Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In mi viverra elit
+                        nunc.
+                    </p>
+                </div>
+                <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+                    <dl class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
+                        <div class="relative pl-16" data-aos="fade-right" data-aos-delay="200" data-aos-duration="1200">
+                            <dt class="text-base/7 font-semibold text-gray-100">
+                                <div
+                                    class="absolute left-0 top-0 flex size-10 items-center justify-center rounded-lg bg-red-600">
+                                    <i class="fa fa-book scale-110 text-white" aria-hidden="true"></i>
+                                </div>
+                                Philosophy
+                            </dt>
+                            <dd class="mt-2 text-base/7 text-gray-300">Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Ipsum exercitationem et quidem voluptates officiis commodi?</dd>
+                        </div>
+                        <div class="relative pl-16" data-aos="fade-left" data-aos-delay="400" data-aos-duration="1200">
+                            <dt class="text-base/7 font-semibold text-gray-100">
+                                <div
+                                    class="absolute left-0 top-0 flex size-10 items-center justify-center rounded-lg bg-red-600">
+                                    <i class="fa fa-question scale-110 text-white" aria-hidden="true"></i>
+                                </div>
+                                Purpose
+                            </dt>
+                            <dd class="mt-2 text-base/7 text-gray-300">Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Libero fugiat ab optio id asperiores perspiciatis atque vero aut
+                                illum?</dd>
+                        </div>
+                        <div class="relative pl-16" data-aos="fade-right" data-aos-delay="600" data-aos-duration="1200">
+                            <dt class="text-base/7 font-semibold text-gray-100">
+                                <div
+                                    class="absolute left-0 top-0 flex size-10 items-center justify-center rounded-lg bg-red-600">
+                                    <i class="fa fa-key scale-110 text-white" aria-hidden="true"></i>
+                                </div>
+                                Highlights
+                            </dt>
+                            <dd class="mt-2 text-base/7 text-gray-300">Quisque est vel vulputate cursus. Risus proin
+                                diam
+                                nunc commodo. Lobortis auctor congue commodo diam neque.</dd>
+                        </div>
+                        <div class="relative pl-16" data-aos="fade-left" data-aos-delay="800" data-aos-duration="1200">
+                            <dt class="text-base/7 font-semibold text-gray-100">
+                                <div
+                                    class="absolute left-0 top-0 flex size-10 items-center justify-center rounded-lg bg-red-600">
+                                    <i class="fa fa-user scale-110 text-white" aria-hidden="true"></i>
+                                </div>
+                                Audience
+                            </dt>
+                            <dd class="mt-2 text-base/7 text-gray-300">Arcu egestas dolor vel iaculis in ipsum mauris.
+                                Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.</dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{-- End About Section --}}
+
+    {{-- Theme Section --}}
+    {{-- https://youtu.be/LJuM_Rqdd8o?si=LBlxS5uZn-HdiNZs --}}
+    <section class="theme-section">
+        <div class="py-24 sm:py-32">
+            <div class="mx-auto max-w-2xl px-6 text-center lg:max-w-7xl lg:px-8">
+                {{-- <h2 class="text-center text-base/7 font-semibold text-indigo-600">Deploy faster</h2> --}}
+                <p class="font-fancy-4 mt-2 text-pretty text-6xl font-semibold tracking-tight text-yellow-500 sm:text-6xl lg:text-balance"
+                    data-aos="fade-down" data-aos-delay="0" data-aos-duration="1200">
+                    Event Theme</p>
+                <div class="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
+                    <div class="relative lg:row-span-2" data-aos="fade-right" data-aos-delay="200"
+                        data-aos-duration="1200">
+                        <div class="absolute inset-px rounded-lg bg-gray-200 lg:rounded-l-[2rem]"></div>
+                        <div
+                            class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
+                            <div class="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
+                                <p
+                                    class="font-fancy-4 mt-2 text-5xl font-medium tracking-tight text-gray-950 max-lg:text-center">
+                                    Señores' Outfit</p>
+                                <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">This is an outfit
+                                    inspiration that you can use for men.</p>
+                            </div>
+                            <div class="@container relative min-h-[30rem] w-full grow max-lg:mx-auto max-lg:max-w-sm">
+                                <img class="m-auto size-full object-cover object-top p-5"
+                                    src="https://i.pinimg.com/736x/ba/57/93/ba5793f46bb73cb6bbd89667d2badbca.jpg"
+                                    alt="">
+                            </div>
+                        </div>
+                        <div
+                            class="pointer-events-none absolute inset-px rounded-lg shadow-sm ring-1 ring-black/5 lg:rounded-l-[2rem]">
+                        </div>
+                    </div>
+                    <div class="relative max-lg:row-start-1" data-aos="fade-up" data-aos-delay="400"
+                        data-aos-duration="1200">
+                        <div class="absolute inset-px rounded-lg bg-gray-200 max-lg:rounded-t-[2rem]"></div>
+                        <div
+                            class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
+                            <div class="px-8 pt-8 sm:px-10 sm:pt-10">
+                                <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
+                                    Watches</p>
+                                <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">Lorem ipsum, dolor
+                                    sit amet consectetur adipisicing elit maiores impedit.</p>
+                            </div>
+                            <div
+                                class="flex flex-1 items-center justify-center px-8 max-lg:pb-12 max-lg:pt-10 sm:px-10 lg:pb-2">
+                                <img class="w-full max-lg:max-w-xs"
+                                    src="https://i.ibb.co.com/H1Q76Pz/Screenshot-2025-04-17-232029.png"
+                                    alt="">
+                            </div>
+                        </div>
+                        <div
+                            class="pointer-events-none absolute inset-px rounded-lg shadow-sm ring-1 ring-black/5 max-lg:rounded-t-[2rem]">
+                        </div>
+                    </div>
+                    <div class="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2" data-aos="fade-up"
+                        data-aos-delay="600" data-aos-duration="1200">
+                        <div class="absolute inset-px rounded-lg bg-gray-200"></div>
+                        <div
+                            class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)]">
+                            <div class="px-8 pt-8 sm:px-10 sm:pt-10">
+                                <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
+                                    Security</p>
+                                <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">Morbi viverra dui
+                                    mi arcu sed. Tellus semper adipiscing suspendisse semper morbi.</p>
+                            </div>
+                            <div class="@container flex flex-1 items-center max-lg:py-6 lg:pb-2">
+                                <img class="h-[min(152px,40cqw)] object-cover"
+                                    src="https://tailwindcss.com/plus-assets/img/component-images/bento-03-security.png"
+                                    alt="">
+                            </div>
+                        </div>
+                        <div class="pointer-events-none absolute inset-px rounded-lg shadow-sm ring-1 ring-black/5">
+                        </div>
+                    </div>
+                    <div class="relative lg:row-span-2" data-aos="fade-left" data-aos-delay="800"
+                        data-aos-duration="1200">
+                        <div
+                            class="absolute inset-px rounded-lg bg-gray-200 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]">
+                        </div>
+                        <div
+                            class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]">
+                            <div class="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
+                                <p
+                                    class="font-fancy-4 mt-2 text-5xl font-medium tracking-tight text-gray-950 max-lg:text-center">
+                                    Señoritas' Outfit</p>
+                                <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">This is an outfit
+                                    inspiration that you can use for women.</p>
+                            </div>
+                            <div class="relative min-h-[30rem] w-full grow">
+                                <img class="p-5"
+                                    src="https://i.pinimg.com/736x/f2/89/3b/f2893b58c687837f536533def33572f4.jpg"
+                                    alt="">
+                            </div>
+                        </div>
+                        <div
+                            class="pointer-events-none absolute inset-px rounded-lg shadow-sm ring-1 ring-black/5 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{-- End Theme Section --}}
+
+    {{-- Venue Section --}}
+    <section class="venue-section">
+        <div class="py-12 text-center sm:py-32">
+            <p class="font-fancy-4 mt-2 text-pretty text-6xl font-semibold tracking-tight text-yellow-500 sm:text-6xl lg:text-balance"
+                data-aos="fade-down" data-aos-delay="0" data-aos-duration="1200">
+                The Venue</p>
+            <div class="grid grid-cols-1 gap-10 p-5 sm:grid-cols-2 sm:p-20">
+                {{-- CAROUSEL --}}
+                <div class="relative mx-auto w-full max-w-3xl"data-aos="fade-up" data-aos-delay="200"
+                    data-aos-duration="1200">
+                    <!-- Slides container -->
+                    <div id="carousel" class="relative h-64 overflow-hidden rounded-lg md:h-96">
+                        <div class="carousel-slide absolute inset-0 opacity-100 transition-opacity duration-700">
+                            <img src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=620&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+                                class="h-full w-full object-cover" />
+                        </div>
+                        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-700">
+                            <img
+                                src="https://plus.unsplash.com/premium_photo-1673697239909-e11521d1ba94?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZXZlbmluZ3xlbnwwfHwwfHx8MA%3D%3D" />
+                        </div>
+                        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-700">
+                            <img src="https://petapixel.com/assets/uploads/2022/12/what-is-unsplash.jpg"
+                                class="h-full w-full object-cover" />
+                        </div>
+                        <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-700">
+                            <img
+                                src="https://plus.unsplash.com/premium_photo-1673697239909-e11521d1ba94?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZXZlbmluZ3xlbnwwfHwwfHx8MA%3D%3D" />
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <button id="prev"
+                        class="absolute left-4 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-white/50 p-2 shadow-md hover:bg-white">
+                        &#8592;
+                    </button>
+                    <button id="next"
+                        class="absolute right-4 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-white/50 p-2 shadow-md hover:bg-white">
+                        &#8594;
+                    </button>
+
+                    <!-- Indicators -->
+                    <div class="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 transform space-x-2">
+                        <button class="indicator h-3 w-3 rounded-full bg-white opacity-80 hover:opacity-100"
+                            data-index="0"></button>
+                        <button class="indicator h-3 w-3 rounded-full bg-white opacity-50 hover:opacity-100"
+                            data-index="1"></button>
+                        <button class="indicator h-3 w-3 rounded-full bg-white opacity-50 hover:opacity-100"
+                            data-index="2"></button>
+                        <button class="indicator h-3 w-3 rounded-full bg-white opacity-50 hover:opacity-100"
+                            data-index="3"></button>
+                    </div>
+                </div>
+                <div class="animate__animated animate__fadeIn mx-auto flex max-w-lg flex-col gap-4 rounded-2xl border border-yellow-600/30 bg-white/10 p-8 text-left font-medium text-white shadow-lg backdrop-blur-md"
+                    style="box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);" data-aos="fade-left"
+                    data-aos-delay="400" data-aos-duration="1200">
+                    <p class="font-fancy-4 mb-1 flex items-center gap-3 text-5xl text-yellow-400">
+                        The Papandayan Hotel
+                    </p>
+
+                    <ul class="my-5 space-y-2 pl-4">
+                        <li class="flex items-center gap-2 text-base text-yellow-100">
+                            <i class="fa fa-star text-yellow-400"></i> Exquisitely Decorated Venue
+                        </li>
+                        <li class="flex items-center gap-2 text-base text-yellow-100">
+                            <i class="fa fa-star text-yellow-400"></i> Seamlessly Themed Ambience
+                        </li>
+                        <li class="flex items-center gap-2 text-base text-yellow-100">
+                            <i class="fa fa-star text-yellow-400"></i> Sophisticated Lighting Design
+                        </li>
+                        <li class="flex items-center gap-2 text-base text-yellow-100">
+                            <i class="fa fa-star text-yellow-400"></i> Spacious & Refined Interior
+                        </li>
+                        <li class="flex items-center gap-2 text-base text-yellow-100">
+                            <i class="fa fa-star text-yellow-400"></i> Picture-Perfect Vibe
+                        </li>
+                    </ul>
+                    <p class="text-base text-yellow-100"><i class="fa fa-location-dot text-yellow-400"></i> Jl. Gatot
+                        Subroto No.83, Malabar, Kec. Lengkong, Kota Bandung, Jawa Barat 40262</p>
+                </div>
+            </div>
+
+            <script>
+                const slides = document.querySelectorAll(".carousel-slide");
+                const indicators = document.querySelectorAll(".indicator");
+                let current = 0;
+
+                function showSlide(index) {
+                    slides.forEach((slide, i) => {
+                        slide.style.opacity = i === index ? "1" : "0";
+                    });
+
+                    indicators.forEach((dot, i) => {
+                        dot.classList.toggle("opacity-80", i === index);
+                        dot.classList.toggle("opacity-50", i !== index);
+                    });
+
+                    current = index;
+                }
+
+                document.getElementById("next").addEventListener("click", () => {
+                    showSlide((current + 1) % slides.length);
+                });
+
+                document.getElementById("prev").addEventListener("click", () => {
+                    showSlide((current - 1 + slides.length) % slides.length);
+                });
+
+                indicators.forEach((dot) => {
+                    dot.addEventListener("click", () => {
+                        const index = parseInt(dot.getAttribute("data-index"));
+                        showSlide(index);
+                    });
+                });
+
+                // Auto slide (optional)
+                setInterval(() => {
+                    showSlide((current + 1) % slides.length);
+                }, 5000); // Change slide every 5s
+
+                showSlide(0);
+            </script>
+
+        </div>
+    </section>
+    {{-- End Venue Section --}}
+
+
+    {{-- Date & Time Section --}}
+    <section class="date-time-section bg-gradient-to-b from-gray-900 via-gray-950 to-black py-20 text-white sm:py-32">
+        <div class="mx-auto max-w-4xl text-center">
+            <h2 class="font-fancy-4 mb-6 text-6xl font-bold tracking-tight text-yellow-400 sm:text-5xl"
+                data-aos="fade-down" data-aos-duration="1400">
+                Date & Time
+            </h2>
+            <p class="mb-12 text-2xl text-yellow-200 sm:text-2xl" data-aos="fade-up" data-aos-delay="200"
+                data-aos-duration="1200">
+                5 July 2025 | 17.00 - 22.00
+            </p>
+            <div class="stripes" data-aos="zoom-in" data-aos-delay="400" data-aos-duration="1800">
+                <div class="countdown-container">
+                    <div class="countdown-unit" data-aos="fade-up" data-aos-delay="600" data-aos-duration="1200">
+                        <span id="days" class="countdown-number">00</span>
+                        <span class="countdown-label">days</span>
+                    </div>
+                    <div class="countdown-unit" data-aos="fade-up" data-aos-delay="750" data-aos-duration="1300">
+                        <span id="hours" class="countdown-number">00</span>
+                        <span class="countdown-label">hours</span>
+                    </div>
+                    <div class="countdown-unit" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1400">
+                        <span id="minutes" class="countdown-number">00</span>
+                        <span class="countdown-label">min</span>
+                    </div>
+                    <div class="countdown-unit" data-aos="fade-up" data-aos-delay="1050" data-aos-duration="1500">
+                        <span id="seconds" class="countdown-number">00</span>
+                        <span class="countdown-label">sec</span>
+                    </div>
+                </div>
+            </div>
+            <p class="font-fancy-4 mt-8 animate-pulse text-4xl text-yellow-300 sm:text-3xl" data-aos="fade-up"
+                data-aos-delay="1200" data-aos-duration="1200">
+                Until Prom Night Begins!
+            </p>
+            <div class="mt-10 flex items-center justify-center gap-x-6" data-aos="zoom-in" data-aos-delay="400"
+                data-aos-duration="1200">
+                @if ($is_active == true)
+                    <a href="/pesan"
+                        class="shadow-xs rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500">Get
+                        Your Ticket</a>
+                @else
+                    <a href="#"
+                        class="shadow-xs cursor-not-allowed rounded-md bg-gray-500 px-3.5 py-2.5 text-sm font-semibold text-white opacity-50">Coming
+                        Soon</a>
+                @endif
+            </div>
+        </div>
+        <style>
+            /* [unchanged CSS from your previous version] */
+            .stripes {
+                background-image: repeating-linear-gradient(45deg,
+                        rgba(255, 255, 255, 0.03),
+                        rgba(255, 255, 255, 0.03) 10px,
+                        transparent 10px,
+                        transparent 20px);
+                background-color: #1a0a0a;
+                min-height: 120px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 1.5rem 1rem;
+                border-radius: 1.5rem;
+                margin: 0 auto;
+                max-width: 700px;
+            }
+
+            .countdown-container {
+                background: linear-gradient(135deg, #2a0d0d, #1a0606);
+                border-radius: 1rem;
+                box-shadow:
+                    0 0 15px rgba(0, 0, 0, 0.6),
+                    inset 0 0 15px rgba(0, 0, 0, 0.4);
+                padding: 1.5rem 3rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 3rem;
+                max-width: 600px;
+                width: 100%;
+                user-select: none;
+            }
+
+            .countdown-unit {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                color: #b33a3a;
+                text-shadow: 0 0 2px #4f0000;
+            }
+
+            .countdown-number {
+                font-size: 3.5rem;
+                font-weight: 700;
+                color: #bfa243;
+                position: relative;
+                perspective: 600px;
+                width: 4.5rem;
+                height: 4.5rem;
+                line-height: 4.5rem;
+                text-align: center;
+                border-radius: 0.75rem;
+                background: linear-gradient(145deg, #3b2a0a, #1f1603);
+                box-shadow:
+                    inset 2px 2px 8px rgba(191, 162, 67, 0.6),
+                    inset -2px -2px 8px rgba(102, 85, 0, 0.8);
+                text-shadow: 0 0 1px #a68f3a;
+                font-feature-settings: "tnum";
+                font-variant-numeric: tabular-nums;
+                transition: color 0.3s ease;
+                margin-bottom: 0.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .countdown-label {
+                font-size: 0.875rem;
+                color: #b33a3a;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                font-weight: 600;
+                text-shadow: 0 0 1px #4f0000;
+            }
+
+            .flip {
+                animation: flipAnim 0.8s ease forwards;
+                transform-style: preserve-3d;
+                backface-visibility: hidden;
+            }
+
+            @keyframes flipAnim {
+                0% {
+                    transform: rotateX(0deg);
+                    opacity: 1;
+                }
+
+                50% {
+                    transform: rotateX(90deg);
+                    opacity: 0;
+                }
+
+                51% {
+                    transform: rotateX(-90deg);
+                    opacity: 0;
+                }
+
+                100% {
+                    transform: rotateX(0deg);
+                    opacity: 1;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .countdown-container {
+                    gap: 1.5rem;
+                    padding: 1rem 1.5rem;
+                }
+
+                .countdown-number {
+                    font-size: 2.5rem;
+                    width: 3.5rem;
+                    height: 3.5rem;
+                    line-height: 3.5rem;
+                }
+
+                .countdown-label {
+                    font-size: 0.75rem;
+                }
+            }
+        </style>
+        <script>
+            // Countdown to 5 June 2025, 17:00 (5 PM) UTC+7 (Asia/Jakarta/Bangkok)
+            const countdownTarget = new Date('2025-06-05T17:00:00+07:00');
+
+            function animateFlip(element, newValue) {
+                if (element.textContent == newValue) return;
+                element.classList.remove('flip');
+                void element.offsetWidth;
+                element.textContent = newValue;
+                element.classList.add('flip');
+            }
+
+            function updateCountdown() {
+                const now = new Date();
+                const diff = countdownTarget - now;
+                if (diff <= 0) {
+                    animateFlip(document.getElementById('days'), '0');
+                    animateFlip(document.getElementById('hours'), '0');
+                    animateFlip(document.getElementById('minutes'), '0');
+                    animateFlip(document.getElementById('seconds'), '0');
+                    clearInterval(timerInterval);
+                    return;
+                }
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((diff / (1000 * 60)) % 60);
+                const seconds = Math.floor((diff / 1000) % 60);
+                animateFlip(document.getElementById('days'), days);
+                animateFlip(document.getElementById('hours'), hours);
+                animateFlip(document.getElementById('minutes'), minutes);
+                animateFlip(document.getElementById('seconds'), seconds);
+            }
+            updateCountdown();
+            const timerInterval = setInterval(updateCountdown, 1000);
+        </script>
+    </section>
+    {{-- End Date & Time Section --}}
+
+    <footer class="w-full bg-black px-4 py-6 shadow-inner backdrop-blur">
+        <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 sm:flex-row">
+            <div class="text-sm tracking-wide text-yellow-200">
+                © {{ date('Y') }} Prom Night TB25. All rights reserved.
+            </div>
+            <div class="flex space-x-5 text-xl text-white">
+                <a href="#" aria-label="whatsapp"
+                    class="transition hover:text-yellow-400 focus:text-yellow-400">
+                    <i class="fab fa fa-whatsapp"></i>
+                </a>
+                <a href="#" aria-label="Instagram"
+                    class="transition hover:text-yellow-400 focus:text-yellow-400">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const words = [{
+                    id: 'type-casino',
+                    text: 'Casino',
+                    after: ' '
+                },
+                {
+                    id: 'type-de',
+                    text: 'de',
+                    after: ' '
+                },
+                {
+                    id: 'type-lamour',
+                    text: `L'Amour`,
+                    after: ''
+                }
+            ];
+            let wordIdx = 0;
+            let charIdx = 0;
+
+            function typeNext() {
+                if (wordIdx >= words.length) return;
+                const {
+                    id,
+                    text,
+                    after
+                } = words[wordIdx];
+                const el = document.getElementById(id);
+                if (charIdx < text.length) {
+                    el.textContent += text[charIdx];
+                    charIdx++;
+                    setTimeout(typeNext, 100); // typing speed
+                } else {
+                    el.textContent += after;
+                    wordIdx++;
+                    charIdx = 0;
+                    setTimeout(typeNext, 500); // pause between words
+                }
+            }
+            typeNext();
+        });
+    </script>
+</body>
+
+</html>
