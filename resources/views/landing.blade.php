@@ -656,6 +656,18 @@
             typeNext();
         });
     </script>
+    <script async
+    src="https://kac3opy67dsogirllmtqz3bn.agents.do-ai.run/static/chatbot/widget.js"
+    data-agent-id="c646abf9-1fe5-11f0-bf8f-4e013e2ddde4"
+    data-chatbot-id="NmTrlKnYY2GIKDE2rwZKe8786fy2Q0Wk"
+    data-name="Casino de L’Amour Assistant"
+    data-primary-color="#2D1E2F" 
+    data-secondary-color="#F5EAEA" 
+    data-button-background-color="#FFFFFF" 
+    data-starting-message="Bonsoir, mon ami ✨ Siap untuk malam prom yang penuh cinta dan pesona? Bagaimana aku bisa membantumu?"
+    data-logo="/static/chatbot/icons/default-agent.svg">
+  </script>
+  
 </body>
 
 </html>

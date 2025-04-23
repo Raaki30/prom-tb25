@@ -8,6 +8,7 @@ use App\Models\Tiket;
 use App\Mail\SendEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class TiketController extends Controller
 {
@@ -115,22 +116,26 @@ class TiketController extends Controller
     }
 
     public function show($id, Request $request)
-    {
-        $nis = $request->query('nis');
+{
+    $nis = $request->query('nis');
 
-        $tiket = Tiket::where('order_id', $id)->where('nis', $nis)->first();
+    $tiket = Tiket::where('order_id', $id)->where('nis', $nis)->first();
 
-        if (!$tiket) {
-            return abort(404, 'Tiket tidak ditemukan.');
-        }
-
-        if ($tiket->status === 'pending') {
-            return abort(404, 'Tiket belum dibayar.');
-        }
-
-
-        return view('eticket.show', compact('tiket'));
+    if (!$tiket) {
+        return abort(404, 'Tiket tidak ditemukan.');
     }
+
+    if ($tiket->status === 'pending') {
+        return abort(404, 'Tiket belum dibayar.');
+    }
+
+    // Generate QR code as base64
+    $qrCode = QrCode::format('svg')->size(150)->generate($tiket->order_id);
+    $qrCodeImage = 'data:image/png;base64,' . base64_encode($qrCode);
+
+    return view('eticket.show', compact('tiket', 'qrCode'));
+}
+
 
     public function manualCheckin(Request $request)
     {

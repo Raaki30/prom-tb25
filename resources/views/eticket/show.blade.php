@@ -45,8 +45,9 @@
         <!-- QR Ticket Section -->
         <section aria-label="Entry Ticket" class="mx-auto mb-10 max-w-md rounded-lg bg-red-100 px-8 py-10">
             <h3 class="mb-6 text-lg font-semibold text-red-800">Your Entry Ticket</h3>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ $tiket->order_id }}"
-                alt="QR code for prom night ticket" width="144" height="144" class="mx-auto mb-6" />
+            <div class="mx-auto mb-6 w-fit">
+                {!! $qrCode !!}
+            </div>
             <p class="text-sm text-red-800">Show this QR code at the entrance</p>
         </section>
 

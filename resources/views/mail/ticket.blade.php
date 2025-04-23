@@ -20,7 +20,7 @@
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color:#1f2937;">
                 <tr>
                   <td align="center">
-                    <img src="https://i.ibb.co/1fQH4NGg/sample-banner.png" alt="Prom Night 2025 Banner" 
+                    <img src="https://imageprom.sgp1.cdn.digitaloceanspaces.com/sample-banner.png" alt="Prom Night 2025 Banner" 
                       width="600" 
                       style="display:block; width:100%; max-width:600px; height:auto; border:none; margin:0; padding:0;">
                   </td>
