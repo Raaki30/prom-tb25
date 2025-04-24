@@ -554,7 +554,7 @@
         </style>
         <script>
             // Countdown to 5 June 2025, 17:00 (5 PM) UTC+7 (Asia/Jakarta/Bangkok)
-            const countdownTarget = new Date('2025-06-05T17:00:00+07:00');
+            const countdownTarget = new Date('2025-07-05T17:00:00+07:00');
 
             function animateFlip(element, newValue) {
                 if (element.textContent == newValue) return;
