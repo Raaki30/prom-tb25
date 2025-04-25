@@ -20,7 +20,7 @@
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white shadow rounded-xl p-6 space-y-6">
 
-                <form action="{{ route('dashboard.control.update', $control->id) }}" method="POST" class="space-y-6">
+                <form action="{{ route('dashboard.control.update', $control->id, [], true) }}" method="POST" class="space-y-6">
                     @csrf
                     @method('PUT')
                 
