@@ -82,7 +82,7 @@
                                     <td class="px-4 py-2">
                                         
                                             <button
-                                                @click="modalImg = '{{ $item->bukti }}'; verifikasiUrl = '{{ route('tiket.verifikasi', $item->id) }}'; showModal = true"
+                                                @click="modalImg = '{{ $item->bukti }}'; verifikasiUrl = '{{ route('tiket.verifikasi', $item->id, [], true) }}'; showModal = true"
                                                 class="bg-green-500 hover:bg-green-600 text-white text-sm px-3 py-1 rounded">
                                                 Verifikasi
                                             </button>
