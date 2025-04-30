@@ -72,3 +72,10 @@ Route::get('/vote', function () {
 })->name('vote');
 
 require __DIR__.'/auth.php';
+
+Route::get('/guest-registration', function () {
+    return view('payment.guest-registration');
+})->name('guest-registration');
+
+Route::post('/tamu-beli', [PayController::class, 'tamubeli'])->name('tamubeli');
+Route::get('/tamu-beli', [PayController::class, 'tamubeli'])->name('tamubeli');

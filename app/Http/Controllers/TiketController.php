@@ -47,6 +47,7 @@ class TiketController extends Controller
             'order_id' => $tiket->order_id,
             'email' => $tiket->email,
             'no_hp' => $tiket->phone,
+            'metodebayar' => $tiket->metodebayar,
             'url' => url('/eticket/' . $tiket->order_id . '?nis=' . $tiket->nis),
         ];
 
@@ -177,6 +178,23 @@ class TiketController extends Controller
             ]
         ]);
     }
+
+    public function caribuyer(Request $request)
+    {
+        $query = $request->input('query');
+        if (strlen($query) < 3) {
+            return response()->json([]);
+        }
+
+        $search = Tiket::where('nis', 'LIKE', "%{$query}%")
+            ->orWhere('nama', 'LIKE', "%{$query}%")
+            ->select('nis', 'nama', 'kelas', 'order_id', 'status')
+            ->get();
+        
+        return response()->json($search);
+    }
+
+    
 
     
 }

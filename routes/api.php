@@ -16,3 +16,4 @@ Route::get('/validasi-nis/{id}', [TiketController::class, 'validasiNIS'])->name(
 Route::post('/scan/manual-checkin', [TiketController::class, 'manualCheckin'])->name('scan.manual.checkin');
 Route::post('/scan/validate', [TiketController::class, 'validateScan'])->name('scan.validate');
 Route::get('/get-quote', [QuoteController::class, 'getQuote'])->name('quote.get');
+Route::get('/cari-buyer', [TiketController::class, 'caribuyer'])->name('tiket.caribuyer');    

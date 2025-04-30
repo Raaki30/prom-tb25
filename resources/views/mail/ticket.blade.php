@@ -34,11 +34,42 @@
             <td style="padding:30px 40px; color:#374151; font-size:16px; line-height:1.8;">
               <h2 style="text-align:center; color:#2563eb; margin:0; font-size:20px;">Selamat Datang di</h2>
               <h2 style="text-align:center; color:#2563eb; margin:0; font-size:20px;">Prom Night: Casino de L'Amour</h2>
-              <p style="margin:20px 0;">Hai <strong style="color:#2563eb;">{{$data['nama']}}</strong>,</p>
-              <p style="margin:10px 0;">Kami sangat senang menginformasikan bahwa tiketmu untuk <strong>Prom Night 2025</strong> telah berhasil dipesan! Malam yang penuh kenangan indah menunggumu.</p>
-              <p style="margin:10px 0;">Untuk melihat detail tiket dan QR code-mu, klik tombol di bawah ini:</p>
 
-              <!-- Call to Action Button -->
+              <p style="margin:20px 0;">Hai <strong style="color:#2563eb;">{{$data['nama']}}</strong>,</p>
+              <p style="margin:10px 0;">Tiketmu untuk <strong>Prom Night 2025</strong> telah berhasil dipesan! Berikut adalah detail tiketmu:</p>
+
+              <!-- Ticket Details -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin:20px 0; font-size:15px;">
+                <tr>
+                  <td style="padding:8px 0;"><strong>Nama:</strong></td>
+                  <td style="padding:8px 0;">{{$data['nama']}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px 0;"><strong>Email:</strong></td>
+                  <td style="padding:8px 0;">{{$data['email']}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px 0;"><strong>Nomor Telepon:</strong></td>
+                  <td style="padding:8px 0;">{{$data['no_hp']}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px 0;"><strong>Metode Bayar:</strong></td>
+                  <td style="padding:8px 0;">{{$data['metodebayar']}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px 0;"><strong>Order ID:</strong></td>
+                  <td style="padding:8px 0;">{{$data['order_id']}}</td>
+                </tr>
+              </table>
+
+              <!-- QR Code -->
+              <div style="text-align:center; margin:30px 0;">
+                <p style="margin-bottom:10px;">Scan QR Code ini saat check-in:</p>
+                <img src="https://quickchart.io/qr?text={{$data['order_id']}}&size=200" 
+                  alt="QR Code Tiket" width="200" height="200" style="border:0;">
+              </div>
+
+              <!-- Lihat Tiket Button -->
               <div style="text-align:center; margin:30px 0;">
                 <a href="{{$data['url']}}" style="display:inline-block; padding:14px 28px; background-color:#2563eb; color:#ffffff; text-decoration:none; border-radius:6px; font-weight:bold; font-size:16px;">
                   Lihat Tiket 🎫
@@ -60,10 +91,8 @@
         </table>
 
       </td>
-    
+    </tr>
   </table>
 
 </body>
 </html>
-
-

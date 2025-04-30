@@ -109,7 +109,7 @@
                     <!-- Formulir Pembayaran -->
                     <form action="/payment/process" method="POST" class="space-y-4" autocomplete="off">
                         @csrf
-                        <input type="hidden" name="order_id" value="TB-{{ Str::random(6) }}">
+                        <input type="hidden" name="order_id" value="{{ 'TB-' . Str::upper(Str::random(4)) . mt_rand(10, 99); }}">
                         <input type="hidden" name="nis" value="{{ $nis }}">
                         <input type="hidden" name="nama_siswa" value="{{ $nama_siswa }}">
                         <input type="hidden" name="kelas" value="{{ $kelas }}">

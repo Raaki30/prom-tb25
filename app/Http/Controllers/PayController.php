@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use App\Models\Control;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Nis;
 
 class PayController extends Controller
 {
@@ -109,6 +110,63 @@ class PayController extends Controller
         ], 500);
     }
 }
+
+public function tamubeli(Request $request)
+    {
+        $request->validate([
+            'partner' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:255',
+            'metodebayar' => 'required|string|max:255',
+            'bukti' => 'required|file|mimes:jpg,jpeg,png|max:2048',
+            'harga' => 'required|numeric',
+        ]);
+
+        $kelas = strtoupper(collect(explode(' ', $request->partner))
+    ->filter()
+    ->map(fn($word) => substr($word, 0, 1))
+    ->implode(''));
+
+        $order_id = 'LN-' . Str::upper(Str::random(4)) . mt_rand(10, 99);
+        $file = $request->file('bukti');
+        $nis = Nis::where('nama_siswa', $request->partner)->value('nis');
+
+        try {
+            $fileName = 'bukti/' . Str::slug($request->nama) . '-' . time() . '.' . $file->extension();
+            Storage::disk('spaces')->put(
+                $fileName, 
+                file_get_contents($file),
+                'public'
+            );
+            
+            $url = env('DO_SPACES_CDN_URL') . '/' . $fileName;
+
+            Tiket::create([
+                'order_id' => $order_id,
+                'nis' => $nis,
+                'nama' => $request->nama,
+                'kelas' => $kelas,
+                'jumlah_tiket' => 1,
+                'harga' => $request->harga,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'metodebayar' => $request->metodebayar,
+                'status' => 'pending',
+                'bukti' => $url
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Upload Error: ' . $e->getMessage());
+            return response()->json(['status' => 'error', 'message' => 'Upload failed. Please try again.'], 500);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Pemesanan berhasil masuk.',
+            'order_id' => $order_id,
+            
+        ]);
+    }
 
 
 }

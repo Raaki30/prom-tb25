@@ -60,7 +60,16 @@
                                 <tr>
                                     <td class="px-4 py-2 text-sm text-gray-700">{{ $item->order_id }}</td>
                                     <td class="px-4 py-2 text-sm text-gray-700">{{ $item->email }}</td>
-                                    <td class="px-4 py-2">{{ $item->nama }}</td>
+                                    <td class="px-4 py-2">
+                                        {{ $item->nama }} 
+                                        
+                                        @if(Str::startsWith($item->order_id, 'LN-'))
+                                        @php
+                                            $partnerName = \App\Models\NIS::where('nis', $item->nis)->value('nama_siswa');
+                                        @endphp
+                                            ({{ __('Partner') }} {{ $partnerName }})
+                                        @endif
+                                    </td>
                                     <td class="px-4 py-2">{{ $item->phone }}</td>
                                     <td class="px-4 py-2">{{ $item->kelas }}</td>
                                     <td class="px-4 py-2">{{ $item->metodebayar }}</td>
