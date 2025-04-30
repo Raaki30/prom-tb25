@@ -65,7 +65,7 @@
                                         
                                         @if(Str::startsWith($item->order_id, 'LN-'))
                                         @php
-                                            $partnerName = \App\Models\NIS::where('nis', $item->nis)->value('nama_siswa');
+                                            $partnerName = \App\Models\Nis::where('nis', $item->nis)->value('nama_siswa');
                                         @endphp
                                             ({{ __('Partner') }} {{ $partnerName }})
                                         @endif
