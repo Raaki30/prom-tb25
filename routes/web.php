@@ -82,7 +82,12 @@ Route::get('/vote', function () {
 require __DIR__.'/auth.php';
 
 Route::get('/guest-registration', function () {
-    return view('payment.guest-registration');
+    $control = Control::where('isguestactive', true)->first();
+    if ($control) {
+        return view('payment.guest-registration');
+    } else {
+        return redirect('/');
+    }
 })->name('guest-registration');
 
 Route::post('/tamu-beli', [PayController::class, 'tamubeli'])->name('tamubeli');

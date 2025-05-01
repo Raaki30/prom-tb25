@@ -297,7 +297,7 @@
                 openAdd() {
                     this.showModal = true;
                     this.modalTitle = 'Tambah Siswa';
-                    this.formAction = '{{ route("dashboard.siswa.store") }}';
+                    this.formAction = '{{ route("dashboard.siswa.store", [], true) }}';
                     this.isEdit = false;
                     this.formData = {
                         nis: '',

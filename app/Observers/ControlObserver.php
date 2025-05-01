@@ -16,6 +16,7 @@ class ControlObserver
             $control->is_active = true;
         } else {
             $control->is_active = false;
+            $control->isguestactive = false;
         }
     }
 }

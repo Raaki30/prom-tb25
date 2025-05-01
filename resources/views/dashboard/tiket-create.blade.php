@@ -12,7 +12,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-md rounded-lg overflow-hidden">
                     <div class="p-6">
-                        <form id="tiketForm" method="POST" action="{{ route('tiket.store') }}">
+                        <form id="tiketForm" method="POST" action="{{ route('tiket.store', [], true) }}">
                             @csrf
                             <div class="grid grid-cols-1 gap-6">
                                 <div>
@@ -52,7 +52,7 @@
                             </div>
 
                             <div class="flex items-center justify-end mt-6 gap-4">
-                                <a href="{{ route('dashboard.tiket') }}" class="text-gray-600 hover:text-gray-800 flex items-center gap-1">
+                                <a href="{{ url()->previous() }}" class="text-gray-600 hover:text-gray-800 flex items-center gap-1">
                                     <i class="fa-solid fa-arrow-left"></i> Batal
                                 </a>
                                 <button type="button" @click="showConfirmModal = true" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md shadow-sm flex items-center gap-2 transition duration-200 ease-in-out">

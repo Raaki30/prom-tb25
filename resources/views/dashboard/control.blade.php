@@ -55,6 +55,21 @@
                             value="{{ \Carbon\Carbon::parse($control->tanggal_berakhir)->format('Y-m-d\TH:i') }}" 
                             class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 ease-in-out">
                     </div>
+                    <!-- Toggle Guest Access -->
+                    <div>
+                        <label for="isguestactive" class="block text-sm font-medium text-gray-700">Izinkan Akses Tamu</label>
+                        <div class="flex items-center mt-2">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="isguestactive" id="isguestactive" 
+                                    {{ $control->isguestactive ? 'checked' : '' }} 
+                                    class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-500 rounded-full peer peer-checked:bg-indigo-600 peer-checked:after:translate-x-5 peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+                                <span class="ml-3 text-sm text-gray-700">
+                                    {{ $control->isguestactive ? 'Diizinkan' : 'Tidak Diizinkan' }}
+                                </span>
+                            </label>
+                        </div>
+                    </div>
                 
                     <!-- Aktif / Nonaktif -->
                     <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full shadow-sm"

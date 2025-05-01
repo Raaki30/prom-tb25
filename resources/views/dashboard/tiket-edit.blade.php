@@ -53,8 +53,8 @@
                         </div>
     
                         <div class="flex items-center justify-end mt-6 gap-4">
-                            <a href="{{ route('dashboard.tiket') }}" class="text-gray-600 hover:text-gray-800 flex items-center gap-1">
-                                <i class="fa-solid fa-arrow-left"></i> Batal
+                            <a href="{{ url()->previous() }}" class="text-gray-600 hover:text-gray-800 flex items-center gap-1">
+                                <i class="fa-solid fa-arrow-left"></i> Kembali
                             </a>
                             <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md shadow-sm flex items-center gap-2 transition duration-200 ease-in-out">
                                 <i class="fa-solid fa-save"></i> Simpan Perubahan
