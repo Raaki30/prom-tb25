@@ -89,13 +89,12 @@
                 </div>
             </div>
 
-            <div class="rounded-lg border-l-4 border-green-500 bg-green-50 p-4 text-green-800 dark:bg-green-900 dark:text-green-300" role="alert">
-                <p class="font-semibold">Reminder</p>
-                <p>{{ __("Pastikan total pendapatan sesuai dengan mutasi rekening") }}</p>
-            </div>
-
+            
+            <x-footer></x-footer>
         </div>
+        
     </div>
+    
     @push('scripts')
     {{-- Chart.js --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

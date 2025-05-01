@@ -74,6 +74,7 @@
                         Scan</button>
                 </div>
             </div>
+            <x-footer></x-footer>
         </div>
 
         <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>

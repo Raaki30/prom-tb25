@@ -9,6 +9,7 @@ use App\Mail\SendEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Str;
 
 class TiketController extends Controller
 {
@@ -32,6 +33,7 @@ class TiketController extends Controller
             ]);
         }
     }
+    
 
     public function verifikasi($id)
     {
@@ -53,9 +55,74 @@ class TiketController extends Controller
 
         Mail::to($tiket->email)->send(new SendEmail($data));
 
-
-
         return redirect()->back()->with('success', 'Pembayaran berhasil diverifikasi.');
+    }
+
+    public function create()
+    {
+        return view('dashboard.tiket-create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nama' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'kelas' => 'required',
+            'nis' => 'required',
+        ]);
+        $harga = 00000;
+
+        $tiket = new Tiket();
+        $tiket->order_id = 'MN-' . strtoupper(Str::random(6));
+        $tiket->nama = $request->nama;
+        $tiket->email = $request->email;
+        $tiket->phone = $request->phone;
+        $tiket->kelas = $request->kelas;
+        $tiket->nis = $request->nis;
+        $tiket->metodebayar = 'Manual';
+        $tiket->status = 'completed';
+        $tiket->jumlah_tiket = 1;
+        $tiket->harga = $harga;
+        $tiket->save();
+
+        return redirect()->route('dashboard.tiket')->with('success', 'Order manual berhasil ditambahkan.');
+    }
+
+    public function edit($id)
+    {
+        $tiket = Tiket::findOrFail($id);
+        return view('dashboard.tiket-edit', compact('tiket'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'kelas' => 'required',
+            'nis' => 'required',
+        ]);
+
+        $tiket = Tiket::findOrFail($id);
+        $tiket->nama = $request->nama;
+        $tiket->email = $request->email;
+        $tiket->phone = $request->phone;
+        $tiket->kelas = $request->kelas;
+        $tiket->nis = $request->nis;
+        $tiket->save();
+
+        return redirect()->route('dashboard.tiket')->with('success', 'Order berhasil diperbarui.');
+    }
+
+    public function destroy($id)
+    {
+        $tiket = Tiket::findOrFail($id);
+        $tiket->delete();
+
+        return redirect()->route('dashboard.tiket')->with('success', 'Order berhasil dihapus.');
     }
 
     public function validateScan(Request $request)

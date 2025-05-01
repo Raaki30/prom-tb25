@@ -7,6 +7,7 @@ use App\Http\Controllers\TiketController;
 use App\Models\Tiket;
 use App\Http\Controllers\GenSettingsController;
 use App\Models\Control;
+use App\Http\Controllers\NisController;
 
 Route::get('/', function () {
     
@@ -26,15 +27,22 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard.scan');
 
 
-    Route::get('/dashboard/tiket', function () {
-        $data = Tiket::orderBy('created_at', 'desc')->paginate(request('perPage', 10));
-        return view('dashboard.tiket', compact('data'));
-    })->name('dashboard.tiket');
+    
 
     Route::get('/dashboard/control', [GenSettingsController::class, 'edit'])->name('dashboard.control');
     Route::put('/dashboard/control/{id}', [GenSettingsController::class, 'update'])->name('dashboard.control.update');
 
-    Route::post('/tiket/{id}/verifikasi', [TiketController::class, 'verifikasi'])->name('tiket.verifikasi');
+    Route::get('/dashboard/tiket', function () {
+        $data = Tiket::orderBy('created_at', 'desc')->paginate(request('perPage', 10));
+        return view('dashboard.tiket', compact('data'));
+    })->name('dashboard.tiket');
+    
+    Route::post('/dashboard/tiket/{id}/verifikasi', [TiketController::class, 'verifikasi'])->name('tiket.verifikasi');
+    Route::get('/dashboard/tiket/create', [TiketController::class, 'create'])->name('tiket.create');
+    Route::post('/dashboard/tiket/store', [TiketController::class, 'store'])->name('tiket.store');
+    Route::get('/dashboard/tiket/{id}/edit', [TiketController::class, 'edit'])->name('tiket.edit');
+    Route::put('/dashboard/tiket/{id}/update', [TiketController::class, 'update'])->name('tiket.update');
+    Route::delete('/dashboard/tiket/{id}/destroy', [TiketController::class, 'destroy'])->name('tiket.destroy');
 
 });
 
@@ -79,3 +87,10 @@ Route::get('/guest-registration', function () {
 
 Route::post('/tamu-beli', [PayController::class, 'tamubeli'])->name('tamubeli');
 Route::get('/tamu-beli', [PayController::class, 'tamubeli'])->name('tamubeli');
+
+
+
+Route::get('/dashboard/siswa', [NisController::class, 'index'])->name('dashboard.siswa');
+Route::post('/dashboard/siswa/store', [NisController::class, 'store'])->name('dashboard.siswa.store');
+Route::post('/dashboard/siswa/{id}/update', [NisController::class, 'update'])->name('dashboard.siswa.update');
+Route::delete('/dashboard/siswa/{id}/delete', [NisController::class, 'destroy'])->name('dashboard.siswa.delete');

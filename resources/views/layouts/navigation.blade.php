@@ -20,11 +20,14 @@
                         {{ __('Check-In') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('dashboard.tiket')" :active="request()->routeIs('dashboard.tiket')">
+                    <x-nav-link :href="route('dashboard.tiket')" :active="request()->routeIs('dashboard.tiket') || request()->routeIs('tiket.create') || request()->routeIs('tiket.edit')">
                         {{ __('Tiket') }}
                     </x-nav-link>
                     <x-nav-link :href="route('dashboard.control')" :active="request()->routeIs('dashboard.control')">
                         {{ __('Pengaturan Tiket') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('dashboard.siswa')" :active="request()->routeIs('dashboard.siswa')">
+                        {{ __('Siswa') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -83,11 +86,14 @@
                 {{ __('Check-In') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('dashboard.tiket')" :active="request()->routeIs('dashboard.tiket')">
+            <x-responsive-nav-link :href="route('dashboard.tiket')" :active="request()->routeIs('dashboard.tiket') || request()->routeIs('tiket.create') || request()->routeIs('tiket.edit')">
                 {{ __('Tiket') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('dashboard.control')" :active="request()->routeIs('dashboard.control')">
                 {{ __('Pengaturan Tiket') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('dashboard.siswa')" :active="request()->routeIs('dashboard.siswa')">
+                {{ __('Siswa') }}
             </x-responsive-nav-link>
         </div>
 

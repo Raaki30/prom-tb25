@@ -123,10 +123,7 @@ public function tamubeli(Request $request)
             'harga' => 'required|numeric',
         ]);
 
-        $kelas = strtoupper(collect(explode(' ', $request->partner))
-    ->filter()
-    ->map(fn($word) => substr($word, 0, 1))
-    ->implode(''));
+        $kelas = 'General';
 
         $order_id = 'LN-' . Str::upper(Str::random(4)) . mt_rand(10, 99);
         $file = $request->file('bukti');
