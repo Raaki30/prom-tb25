@@ -207,19 +207,19 @@
                                     <td class="px-4 py-2">
                                         <div class="flex items-center gap-3">
                                             <button
-                                                @click="modalImg = '{{ $item->bukti }}'; verifikasiUrl = '{{ route('tiket.verifikasi', $item->id) }}'; showModal = true"
+                                                @click="modalImg = '{{ $item->bukti }}'; verifikasiUrl = '{{ route('tiket.verifikasi', $item->id, [], true) }}'; showModal = true"
                                                 class="p-1 text-green-600 hover:text-green-800"
                                                 title="Verifikasi"
                                             >
                                                 <i class="fa-solid fa-check-circle"></i>
                                             </button>
                                             
-                                            <a href="{{ route('tiket.edit', $item->id) }}" class="p-1 text-blue-600 hover:text-blue-800" title="Edit">
+                                            <a href="{{ route('tiket.edit', $item->id, [], true) }}" class="p-1 text-blue-600 hover:text-blue-800" title="Edit">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </a>
                                             
                                             <button 
-                                                @click="deleteUrl = '{{ route('tiket.destroy', $item->id) }}'; showDeleteModal = true"
+                                                @click="deleteUrl = '{{ route('tiket.destroy', $item->id, [], true) }}'; showDeleteModal = true"
                                                 class="p-1 text-red-600 hover:text-red-800"
                                                 title="Hapus"
                                             >

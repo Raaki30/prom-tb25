@@ -10,7 +10,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-md rounded-lg overflow-hidden">
                 <div class="p-6">
-                    <form id="tiketForm" method="POST" action="{{ route('tiket.store') }}">
+                    <form id="tiketForm" method="POST" action="{{ route('tiket.store', [], true) }}">
                         @csrf
                         <div class="grid grid-cols-1 gap-6">
                             <div>

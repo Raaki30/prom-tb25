@@ -10,7 +10,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-md rounded-lg overflow-hidden">
                 <div class="p-6">
-                    <form method="POST" action="{{ route('tiket.update', $tiket->id) }}">
+                    <form method="POST" action="{{ route('tiket.update', $tiket->id, [], true) }}">
                         @csrf
                         @method('PUT')
                         <div class="grid grid-cols-1 gap-6">
