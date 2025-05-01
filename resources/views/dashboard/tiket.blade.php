@@ -110,7 +110,7 @@
                             <option value="100" {{ $perPage == 100 ? 'selected' : '' }}>100</option>
                         </select>
                         
-                        <a href="{{ route('tiket.create') }}" class="text-sm px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded flex items-center">
+                        <a href="{{ route('tiket.create', [], true) }}" class="text-sm px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded flex items-center">
                             <i class="fa-solid fa-plus mr-1"></i>Tambah Manual
                         </a>
                     </div>

@@ -33,7 +33,13 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'unique_code' => ['required', 'string', 'max:255'],
         ]);
+
+        if ($request->unique_code !== env('UNIQUE_CODE')) {
+            
+            return redirect()->back()->withErrors(['unique_code' => 'Kode Unik Tidak Valid']);
+        }
 
         $user = User::create([
             'name' => $request->name,
