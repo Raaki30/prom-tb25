@@ -45,22 +45,22 @@
                     <tbody class="divide-y divide-gray-200 text-gray-800">
                         @foreach($data as $siswa)
                         <tr class="hover:bg-gray-50 transition duration-150">
-                            <td class="px-6 py-4 whitespace-nowrap font-medium">{{ $siswa->nis }}</td>
+                            <td class="px-6 py-4 font-medium">{{ $siswa->nis }}</td>
                             <td class="px-6 py-4">{{ $siswa->nama_siswa }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $siswa->kelas }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-6 py-4">{{ $siswa->kelas }}</td>
+                            <td class="px-6 py-4">
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $siswa->sudah_beli ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800' }}">
                                     {{ $siswa->sudah_beli ? 'Sudah' : 'Belum' }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <td class="px-6 py-4 text-right text-sm font-medium">
                                 <div class="flex justify-end gap-2">
                                     <button @click='openEdit({!! json_encode($siswa) !!})'
-                                        class="text-amber-600 hover:text-amber-900 transition duration-200 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-1 rounded-md p-1">
+                                        class="text-amber-600 hover:text-amber-900 transition duration-200 focus:outline-none rounded-md p-1">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
                                     <button @click='openDelete({{ $siswa->id }})'
-                                        class="text-rose-600 hover:text-rose-900 transition duration-200 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-1 rounded-md p-1">
+                                        class="text-rose-600 hover:text-rose-900 transition duration-200 focus:outline-none rounded-md p-1">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>
                                 </div>
@@ -70,18 +70,89 @@
                     </tbody>
                 </table>
             </div>
-            
+        
             @if($data->isEmpty())
                 <div class="p-8 text-center text-gray-500">
                     <i class="fa-solid fa-database mb-2 text-2xl text-gray-300"></i>
                     <p>Tidak ada data siswa yang ditemukan</p>
                 </div>
             @endif
+        
+            <!-- Pagination -->
+@if ($data->hasPages())
+<div class="px-6 py-4 border-t border-gray-100 bg-white">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="text-sm text-gray-600">
+            Menampilkan <span class="font-semibold">{{ $data->firstItem() }}</span> sampai <span class="font-semibold">{{ $data->lastItem() }}</span> dari <span class="font-semibold">{{ $data->total() }}</span> entri
         </div>
+        <div class="flex items-center justify-center space-x-1">
+            <!-- Tombol ke Halaman Pertama -->
+            @if($data->onFirstPage())
+                <span class="px-3 py-1 text-gray-400 bg-gray-100 border border-gray-200 rounded-md">
+                    <i class="fa-solid fa-angles-left"></i>
+                </span>
+            @else
+                <a href="{{ $data->url(1) }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
+                    <i class="fa-solid fa-angles-left"></i>
+                </a>
+            @endif
 
-        <div class="mt-6">
-            {{ $data->links() }}
+            <!-- Tombol Previous -->
+            @if($data->onFirstPage())
+                <span class="px-3 py-1 text-gray-400 bg-gray-100 border border-gray-200 rounded-md">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </span>
+            @else
+                <a href="{{ $data->previousPageUrl() }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </a>
+            @endif
+
+            <!-- Nomor Halaman -->
+            @php
+                $currentPage = $data->currentPage();
+                $lastPage = $data->lastPage();
+                $start = max(1, $currentPage - 2);
+                $end = min($lastPage, $start + 4);
+                if ($end - $start < 4) {
+                    $start = max(1, $end - 4);
+                }
+            @endphp
+            @for ($i = $start; $i <= $end; $i++)
+                @if ($i == $currentPage)
+                    <span class="px-3 py-1 text-blue-600 bg-blue-100 border border-blue-200 rounded-md font-medium">{{ $i }}</span>
+                @else
+                    <a href="{{ $data->url($i) }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">{{ $i }}</a>
+                @endif
+            @endfor
+
+            <!-- Tombol Next -->
+            @if($data->hasMorePages())
+                <a href="{{ $data->nextPageUrl() }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+            @else
+                <span class="px-3 py-1 text-gray-400 bg-gray-100 border border-gray-200 rounded-md">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </span>
+            @endif
+
+            <!-- Tombol ke Halaman Terakhir -->
+            @if($data->currentPage() == $data->lastPage())
+                <span class="px-3 py-1 text-gray-400 bg-gray-100 border border-gray-200 rounded-md">
+                    <i class="fa-solid fa-angles-right"></i>
+                </span>
+            @else
+                <a href="{{ $data->url($data->lastPage()) }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
+                    <i class="fa-solid fa-angles-right"></i>
+                </a>
+            @endif
         </div>
+    </div>
+</div>
+@endif
+
+        
 
         <!-- Add/Edit Modal -->
         <div x-show="showModal" x-cloak 
@@ -204,9 +275,9 @@
                 </div>
             </div>
         </div>
-        <x-footer></x-footer>
+        
     </div>
-
+    <x-footer></x-footer>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script>
         function formModal() {

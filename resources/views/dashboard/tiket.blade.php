@@ -239,42 +239,80 @@
                     </table>
                 </div>
 
-                <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div class="text-sm text-gray-600">
-                            Menampilkan <span class="font-semibold">{{ $data->firstItem() }}</span> sampai <span class="font-semibold">{{ $data->lastItem() }}</span> dari <span class="font-semibold">{{ $data->total() }}</span> entri
-                        </div>
-                        <div class="flex items-center justify-center space-x-1">
-                            @if($data->onFirstPage())
-                                <span class="px-3 py-1 text-gray-400 bg-gray-100 border border-gray-200 rounded-md cursor-not-allowed">
-                                    <i class="fa-solid fa-chevron-left"></i>
-                                </span>
-                            @else
-                                <a href="{{ $data->previousPageUrl() }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
-                                    <i class="fa-solid fa-chevron-left"></i>
-                                </a>
-                            @endif
+                <!-- Pagination -->
+@if ($data->hasPages())
+<div class="px-6 py-4 border-t border-gray-100 bg-white">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="text-sm text-gray-600">
+            Menampilkan <span class="font-semibold">{{ $data->firstItem() }}</span> sampai <span class="font-semibold">{{ $data->lastItem() }}</span> dari <span class="font-semibold">{{ $data->total() }}</span> entri
+        </div>
+        <div class="flex items-center justify-center space-x-1">
+            <!-- Tombol ke Halaman Pertama -->
+            @if($data->onFirstPage())
+                <span class="px-3 py-1 text-gray-400 bg-gray-100 border border-gray-200 rounded-md">
+                    <i class="fa-solid fa-angles-left"></i>
+                </span>
+            @else
+                <a href="{{ $data->url(1) }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
+                    <i class="fa-solid fa-angles-left"></i>
+                </a>
+            @endif
 
-                            @for($i = 1; $i <= $data->lastPage(); $i++)
-                                @if($i == $data->currentPage())
-                                    <span class="px-3 py-1 text-blue-600 bg-blue-100 border border-blue-200 rounded-md font-medium">{{ $i }}</span>
-                                @else
-                                    <a href="{{ $data->url($i) }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">{{ $i }}</a>
-                                @endif
-                            @endfor
+            <!-- Tombol Previous -->
+            @if($data->onFirstPage())
+                <span class="px-3 py-1 text-gray-400 bg-gray-100 border border-gray-200 rounded-md">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </span>
+            @else
+                <a href="{{ $data->previousPageUrl() }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </a>
+            @endif
 
-                            @if($data->hasMorePages())
-                                <a href="{{ $data->nextPageUrl() }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
-                                    <i class="fa-solid fa-chevron-right"></i>
-                                </a>
-                            @else
-                                <span class="px-3 py-1 text-gray-400 bg-gray-100 border border-gray-200 rounded-md cursor-not-allowed">
-                                    <i class="fa-solid fa-chevron-right"></i>
-                                </span>
-                            @endif
-                        </div>
-                    </div>
-                </div>
+            <!-- Nomor Halaman -->
+            @php
+                $currentPage = $data->currentPage();
+                $lastPage = $data->lastPage();
+                $start = max(1, $currentPage - 2);
+                $end = min($lastPage, $start + 4);
+                if ($end - $start < 4) {
+                    $start = max(1, $end - 4);
+                }
+            @endphp
+            @for ($i = $start; $i <= $end; $i++)
+                @if ($i == $currentPage)
+                    <span class="px-3 py-1 text-blue-600 bg-blue-100 border border-blue-200 rounded-md font-medium">{{ $i }}</span>
+                @else
+                    <a href="{{ $data->url($i) }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">{{ $i }}</a>
+                @endif
+            @endfor
+
+            <!-- Tombol Next -->
+            @if($data->hasMorePages())
+                <a href="{{ $data->nextPageUrl() }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+            @else
+                <span class="px-3 py-1 text-gray-400 bg-gray-100 border border-gray-200 rounded-md">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </span>
+            @endif
+
+            <!-- Tombol ke Halaman Terakhir -->
+            @if($data->currentPage() == $data->lastPage())
+                <span class="px-3 py-1 text-gray-400 bg-gray-100 border border-gray-200 rounded-md">
+                    <i class="fa-solid fa-angles-right"></i>
+                </span>
+            @else
+                <a href="{{ $data->url($data->lastPage()) }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
+                    <i class="fa-solid fa-angles-right"></i>
+                </a>
+            @endif
+        </div>
+    </div>
+</div>
+@endif
+
             </div>
         </div>
 
