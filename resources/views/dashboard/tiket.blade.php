@@ -77,16 +77,19 @@
 
             <div class="bg-white shadow-md rounded-lg overflow-hidden">
                 <div class="px-4 py-3 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <form method="GET" class="flex items-center gap-2 flex-1 max-w-xs">
+                    <form method="GET" class="flex w-full sm:w-auto">
                         <input 
                             type="text" 
                             name="search" 
-                            value="{{ $search }}" 
-                            placeholder="Cari..." 
-                            class="text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 flex-1"
+                            placeholder="Cari siswa..." 
+                            value="{{ request('search') }}" 
+                            class="border border-gray-300 rounded-l-lg px-4 py-2 w-64 focus:ring-2 focus:ring-blue-500"
                         >
-                        <button type="submit" class="text-sm px-3 py-1 bg-indigo-500 hover:bg-indigo-600 text-white rounded">
-                            <i class="fa-solid fa-magnifying-glass"></i>
+                        <button 
+                            type="submit" 
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex items-center justify-center"
+                        >
+                            <i class="fa-solid fa-search"></i>
                         </button>
                     </form>
                     
@@ -110,9 +113,10 @@
                             <option value="100" {{ $perPage == 100 ? 'selected' : '' }}>100</option>
                         </select>
                         
-                        <a href="{{ route('tiket.create', [], true) }}" class="text-sm px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded flex items-center">
-                            <i class="fa-solid fa-plus mr-1"></i>Tambah Manual
-                        </a>
+                        <button @click="window.location.href='{{ route('tiket.create', [], true) }}'"
+                            class="bg-green-500 hover:bg-green-600 text-white p-2 rounded-full flex items-center justify-center transition duration-200 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-1">
+                            <i class="fa-solid fa-plus text-white text-lg"></i>
+                        </button>
                     </div>
                 </div>
 

@@ -41,6 +41,8 @@
                                         <option value="XII - 5">XII - 5</option>
                                         <option value="XII - 6">XII - 6</option>
                                         <option value="XII - 7">XII - 7</option>
+                                        <option value="XII - 8">XII - 8</option>
+                                        <option value="XII - 9">XII - 9</option>
                                         <option value="general">General</option>
                                     </select>
                                 </div>

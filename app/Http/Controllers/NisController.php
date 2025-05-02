@@ -10,13 +10,14 @@ class NISController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
+        $perPage = $request->perPage ?? 10;
         $data = Nis::when($search, function ($query, $search) {
                     $query->where('nis', 'like', "%$search%")
                           ->orWhere('nama_siswa', 'like', "%$search%")
                           ->orWhere('kelas', 'like', "%$search%");
                 })
                 ->orderBy('kelas')
-                ->paginate(10);
+                ->paginate($perPage);
 
         return view('dashboard.siswa', compact('data'));
     }

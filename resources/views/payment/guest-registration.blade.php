@@ -142,7 +142,7 @@
 
             results.innerHTML = '';
 
-            const filteredData = data.filter(siswa => siswa.status === 'completed');
+            const filteredData = data.filter(siswa => siswa.status === 'completed' && siswa.kelas !== 'general');
 
             if (!filteredData.length) {
                 results.innerHTML = `<div class="p-4 text-center text-gray-500">

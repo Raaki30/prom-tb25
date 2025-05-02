@@ -130,7 +130,7 @@
                 const content = ticketDetails.querySelector('.space-y-4');
 
                 content.innerHTML = `
-                <div class="flex justify-between py-2 border-b border-gray-100"><strong>NIS</strong><span>${ticket.nis}</span></div>
+                <div class="flex justify-between py-2 border-b border-gray-100"><strong>Order ID</strong><span>${ticket.order_id}</span></div>
                 <div class="flex justify-between py-2 border-b border-gray-100"><strong>Nama</strong><span>${ticket.nama_siswa}</span></div>
                 <div class="flex justify-between py-2 border-b border-gray-100"><strong>Kelas</strong><span>${ticket.kelas}</span></div>
                 <div class="flex justify-between py-2 border-b border-gray-100"><strong>Email</strong><span>${ticket.email}</span></div>

@@ -1,101 +1,102 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PayController;
 use App\Http\Controllers\TiketController;
-use App\Models\Tiket;
 use App\Http\Controllers\GenSettingsController;
-use App\Models\Control;
 use App\Http\Controllers\NisController;
+use App\Models\Tiket;
+use App\Models\Control;
 
-Route::get('/', function () {
-    
-    return view('landing');
-});
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
 
-Route::get('/dashboard', function () {
-    return view('dashboard.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/', fn() => view('landing'));
 
-Route::middleware('auth')->group(function () {
+Route::get('/pesan', function () {
+    $control = Control::where('is_active', true)->first();
+    return $control ? view('payment.pesan') : redirect('/');
+})->name('pesan');
+
+Route::get('/payment/afterpay', fn() => view('payment.success'))->name('success');
+
+Route::get('/eticket/{id}', [TiketController::class, 'show'])->name('eticket.show');
+
+Route::get('/vote', fn() => view('forms.vote'))->name('vote');
+
+Route::get('/guest-registration', function () {
+    $control = Control::where('isguestactive', true)->first();
+    return $control ? view('payment.guest-registration') : redirect('/');
+})->name('guest-registration');
+
+Route::match(['get', 'post'], '/tamu-beli', [PayController::class, 'tamubeli'])->name('tamubeli');
+
+/*
+|--------------------------------------------------------------------------
+| Authenticated User Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    // Dashboard
+    Route::get('/dashboard', fn() => view('dashboard.dashboard'))->name('dashboard');
+    Route::get('/dashboard/scan', fn() => view('dashboard.scan'))->name('dashboard.scan');
+
+    // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/dashboard/scan', function () {
-        return view('dashboard.scan');
-    })->name('dashboard.scan');
 
-
-    
-
+    // General Settings
     Route::get('/dashboard/control', [GenSettingsController::class, 'edit'])->name('dashboard.control');
     Route::put('/dashboard/control/{id}', [GenSettingsController::class, 'update'])->name('dashboard.control.update');
 
+    // Tiket Management
     Route::get('/dashboard/tiket', function () {
         $data = Tiket::orderBy('created_at', 'desc')->paginate(request('perPage', 10));
         return view('dashboard.tiket', compact('data'));
     })->name('dashboard.tiket');
-    
-    Route::post('/dashboard/tiket/{id}/verifikasi', [TiketController::class, 'verifikasi'])->name('tiket.verifikasi');
-    Route::get('/dashboard/tiket/create', [TiketController::class, 'create'])->name('tiket.create');
-    Route::post('/dashboard/tiket/store', [TiketController::class, 'store'])->name('tiket.store');
-    Route::get('/dashboard/tiket/{id}/edit', [TiketController::class, 'edit'])->name('tiket.edit');
-    Route::put('/dashboard/tiket/{id}/update', [TiketController::class, 'update'])->name('tiket.update');
-    Route::delete('/dashboard/tiket/{id}/destroy', [TiketController::class, 'destroy'])->name('tiket.destroy');
 
-});
-
-
-
-Route::middleware('payment')->group(function () {
-    Route::prefix('payment')->name('payment.')->group(function () {
-        Route::post('/detail', [PayController::class, 'initPayment'])->name('init');
-        Route::get('/detail', [PayController::class, 'initPayment'])->name('init');
-        Route::post('/process', [PayController::class, 'processPayment'])->name('process');
-        Route::get('/process', [PayController::class, 'processPayment'])->name('process');
-        Route::post('/upload', [PayController::class, 'uploadbukti'])->name('upload');
-        Route::get('/upload', [PayController::class, 'uploadbukti'])->name('upload');
+    Route::prefix('/dashboard/tiket')->name('tiket.')->group(function () {
+        Route::post('/{id}/verifikasi', [TiketController::class, 'verifikasi'])->name('verifikasi');
+        Route::get('/create', [TiketController::class, 'create'])->name('create');
+        Route::post('/store', [TiketController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [TiketController::class, 'edit'])->name('edit');
+        Route::put('/{id}/update', [TiketController::class, 'update'])->name('update');
+        Route::delete('/{id}/destroy', [TiketController::class, 'destroy'])->name('destroy');
     });
+
+    // Siswa Management
+    Route::prefix('/dashboard/siswa')->name('dashboard.siswa')->group(function () {
+        Route::get('/', [NisController::class, 'index']);
+        Route::post('/store', [NisController::class, 'store'])->name('.store');
+        Route::post('/{id}/update', [NisController::class, 'update'])->name('.update');
+        Route::delete('/{id}/delete', [NisController::class, 'destroy'])->name('.delete');
+    });
+
 });
 
+/*
+|--------------------------------------------------------------------------
+| Payment Routes
+|--------------------------------------------------------------------------
+*/
 
-Route::get('/pesan', function () {
-    $control = Control::where('is_active', true)->first();
-    if ($control) {
-        return view('payment.pesan');
-    } else {
-        return redirect('/');
-    }
-})->name('pesan');
+Route::middleware('payment')->prefix('payment')->name('payment.')->group(function () {
+    Route::match(['get', 'post'], '/detail', [PayController::class, 'initPayment'])->name('init');
+    Route::match(['get', 'post'], '/process', [PayController::class, 'processPayment'])->name('process');
+    Route::match(['get', 'post'], '/upload', [PayController::class, 'uploadbukti'])->name('upload');
+});
 
-Route::get('/payment/afterpay', function () {
-    return view('payment.success');
-})->name('success');
+/*
+|--------------------------------------------------------------------------
+| Auth Routes (Laravel Breeze/Fortify/etc.)
+|--------------------------------------------------------------------------
+*/
 
-Route::get('/eticket/{id}', [TiketController::class, 'show'])->name('eticket.show');
-
-Route::get('/vote', function () {
-    return view('forms.vote');
-})->name('vote');
-
-require __DIR__.'/auth.php';
-
-Route::get('/guest-registration', function () {
-    $control = Control::where('isguestactive', true)->first();
-    if ($control) {
-        return view('payment.guest-registration');
-    } else {
-        return redirect('/');
-    }
-})->name('guest-registration');
-
-Route::post('/tamu-beli', [PayController::class, 'tamubeli'])->name('tamubeli');
-Route::get('/tamu-beli', [PayController::class, 'tamubeli'])->name('tamubeli');
-
-
-
-Route::get('/dashboard/siswa', [NisController::class, 'index'])->name('dashboard.siswa');
-Route::post('/dashboard/siswa/store', [NisController::class, 'store'])->name('dashboard.siswa.store');
-Route::post('/dashboard/siswa/{id}/update', [NisController::class, 'update'])->name('dashboard.siswa.update');
-Route::delete('/dashboard/siswa/{id}/delete', [NisController::class, 'destroy'])->name('dashboard.siswa.delete');
+require __DIR__ . '/auth.php';

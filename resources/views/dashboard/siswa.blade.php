@@ -16,19 +16,31 @@
         @endif
 
         <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <form method="GET" class="flex w-full sm:w-auto">
-                <input type="text" name="search" placeholder="Cari siswa..." value="{{ request('search') }}" 
+            <form method="GET" class="flex flex-wrap items-center gap-2">
+                <input type="text" name="search" placeholder="Cari siswa..." value="{{ request('search') }}"
                     class="border border-gray-300 rounded-l-lg px-4 py-2 w-64 focus:ring-2 focus:ring-blue-500">
                 <button type="submit"
                     class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                    Cari
+                    <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
+        
+                <label for="perPage" class="ml-4 text-sm text-gray-700">Tampilkan per</label>
+                <select name="perPage" id="perPage" onchange="this.form.submit()"
+                    class="border border-gray-300 rounded px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500">
+                    @foreach([5, 10, 25, 50, 100] as $size)
+                        <option value="{{ $size }}" {{ request('perPage') == $size ? 'selected' : '' }}>
+                            {{ $size }}
+                        </option>
+                    @endforeach
+                </select>
             </form>
+        
             <button @click="openAdd()"
                 class="bg-green-500 hover:bg-green-600 text-white p-2 rounded-full flex items-center justify-center transition duration-200 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-1">
                 <i class="fa-solid fa-plus text-white text-lg"></i>
             </button>
         </div>
+        
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
             <div class="overflow-x-auto">
@@ -92,7 +104,7 @@
                     <i class="fa-solid fa-angles-left"></i>
                 </span>
             @else
-                <a href="{{ $data->url(1) }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
+                <a href="{{ $data->url(1) }}&perPage={{ request('perPage') }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
                     <i class="fa-solid fa-angles-left"></i>
                 </a>
             @endif
@@ -103,7 +115,7 @@
                     <i class="fa-solid fa-chevron-left"></i>
                 </span>
             @else
-                <a href="{{ $data->previousPageUrl() }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
+                <a href="{{ $data->previousPageUrl() }}&perPage={{ request('perPage') }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
                     <i class="fa-solid fa-chevron-left"></i>
                 </a>
             @endif
@@ -122,13 +134,13 @@
                 @if ($i == $currentPage)
                     <span class="px-3 py-1 text-blue-600 bg-blue-100 border border-blue-200 rounded-md font-medium">{{ $i }}</span>
                 @else
-                    <a href="{{ $data->url($i) }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">{{ $i }}</a>
+                    <a href="{{ $data->url($i) }}&perPage={{ request('perPage') }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">{{ $i }}</a>
                 @endif
             @endfor
 
             <!-- Tombol Next -->
             @if($data->hasMorePages())
-                <a href="{{ $data->nextPageUrl() }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
+                <a href="{{ $data->nextPageUrl() }}&perPage={{ request('perPage') }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
                     <i class="fa-solid fa-chevron-right"></i>
                 </a>
             @else
@@ -143,7 +155,7 @@
                     <i class="fa-solid fa-angles-right"></i>
                 </span>
             @else
-                <a href="{{ $data->url($data->lastPage()) }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
+                <a href="{{ $data->url($data->lastPage()) }}&perPage={{ request('perPage') }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
                     <i class="fa-solid fa-angles-right"></i>
                 </a>
             @endif
@@ -151,8 +163,6 @@
     </div>
 </div>
 @endif
-
-        
 
         <!-- Add/Edit Modal -->
         <div x-show="showModal" x-cloak 
