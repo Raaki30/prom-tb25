@@ -144,6 +144,7 @@ class TiketController extends Controller
             if ($tiket->status == 'completed' && $tiket->entry == 0) {
                 
                 $tiket->entry = 1;
+                $tiket->checkin_time = now();
                 $tiket->save();
 
                 return response()->json([
