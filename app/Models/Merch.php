@@ -2,30 +2,30 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 
 class Merch extends Model
 {
-    protected $table = 'merches';
+    use HasFactory;
+
     protected $fillable = [
         'order_id',
         'nama',
         'email',
         'no_hp',
-        'status',
-        'item1',
-        'varian_item1',
-        'item2',
-        'varian_item2',
-        'item3',
-        'varian_item3',
-        'item4',
-        'varian_item4',
-        'total_harga',
+        'grand_total',
         'metodebayar',
         'bukti',
-        'pickup',
-        'pickup_time',
-        'notes'
+        'status_bayar',
+        'status_pickup',
     ];
+
+    // Relasi ke merch_items (1 merch memiliki banyak item)
+    public function items()
+{
+    return $this->hasMany(MerchItem::class, 'merch_id');
+}
+
 }

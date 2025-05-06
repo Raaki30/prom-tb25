@@ -16,6 +16,9 @@
     {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+    {{-- Alpine JS --}}
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     {{-- Google Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,6 +28,13 @@
 
     {{-- AOS --}}
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        html, body {
+            width: 100vw;
+            overflow-x: hidden
+        }
+
+    </style>
 </head>
 
 <body>
@@ -84,15 +94,11 @@
         <div class="py-24 sm:py-32">
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl lg:text-center">
-                    {{-- <h2 class="text-base/7 font-semibold text-white" data-aos="fade-down" data-aos-delay="0" data-aos-duration="1200">Acerca de este evento</h2> --}}
                     <p class="font-fancy-4 mt-2 text-pretty text-5xl font-semibold tracking-tight text-yellow-500 sm:text-6xl lg:text-balance"
                         data-aos="fade-down" data-aos-delay="50" data-aos-duration="1000">
                         About This Event</p>
                     <p class="mt-6 text-lg/8 text-gray-200" data-aos="fade-up" data-aos-delay="100"
-                        data-aos-duration="1200">Quis tellus eget
-                        adipiscing convallis sit sit eget aliquet
-                        quis. Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In mi viverra elit
-                        nunc.
+                        data-aos-duration="1200">Casino De L’amour is a prom night wrapped in glamour and romance, inspired by the charm of a classic casino. Blending elegant décor, timeless music, and interactive games, it creates a luxurious atmosphere to celebrate friendship, love, and lasting memories. More than just a party, it’s an evening of style, emotion, and unforgettable moments.
                     </p>
                 </div>
                 <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
@@ -105,8 +111,8 @@
                                 </div>
                                 Philosophy
                             </dt>
-                            <dd class="mt-2 text-base/7 text-gray-300">Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Ipsum exercitationem et quidem voluptates officiis commodi?</dd>
+                            <dd class="mt-2 text-base/7 text-gray-300">Casino De L’amour is more than a theme—it’s a celebration of love, risk, and youthful elegance. A graceful farewell to high school, and a timeless memory in the making.
+                            </dd>
                         </div>
                         <div class="relative pl-16" data-aos="fade-left" data-aos-delay="400" data-aos-duration="1200">
                             <dt class="text-base/7 font-semibold text-gray-100">
@@ -116,9 +122,8 @@
                                 </div>
                                 Purpose
                             </dt>
-                            <dd class="mt-2 text-base/7 text-gray-300">Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Libero fugiat ab optio id asperiores perspiciatis atque vero aut
-                                illum?</dd>
+                            <dd class="mt-2 text-base/7 text-gray-300">This night honors the journey shared—laughter, growth, and friendship. A final gathering to reflect, celebrate, and part ways with joy and gratitude.
+                            </dd>
                         </div>
                         <div class="relative pl-16" data-aos="fade-right" data-aos-delay="600" data-aos-duration="1200">
                             <dt class="text-base/7 font-semibold text-gray-100">
@@ -128,9 +133,7 @@
                                 </div>
                                 Highlights
                             </dt>
-                            <dd class="mt-2 text-base/7 text-gray-300">Quisque est vel vulputate cursus. Risus proin
-                                diam
-                                nunc commodo. Lobortis auctor congue commodo diam neque.</dd>
+                            <dd class="mt-2 text-base/7 text-gray-300">Step into a night of Monte Carlo-inspired glamour—elegant décor, live entertainment, themed games, curated dining, photo spots, and a dance floor lit with love and luck.</dd>
                         </div>
                         <div class="relative pl-16" data-aos="fade-left" data-aos-delay="800" data-aos-duration="1200">
                             <dt class="text-base/7 font-semibold text-gray-100">
@@ -140,8 +143,7 @@
                                 </div>
                                 Audience
                             </dt>
-                            <dd class="mt-2 text-base/7 text-gray-300">Arcu egestas dolor vel iaculis in ipsum mauris.
-                                Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.</dd>
+                            <dd class="mt-2 text-base/7 text-gray-300">We’re going to invite an audience that consists of students from Taruna Bakti High School and a limited number of external personnels besides Taruna Bakti students</dd>
                         </div>
                     </dl>
                 </div>
@@ -150,16 +152,50 @@
     </section>
     {{-- End About Section --}}
 
+    {{-- Merch Section --}}
+    
+    <section class="merch-section bg-gradient-to-b from-gray-900 via-gray-950 to-black py-24 sm:py-32">
+        <div class="mx-auto max-w-2xl px-6 text-center lg:max-w-7xl lg:px-8">
+            <p class="font-fancy-4 mt-2 text-pretty text-6xl font-semibold tracking-tight text-yellow-500 sm:text-6xl lg:text-balance"
+                data-aos="fade-down" data-aos-delay="0" data-aos-duration="1200">
+                Merchandise</p>
+            <p class="mt-6 text-lg/8 text-gray-200" data-aos="fade-up" data-aos-delay="100"
+                data-aos-duration="1200">Explore our exclusive merchandise for this event. Grab your favorite items and make this prom unforgettable!</p>
+            <div class="mt-10 grid gap-8 sm:mt-16 lg:grid-cols-4">
+                <!-- Card Template -->
+                @foreach ([
+                    ['title' => 'Tote Bag', 'description' => 'Stylish and eco-friendly tote bags with exclusive designs.', 'image' => 'Totebag1.png'],
+                    ['title' => 'Tumblr', 'description' => 'Stay hydrated with our premium tumblers featuring unique designs.', 'image' => 'Tumblr1.png'],
+                    ['title' => 'Lanyard', 'description' => 'Carry your essentials in style with our custom lanyards.', 'image' => 'Lanyard1.png'],
+                    ['title' => 'Enamel Pin', 'description' => 'Collectible enamel pins to commemorate this special event.', 'image' => 'EnamelPin1.png']
+                ] as $item)
+                    <div class="relative flex flex-col items-center overflow-hidden rounded-lg bg-gradient-to-br from-[#2e0705] via-yellow-950 to-black shadow-lg p-6 transform transition duration-300 hover:-translate-y-2"
+                        data-aos="fade-up" data-aos-delay="{{ $loop->index * 200 }}" data-aos-duration="1200">
+                        <img class="mb-4 h-64 w-auto object-cover rounded-md" src="{{ asset('images/' . $item['image']) }}" alt="{{ $item['title'] }}">
+                        <h3 class="text-2xl font-semibold text-yellow-400">{{ $item['title'] }}</h3>
+                        <p class="mt-2 text-base text-gray-300 text-center">{{ $item['description'] }}</p>
+                    </div>
+                @endforeach
+            </div>
+            <div class="mt-10 flex items-center justify-center gap-x-6" data-aos="fade-up" data-aos-delay="800" data-aos-duration="1200">
+                <a href="/merch" class="mt-10 shadow-xs rounded-md bg-red-500 px-5 py-3 text-lg font-semibold text-white hover:bg-red-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500">
+                    Explore More
+                </a>
+            </div>
+        </div>
+    </section>
+
+    {{-- End Merch Section --}}
+
     {{-- Theme Section --}}
     {{-- https://youtu.be/LJuM_Rqdd8o?si=LBlxS5uZn-HdiNZs --}}
     <section class="theme-section">
         <div class="py-24 sm:py-32">
             <div class="mx-auto max-w-2xl px-6 text-center lg:max-w-7xl lg:px-8">
-                {{-- <h2 class="text-center text-base/7 font-semibold text-indigo-600">Deploy faster</h2> --}}
                 <p class="font-fancy-4 mt-2 text-pretty text-6xl font-semibold tracking-tight text-yellow-500 sm:text-6xl lg:text-balance"
                     data-aos="fade-down" data-aos-delay="0" data-aos-duration="1200">
                     Event Theme</p>
-                <div class="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
+                <div class="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-2 lg:grid-rows-2">
                     <div class="relative lg:row-span-2" data-aos="fade-right" data-aos-delay="200"
                         data-aos-duration="1200">
                         <div class="absolute inset-px rounded-lg bg-gray-200 lg:rounded-l-[2rem]"></div>
@@ -168,62 +204,21 @@
                             <div class="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
                                 <p
                                     class="font-fancy-4 mt-2 text-5xl font-medium tracking-tight text-gray-950 max-lg:text-center">
-                                    Señores' Outfit</p>
+                                    Man's Outfit Inspo</p>
                                 <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">This is an outfit
-                                    inspiration that you can use for men.</p>
+                                    inspiration that you can use for men. <br>Color pallette: maroon red, navy, royal blue, black, gold, white, emerald green</p>
                             </div>
-                            <div class="@container relative min-h-[30rem] w-full grow max-lg:mx-auto max-lg:max-w-sm">
-                                <img class="m-auto size-full object-cover object-top p-5"
+                            <div class="@container relative w-full grow max-lg:mx-auto max-lg:max-w-sm flex justify-center items-center">
+                                <img class="object-cover object-top p-5 max-w-xs max-h-[20rem]"
                                     src="https://i.pinimg.com/736x/ba/57/93/ba5793f46bb73cb6bbd89667d2badbca.jpg"
-                                    alt="">
+                                    alt="Outfit for men">
                             </div>
                         </div>
                         <div
                             class="pointer-events-none absolute inset-px rounded-lg shadow-sm ring-1 ring-black/5 lg:rounded-l-[2rem]">
                         </div>
                     </div>
-                    <div class="relative max-lg:row-start-1" data-aos="fade-up" data-aos-delay="400"
-                        data-aos-duration="1200">
-                        <div class="absolute inset-px rounded-lg bg-gray-200 max-lg:rounded-t-[2rem]"></div>
-                        <div
-                            class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
-                            <div class="px-8 pt-8 sm:px-10 sm:pt-10">
-                                <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
-                                    Watches</p>
-                                <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">Lorem ipsum, dolor
-                                    sit amet consectetur adipisicing elit maiores impedit.</p>
-                            </div>
-                            <div
-                                class="flex flex-1 items-center justify-center px-8 max-lg:pb-12 max-lg:pt-10 sm:px-10 lg:pb-2">
-                                <img class="w-full max-lg:max-w-xs"
-                                    src="https://i.ibb.co.com/H1Q76Pz/Screenshot-2025-04-17-232029.png"
-                                    alt="">
-                            </div>
-                        </div>
-                        <div
-                            class="pointer-events-none absolute inset-px rounded-lg shadow-sm ring-1 ring-black/5 max-lg:rounded-t-[2rem]">
-                        </div>
-                    </div>
-                    <div class="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2" data-aos="fade-up"
-                        data-aos-delay="600" data-aos-duration="1200">
-                        <div class="absolute inset-px rounded-lg bg-gray-200"></div>
-                        <div
-                            class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)]">
-                            <div class="px-8 pt-8 sm:px-10 sm:pt-10">
-                                <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
-                                    Security</p>
-                                <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">Morbi viverra dui
-                                    mi arcu sed. Tellus semper adipiscing suspendisse semper morbi.</p>
-                            </div>
-                            <div class="@container flex flex-1 items-center max-lg:py-6 lg:pb-2">
-                                <img class="h-[min(152px,40cqw)] object-cover"
-                                    src="https://tailwindcss.com/plus-assets/img/component-images/bento-03-security.png"
-                                    alt="">
-                            </div>
-                        </div>
-                        <div class="pointer-events-none absolute inset-px rounded-lg shadow-sm ring-1 ring-black/5">
-                        </div>
-                    </div>
+    
                     <div class="relative lg:row-span-2" data-aos="fade-left" data-aos-delay="800"
                         data-aos-duration="1200">
                         <div
@@ -234,14 +229,14 @@
                             <div class="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
                                 <p
                                     class="font-fancy-4 mt-2 text-5xl font-medium tracking-tight text-gray-950 max-lg:text-center">
-                                    Señoritas' Outfit</p>
+                                    Woman's Outfit Inspo</p>
                                 <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">This is an outfit
-                                    inspiration that you can use for women.</p>
+                                    inspiration that you can use for women. <br>Color palette: maroon red, navy, royal blue, black, gold, white, emerald green</p>
                             </div>
-                            <div class="relative min-h-[30rem] w-full grow">
-                                <img class="p-5"
+                            <div class="relative w-full grow flex justify-center items-center">
+                                <img class="p-5 max-w-xs max-h-[20rem] object-cover object-top"
                                     src="https://i.pinimg.com/736x/f2/89/3b/f2893b58c687837f536533def33572f4.jpg"
-                                    alt="">
+                                    alt="Outfit for women">
                             </div>
                         </div>
                         <div
@@ -252,8 +247,11 @@
             </div>
         </div>
     </section>
+    
     {{-- End Theme Section --}}
 
+
+    
     {{-- Venue Section --}}
     <section class="venue-section">
         <div class="py-12 text-center sm:py-32">
@@ -267,20 +265,20 @@
                     <!-- Slides container -->
                     <div id="carousel" class="relative h-64 overflow-hidden rounded-lg md:h-96">
                         <div class="carousel-slide absolute inset-0 opacity-100 transition-opacity duration-700">
-                            <img src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=620&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+                            <img src="https://thepapandayan.com/wp-content/uploads/2018/04/Suagi-Ballroom-1-scaled.jpg"
                                 class="h-full w-full object-cover" />
                         </div>
                         <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-700">
                             <img
-                                src="https://plus.unsplash.com/premium_photo-1673697239909-e11521d1ba94?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZXZlbmluZ3xlbnwwfHwwfHx8MA%3D%3D" />
+                                src="https://thepapandayan.com/wp-content/uploads/2018/03/SUAGI-GRAND-BALLROOM.jpg" />
                         </div>
                         <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-700">
-                            <img src="https://petapixel.com/assets/uploads/2022/12/what-is-unsplash.jpg"
+                            <img src="https://ik.imagekit.io/tvlk/blog/2021/07/Grand-Ballroom-InterContinental-Bandung-Dago-Pakar.jpg"
                                 class="h-full w-full object-cover" />
                         </div>
                         <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-700">
                             <img
-                                src="https://plus.unsplash.com/premium_photo-1673697239909-e11521d1ba94?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZXZlbmluZ3xlbnwwfHwwfHx8MA%3D%3D" />
+                                src="https://thepapandayan.com/wp-content/uploads/2018/04/pic-suagi-ballroom.jpg" />
                         </div>
                     </div>
 
@@ -384,13 +382,13 @@
     {{-- Date & Time Section --}}
     <section class="date-time-section bg-gradient-to-b from-gray-900 via-gray-950 to-black py-20 text-white sm:py-32">
         <div class="mx-auto max-w-4xl text-center">
-            <h2 class="font-fancy-4 mb-6 text-6xl font-bold tracking-tight text-yellow-400 sm:text-5xl"
+            <h2 class="font-fancy-4 mb-6 text-6xl font-bold tracking-tight text-yellow-400 sm:text-7xl"
                 data-aos="fade-down" data-aos-duration="1400">
                 Date & Time
             </h2>
             <p class="mb-12 text-2xl text-yellow-200 sm:text-2xl" data-aos="fade-up" data-aos-delay="200"
                 data-aos-duration="1200">
-                5 July 2025 | 17.00 - 22.00
+                5 July 2025 | 18.30 - 23.00
             </p>
             <div class="stripes" data-aos="zoom-in" data-aos-delay="400" data-aos-duration="1800">
                 <div class="countdown-container">
@@ -416,8 +414,7 @@
                 data-aos-delay="1200" data-aos-duration="1200">
                 Until Prom Night Begins!
             </p>
-            <div class="mt-10 flex items-center justify-center gap-x-6" data-aos="zoom-in" data-aos-delay="400"
-                data-aos-duration="1200">
+            <div class="mt-10 flex items-center justify-center gap-x-6" data-aos="fade-up" data-aos-delay="1400" data-aos-duration="1200">
                 @if ($is_active == true)
                     <a href="/pesan"
                         class="shadow-xs rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500">Get
@@ -507,7 +504,7 @@
             }
 
             .flip {
-                animation: flipAnim 0.8s ease forwards;
+                animation: flipAnim 1.37s ease forwards;
                 transform-style: preserve-3d;
                 backface-visibility: hidden;
             }
@@ -553,15 +550,15 @@
             }
         </style>
         <script>
-            // Countdown to 5 June 2025, 17:00 (5 PM) UTC+7 (Asia/Jakarta/Bangkok)
+            // Countdown to 5 July 2025, 17:00 (5 PM) UTC+7 (Asia/Jakarta/Bangkok)
             const countdownTarget = new Date('2025-07-05T17:00:00+07:00');
 
             function animateFlip(element, newValue) {
                 if (element.textContent == newValue) return;
                 element.classList.remove('flip');
                 void element.offsetWidth;
-                element.textContent = newValue;
                 element.classList.add('flip');
+                element.textContent = newValue;
             }
 
             function updateCountdown() {
@@ -671,3 +668,5 @@
 </body>
 
 </html>
+
+

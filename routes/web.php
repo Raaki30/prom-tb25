@@ -8,6 +8,7 @@ use App\Http\Controllers\GenSettingsController;
 use App\Http\Controllers\NisController;
 use App\Models\Tiket;
 use App\Models\Control;
+use App\Http\Controllers\MerchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,27 +18,26 @@ use App\Models\Control;
 
 Route::get('/', fn() => view('landing'));
 
-Route::get('/pesan', function () {
-    $control = Control::where('is_active', true)->first();
-    return $control ? view('payment.pesan') : redirect('/');
-})->name('pesan');
-
-Route::get('/payment/afterpay', fn() => view('payment.success'))->name('success');
-
 Route::get('/eticket/{id}', [TiketController::class, 'show'])->name('eticket.show');
 
 Route::get('/vote', fn() => view('forms.vote'))->name('vote');
 
-Route::get('/guest-registration', function () {
-    $control = Control::where('isguestactive', true)->first();
-    return $control ? view('payment.guest-registration') : redirect('/');
-})->name('guest-registration');
-
-Route::match(['get', 'post'], '/tamu-beli', [PayController::class, 'tamubeli'])->name('tamubeli');
+Route::get('/merch', fn() => view('merch.pesan'))->name('merch');
 
 /*
 |--------------------------------------------------------------------------
-| Authenticated User Routes
+| Merch Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::post('/beli-merch', [MerchController::class, 'beli'])->name('merch.beli');
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Authenticated User Routes/Dashboard Routes
 |--------------------------------------------------------------------------
 */
 
@@ -79,6 +79,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/{id}/delete', [NisController::class, 'destroy'])->name('.delete');
     });
 
+    Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(function () {
+        // Halaman daftar merch
+        Route::get('/merch', [MerchController::class, 'index'])->name('merch.index');
+    
+        // Edit merch
+        Route::get('/merch/{id}/edit', [MerchController::class, 'edit'])->name('merch.edit');
+    
+        // Update merch
+        Route::put('/merch/{id}', [MerchController::class, 'update'])->name('merch.update');
+    
+        // Hapus merch
+        Route::delete('/merch/{id}', [MerchController::class, 'destroy'])->name('merch.destroy');
+    
+        // Verifikasi pembayaran
+        Route::post('/merch/{id}/verify', [MerchController::class, 'verifyPayment'])->name('merch.verif');
+
+        // Pickup Merch
+        Route::post('/merch/{id}/pickup', [MerchController::class, 'pickup'])->name('merch.pickup');
+    });
+
 });
 
 /*
@@ -92,6 +112,20 @@ Route::middleware('payment')->prefix('payment')->name('payment.')->group(functio
     Route::match(['get', 'post'], '/process', [PayController::class, 'processPayment'])->name('process');
     Route::match(['get', 'post'], '/upload', [PayController::class, 'uploadbukti'])->name('upload');
 });
+
+Route::get('/guest-registration', function () {
+    $control = Control::where('isguestactive', true)->first();
+    return $control ? view('payment.guest-registration') : redirect('/');
+})->name('guest-registration');
+
+Route::match(['get', 'post'], '/tamu-beli', [PayController::class, 'tamubeli'])->name('tamubeli');
+
+Route::get('/pesan', function () {
+    $control = Control::where('is_active', true)->first();
+    return $control ? view('payment.pesan') : redirect('/');
+})->name('pesan');
+
+Route::get('/payment/afterpay', fn() => view('payment.success'))->name('success');
 
 /*
 |--------------------------------------------------------------------------
