@@ -29,7 +29,7 @@
                     <x-nav-link :href="route('dashboard.siswa')" :active="request()->routeIs('dashboard.siswa')">
                         {{ __('Siswa') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('dashboard.merch.index')" :active="request()->routeIs('dashboard.merch')">
+                    <x-nav-link :href="route('dashboard.merch.index')" :active="request()->routeIs('dashboard.merch.index')">
                         {{ __('Merch') }}
                     </x-nav-link>
                 </div>
@@ -98,7 +98,7 @@
             <x-responsive-nav-link :href="route('dashboard.siswa')" :active="request()->routeIs('dashboard.siswa')">
                 {{ __('Siswa') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard.merch.index')" :active="request()->routeIs('dashboard.merch')">
+            <x-responsive-nav-link :href="route('dashboard.merch.index')" :active="request()->routeIs('dashboard.merch.index')">
                 {{ __('Merch') }}
             </x-responsive-nav-link>
         </div>
