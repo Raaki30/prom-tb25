@@ -76,18 +76,7 @@
                 </div>
             </div>
 
-            {{-- Grafik Pendukung --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="rounded-2xl bg-background p-6 shadow-sm">
-                    <h3 class="mb-4 font-medium text-foreground">Statistik Tiket</h3>
-                    <canvas id="ticketChart" height="200"></canvas>
-                </div>
-
-                <div class="rounded-2xl bg-background p-6 shadow-sm">
-                    <h3 class="mb-4 font-medium text-foreground">Status Check-in</h3>
-                    <canvas id="checkInChart" height="200"></canvas>
-                </div>
-            </div>
+            
 
             
             <x-footer></x-footer>
@@ -95,81 +84,5 @@
         
     </div>
     
-    @push('scripts')
-    {{-- Chart.js --}}
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            // Chart Tiket
-            const ticketCtx = document.getElementById('ticketChart').getContext('2d');
-            new Chart(ticketCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Total Tiket', 'Terverifikasi'],
-                    datasets: [{
-                        label: 'Jumlah Tiket',
-                        data: [{{ $totalTiket }}, {{ $terverifikasi }}],
-                        backgroundColor: ['#3B82F6B3', '#10B981B3'],
-                        borderColor: ['#3B82F6', '#10B981'],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: ctx => `${ctx.label}: ${ctx.raw}`
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Chart Check-In
-            const checkInCtx = document.getElementById('checkInChart').getContext('2d');
-            new Chart(checkInCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Sudah Check-in', 'Belum Check-in'],
-                    datasets: [{
-                        data: [{{ $sudahCheckIn }}, {{ $belumCheckIn }}],
-                        backgroundColor: ['#10B981B3', '#EF4444B3'],
-                        borderColor: ['#10B981', '#EF4444'],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: ctx => `${ctx.label}: ${ctx.raw}`
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Styling canvas
-            document.querySelectorAll('canvas').forEach(canvas => {
-                canvas.style.maxHeight = '300px';
-            });
-        });
-    </script>
-    @endpush
+    
 </x-app-layout>

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
@@ -8,16 +9,18 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SendEmail extends Mailable
+class MerchMail extends Mailable
 {
     use Queueable, SerializesModels;
+
+    public $data;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(public $data)
+    public function __construct($data)
     {
         $this->data = $data;
     }
@@ -30,7 +33,7 @@ class SendEmail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Save the Date! Tiket Prom Night Kamu Ada di Sini 📅',
+            subject: "Siap-Siap nih, Merchandise Prom Night Kamu Sedang Dibuat 🎁"
         );
     }
 
@@ -42,7 +45,7 @@ class SendEmail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'mail.ticket',
+            view: 'mail.merchmail',
         );
     }
 
@@ -54,7 +57,7 @@ class SendEmail extends Mailable
     public function build()
     {
         return $this
-            ->view('mail.ticket')
+            ->view('mail.merchmail')
             ->with(['data' => $this->data])
             ->withSwiftMessage(function ($message) {
                 $headers = $message->getHeaders();

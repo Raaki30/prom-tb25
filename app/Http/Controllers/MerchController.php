@@ -9,6 +9,8 @@ use App\Models\Merch;
 use App\Models\MerchItem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Mail\MerchMail;
+use Illuminate\Support\Facades\Mail;
 
 class MerchController extends Controller
 {
@@ -146,6 +148,22 @@ class MerchController extends Controller
     {
         $merch = Merch::findOrFail($id);
         $merch->update(['status_bayar' => 'success']);
+        $data = [
+            'order_id' => $merch->order_id,
+            'nama' => $merch->nama,
+            'email' => $merch->email,
+            'no_hp' => $merch->no_hp,
+            'grand_total' => $merch->grand_total,
+            'metodebayar' => $merch->metodebayar,
+            'items' => $merch->items->map(function ($item) {
+            return [
+                'product_id' => $item->product_id,
+                'quantity' => $item->quantity,
+                'price' => $item->price,
+            ];
+            })->toArray(),
+        ];
+        Mail::to($merch->email)->send(new MerchMail($data));
 
         return redirect()->route('dashboard.merch.index')->with('success', 'Pembayaran berhasil diverifikasi');
     }
