@@ -175,4 +175,14 @@ class MerchController extends Controller
 
         return redirect()->route('dashboard.merch.index')->with('success', 'Status pengambilan diperbarui');
     }
+
+    public function manage()
+    {
+        
+        $items = MerchItem::select('product_id', DB::raw('SUM(quantity) as total_quantity'))
+            ->groupBy('product_id')
+            ->get();
+
+        return view('dashboard.merch-manage', compact('items'));
+    }
 }

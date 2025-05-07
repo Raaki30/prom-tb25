@@ -18,6 +18,12 @@
                     {{ session('error') }}
                 </div>
             @endif
+            <div class="mb-6">
+                <a href="{{ route('dashboard.merch.manage', [], true) }}" 
+                   class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                    Lihat Ringkasan
+                </a>
+            </div>
             <!-- Search and Filter Section -->
             <div class="bg-white rounded-lg shadow-md mb-6 p-4">
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

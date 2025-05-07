@@ -97,6 +97,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Pickup Merch
         Route::post('/merch/{id}/pickup', [MerchController::class, 'pickup'])->name('merch.pickup');
+
+        // Manage
+        Route::get('/merch-manage', [MerchController::class, 'manage'])->name('merch.manage');
     });
 
 });
