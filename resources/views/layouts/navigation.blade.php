@@ -23,14 +23,14 @@
                     <x-nav-link :href="route('dashboard.tiket')" :active="request()->routeIs('dashboard.tiket') || request()->routeIs('tiket.create') || request()->routeIs('tiket.edit')">
                         {{ __('Tiket') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('dashboard.control')" :active="request()->routeIs('dashboard.control')">
-                        {{ __('Pengaturan Tiket') }}
-                    </x-nav-link>
                     <x-nav-link :href="route('dashboard.siswa')" :active="request()->routeIs('dashboard.siswa')">
                         {{ __('Siswa') }}
                     </x-nav-link>
                     <x-nav-link :href="route('dashboard.merch.index')" :active="request()->routeIs('dashboard.merch.index')">
                         {{ __('Merch') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('dashboard.control')" :active="request()->routeIs('dashboard.control')">
+                        {{ __('Pengaturan') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -92,14 +92,14 @@
             <x-responsive-nav-link :href="route('dashboard.tiket')" :active="request()->routeIs('dashboard.tiket') || request()->routeIs('tiket.create') || request()->routeIs('tiket.edit')">
                 {{ __('Tiket') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard.control')" :active="request()->routeIs('dashboard.control')">
-                {{ __('Pengaturan Tiket') }}
-            </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('dashboard.siswa')" :active="request()->routeIs('dashboard.siswa')">
                 {{ __('Siswa') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('dashboard.merch.index')" :active="request()->routeIs('dashboard.merch.index')">
                 {{ __('Merch') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('dashboard.control')" :active="request()->routeIs('dashboard.control')">
+                {{ __('Pengaturan') }}
             </x-responsive-nav-link>
         </div>
 

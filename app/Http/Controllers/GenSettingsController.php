@@ -23,6 +23,7 @@ class GenSettingsController extends Controller
         $control->biaya_lain = $request->biaya_lain;
         $control->is_active = $request->has('is_active');
         $control->isguestactive = $request->has('isguestactive');
+        $control->ismerchactive = $request->has('ismerchactive');
         $control->save();
 
         return redirect()->route('dashboard.control')->with('success', 'Pengaturan berhasil diperbarui.');

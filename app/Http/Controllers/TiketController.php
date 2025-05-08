@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Nis;
 use App\Models\Tiket;
-use App\Mail\SendEmail;
+use App\Mail\TiketMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -53,7 +53,7 @@ class TiketController extends Controller
             'url' => url('/eticket/' . $tiket->order_id . '?nis=' . $tiket->nis),
         ];
 
-        Mail::to($tiket->email)->send(new SendEmail($data));
+        Mail::to($tiket->email)->send(new TiketMail($data));
 
         return redirect()->back()->with('success', 'Pembayaran berhasil diverifikasi.');
     }

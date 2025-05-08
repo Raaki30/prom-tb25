@@ -22,7 +22,12 @@ Route::get('/eticket/{id}', [TiketController::class, 'show'])->name('eticket.sho
 
 Route::get('/vote', fn() => view('forms.vote'))->name('vote');
 
-Route::get('/merch', fn() => view('merch.pesan'))->name('merch');
+Route::get('/failed', fn() => view('payment.failed'))->name('failed');
+
+Route::get('/merch', function () {
+    $control = Control::where('ismerchactive', true)->first();
+    return $control ? view('merch.pesan') : redirect()->route('failed');
+})->name('merch');
 
 /*
 |--------------------------------------------------------------------------
@@ -118,14 +123,14 @@ Route::middleware('payment')->prefix('payment')->name('payment.')->group(functio
 
 Route::get('/guest-registration', function () {
     $control = Control::where('isguestactive', true)->first();
-    return $control ? view('payment.guest-registration') : redirect('/');
+    return $control ? view('payment.guest-registration') : redirect()->route('failed');
 })->name('guest-registration');
 
 Route::match(['get', 'post'], '/tamu-beli', [PayController::class, 'tamubeli'])->name('tamubeli');
 
 Route::get('/pesan', function () {
     $control = Control::where('is_active', true)->first();
-    return $control ? view('payment.pesan') : redirect('/');
+    return $control ? view('payment.pesan') : redirect()->route('failed');
 })->name('pesan');
 
 Route::get('/payment/afterpay', fn() => view('payment.success'))->name('success');

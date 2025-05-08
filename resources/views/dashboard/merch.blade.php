@@ -204,6 +204,10 @@
                                     <p class="mt-1 text-sm text-gray-900">{{ $merch->no_hp }}</p>
                                 </div>
                                 <div>
+                                    <h4 class="text-sm font-medium text-gray-500">Tanggal Pembelian</h4>
+                                    <p class="mt-1 text-sm text-gray-900">{{ $merch->created_at->format('d M Y, H:i') }}</p>
+                                </div>
+                                <div>
                                     <h4 class="text-sm font-medium text-gray-500">Status Pembayaran</h4>
                                     <p class="mt-1">
                                         @if($merch->status_bayar == 'pending')

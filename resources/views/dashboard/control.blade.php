@@ -2,7 +2,7 @@
     <x-slot name="header">
         <h2 class="text-xl font-semibold text-gray-800 leading-tight flex items-center gap-2">
             <i class="fa-solid fa-gear"></i>
-            Pengaturan Tiket
+            Pengaturan
         </h2>
         
     </x-slot>
@@ -66,6 +66,21 @@
                                 <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-500 rounded-full peer peer-checked:bg-indigo-600 peer-checked:after:translate-x-5 peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
                                 <span class="ml-3 text-sm text-gray-700">
                                     {{ $control->isguestactive ? 'Diizinkan' : 'Tidak Diizinkan' }}
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Toggle Merch Activation -->
+                    <div>
+                        <label for="ismerchactive" class="block text-sm font-medium text-gray-700">Aktivasi Merch</label>
+                        <div class="flex items-center mt-2">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="ismerchactive" id="ismerchactive" 
+                                    {{ $control->ismerchactive ? 'checked' : '' }} 
+                                    class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-500 rounded-full peer peer-checked:bg-indigo-600 peer-checked:after:translate-x-5 peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+                                <span class="ml-3 text-sm text-gray-700">
+                                    {{ $control->ismerchactive ? 'Aktif' : 'Tidak Aktif' }}
                                 </span>
                             </label>
                         </div>
