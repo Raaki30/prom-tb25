@@ -624,7 +624,7 @@
                 },
                 {
                     id: 'type-lamour',
-                    text: L'Amour,
+                    text: 'L\'Amour',
                     after: ''
                 }
             ];
