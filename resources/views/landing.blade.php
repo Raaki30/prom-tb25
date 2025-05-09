@@ -304,7 +304,7 @@
                             data-index="3"></button>
                     </div>
                 </div>
-                <div class="animate__animated animate__fadeIn mx-auto flex max-w-lg flex-col gap-4 rounded-2xl border border-yellow-600/30 bg-white/10 p-8 text-left font-medium text-white shadow-lg backdrop-blur-md"
+                <div class="animate_animated animate_fadeIn mx-auto flex max-w-lg flex-col gap-4 rounded-2xl border border-yellow-600/30 bg-white/10 p-8 text-left font-medium text-white shadow-lg backdrop-blur-md"
                     style="box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);" data-aos="fade-left"
                     data-aos-delay="400" data-aos-duration="1200">
                     <p class="font-fancy-4 mb-1 flex items-center gap-3 text-5xl text-yellow-400">
@@ -624,7 +624,7 @@
                 },
                 {
                     id: 'type-lamour',
-                    text: `L'Amour`,
+                    text: L'Amour,
                     after: ''
                 }
             ];
@@ -668,5 +668,3 @@
 </body>
 
 </html>
-
-
