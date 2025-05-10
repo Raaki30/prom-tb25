@@ -143,15 +143,15 @@
                                 <div
                                     class="h-5 w-5 rounded-full border-2 border-red-500 transition duration-200 peer-checked:bg-red-500">
                                 </div>
-                                <span class="text-gray-200">BCA Virtual Account</span>
+                                <span class="text-gray-200">Bank Transfer</span>
                             </label>
-                            <label class="flex cursor-pointer items-center gap-2">
+                            {{-- <label class="flex cursor-pointer items-center gap-2">
                                 <input type="radio" name="metodebayar" value="mandiri" class="peer sr-only">
                                 <div
                                     class="h-5 w-5 rounded-full border-2 border-red-500 transition duration-200 peer-checked:bg-red-500">
                                 </div>
                                 <span class="text-gray-200">Mandiri Virtual Account</span>
-                            </label>
+                            </label> --}}
                         </div>
 
 

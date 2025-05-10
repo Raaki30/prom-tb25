@@ -83,9 +83,12 @@
                         <p class="font-semibold text-gray-800"><strong>Instruksi Pembayaran:</strong></p>
                         <p class="text-gray-700">Silakan transfer sebesar nominal di atas ke rekening berikut:</p>
                         <ul class="mt-2 text-sm text-gray-700">
-                            <li><strong>Bank:</strong> BCA</li>
-                            <li><strong>No Rek:</strong> 1234567890</li>
-                            <li><strong>Atas Nama:</strong> Panitia Prom Night</li>
+                            <div class="rounded-lg border border-gray-600 bg-gray-600 w-fit p-4 my-5">
+                                <h6 class="mb-2 font-medium">Transfer Bank BCA :</h6>
+                                <p>Bank: BCA</p>
+                                <p>Nomor Rekening: 4490327547</p>
+                                <p class="mb-4">Atas Nama: RHEAN DARMA</p>
+                            </div>
                         </ul>
                     </div>
 

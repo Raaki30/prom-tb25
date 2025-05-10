@@ -88,10 +88,10 @@
                             <li>
                                 @if ($tiket->metodebayar === 'bca') 
                                 <div class="rounded-lg border border-gray-600 bg-gray-600 w-fit p-4 my-5">
-                                    <h6 class="mb-2 font-medium">Bank BCA Virtual Account:</h6>
+                                    <h6 class="mb-2 font-medium">Transfer Bank BCA :</h6>
                                     <p>Bank: BCA</p>
-                                    <p>Nomor Rekening: 1234567890</p>
-                                    <p class="mb-4">Atas Nama: Your Company Name</p>
+                                    <p>Nomor Rekening: 4490327547</p>
+                                    <p class="mb-4">Atas Nama: RHEAN DARMA</p>
                                 </div>
                                 @elseif($tiket->metodebayar === 'mandiri')
                                 <div class="rounded-lg border border-gray-600 bg-gray-600 w-fit p-4 my-5">

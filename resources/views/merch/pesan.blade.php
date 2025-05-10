@@ -273,8 +273,20 @@
                             class="mt-1 block w-full rounded-md border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                             required>
                             <option value="Transfer Bank">Transfer Bank</option>
-                            <option value="QRIS">QRIS</option>
+                            {{-- <option value="QRIS">QRIS</option> --}}
                         </select>
+                    </div>
+                    <div class="mt-6 p-6 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg">
+                        <p class="font-semibold text-gray-800"><strong>Instruksi Pembayaran:</strong></p>
+                        <p class="text-gray-700">Silakan transfer sebesar nominal di atas ke rekening berikut:</p>
+                        <ul class="mt-2 text-sm text-gray-700">
+                            <div class="rounded-lg border border-gray-600 bg-gray-600 w-fit p-4 my-5">
+                                <h6 class="mb-2 font-medium">Transfer Bank BCA :</h6>
+                                <p>Bank: BCA</p>
+                                <p>Nomor Rekening: 4490327547</p>
+                                <p class="mb-4">Atas Nama: RHEAN DARMA</p>
+                            </div>
+                        </ul>
                     </div>
                     <div class="mb-4">
                         <label for="bukti_bayar" class="block text-sm font-medium text-gray-700">Bukti Bayar</label>
