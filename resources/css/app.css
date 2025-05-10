@@ -43,7 +43,6 @@
     font-style: normal;
 }
 
-
 .gradient-bg-dark {
     background: linear-gradient(-45deg, #323232, #520101, #262626, #323232);
     /* background: linear-gradient(-45deg, #323232, #6a0000, #262626, #625a06);  ada gold nya*/
@@ -61,31 +60,48 @@
 }
 
 @keyframes bouncing-icon {
-    0%   { transform: translateY(0);     animation-timing-function: ease-in;  }
-    30%  { transform: translateY(-15px); animation-timing-function: ease-out; }
-    50%  { transform: translateY(0);     animation-timing-function: ease-in;  }
-    70%  { transform: translateY(-7px);  animation-timing-function: ease-out; }
-    100% { transform: translateY(0);     animation-timing-function: ease-in;  }
+    0% {
+        transform: translateY(0);
+        animation-timing-function: ease-in;
+    }
+    30% {
+        transform: translateY(-15px);
+        animation-timing-function: ease-out;
+    }
+    50% {
+        transform: translateY(0);
+        animation-timing-function: ease-in;
+    }
+    70% {
+        transform: translateY(-7px);
+        animation-timing-function: ease-out;
+    }
+    100% {
+        transform: translateY(0);
+        animation-timing-function: ease-in;
+    }
 }
 
-
-.about-section{
-    background: linear-gradient(0deg,#262626, #060604 );
+.about-section {
+    background: linear-gradient(0deg, #262626, #060604);
 }
-.theme-section{
-    background: linear-gradient(0deg,#060604, #262626 );
+.merch-section {
+    background: linear-gradient(0deg, #060604, #262626);
 }
-.venue-section{
-    background: linear-gradient(0deg,#2e0705,#060604 );
+.theme-section {
+    background: linear-gradient(0deg, #060604, #060604);
 }
-.date-time-section{
-    background: linear-gradient(0deg,#060604, #2e0705 );
+.venue-section {
+    background: linear-gradient(0deg, #2e0705, #060604);
 }
-
+.date-time-section {
+    background: linear-gradient(0deg, #060604, #2e0705);
+}
 
 /* BOUNCING ANIMATION */
 @keyframes bouncing {
-    0%, 100% {
+    0%,
+    100% {
         transform: translateY(0);
         animation-timing-function: ease-in;
     }
@@ -97,4 +113,10 @@
 
 .bouncing-icon {
     animation: bouncing-icon 3s infinite;
+}
+
+/* Temporary */
+
+.theme-section div div {
+    display: none;
 }

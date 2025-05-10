@@ -1,5 +1,6 @@
 @php
     $is_active = \App\Models\Control::value('is_active');
+    $ismerch_active = \App\Models\Control::value('ismerchactive');
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -178,9 +179,17 @@
                 @endforeach
             </div>
             <div class="mt-10 flex items-center justify-center gap-x-6" data-aos="fade-up" data-aos-delay="800" data-aos-duration="1200">
-                <a href="/merch" class="mt-10 shadow-xs rounded-md bg-red-500 px-5 py-3 text-lg font-semibold text-white hover:bg-red-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500">
-                    Explore More
-                </a>
+                @if ($ismerch_active == true)
+                    <a href="/merch"
+                        class="mt-10 shadow-xs rounded-md bg-red-500 px-5 py-3 text-lg font-semibold text-white hover:bg-red-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500">
+                        Explore More
+                    </a>
+                @else
+                    <a href="#"
+                        class="mt-10 shadow-xs cursor-not-allowed rounded-md bg-gray-500 px-5 py-3 text-lg font-semibold text-white opacity-50">
+                        Coming Soon
+                    </a>
+                @endif
             </div>
         </div>
     </section>
