@@ -280,14 +280,14 @@
                         <p class="font-semibold text-gray-800"><strong>Instruksi Pembayaran:</strong></p>
                         <p class="text-gray-700">Silakan transfer sebesar nominal di atas ke rekening berikut:</p>
                         <ul class="mt-2 text-sm text-gray-700">
-                            <div class="rounded-lg border border-gray-600 bg-gray-600 w-fit p-4 my-5">
+                            <div class="rounded-lg border border-yellow-300 bg-yellow-100 w-fit p-4 my-5">
                                 <h6 class="mb-2 font-medium">Transfer Bank BCA :</h6>
                                 <p>Bank: BCA</p>
                                 <p>Nomor Rekening: 4490327547</p>
                                 <p class="mb-4">Atas Nama: RHEAN DARMA</p>
                             </div>
                         </ul>
-                    </div>
+                    </div>
                     <div class="mb-4">
                         <label for="bukti_bayar" class="block text-sm font-medium text-gray-700">Bukti Bayar</label>
                         <input type="file" id="bukti_bayar" name="bukti_bayar" accept="image/*,.pdf"

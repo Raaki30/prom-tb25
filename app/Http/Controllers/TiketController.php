@@ -40,6 +40,9 @@ class TiketController extends Controller
         $tiket = Tiket::findOrFail($id);
         $tiket->status = 'completed';
         $tiket->save();
+        $nis = Nis::where('nis', $tiket->nis)->first();
+        $nis->sudah_beli = true;
+        $nis->save();
 
         $data = [
             'nis' => $tiket->nis,
