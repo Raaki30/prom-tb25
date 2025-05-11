@@ -127,7 +127,7 @@ public function tamubeli(Request $request)
 
         $order_id = 'LN-' . Str::upper(Str::random(4)) . mt_rand(10, 99);
         $file = $request->file('bukti');
-        $nis = Nis::where('nama_siswa', $request->partner)->value('nis');
+        $nis = 0;
 
         try {
             $fileName = 'bukti/' . Str::slug($request->nama) . '-' . time() . '.' . $file->extension();

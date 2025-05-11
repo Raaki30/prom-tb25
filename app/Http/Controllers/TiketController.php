@@ -221,6 +221,10 @@ class TiketController extends Controller
             'order_id' => 'required|string'
         ]);
 
+        if ($request->order_id == '0') {
+            return response()->json(['valid' => false, 'message' => 'ticket_not_found']);
+        }
+
         $ticket = Tiket::where('order_id', $request->order_id)
             ->orWhere('nis', $request->order_id)
             ->first();

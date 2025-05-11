@@ -58,6 +58,7 @@
                 <!-- Entry Manual -->
                 <div class="bg-white p-4 rounded-2xl shadow-lg mt-6 w-full max-w-md mx-auto">
                     <h3 class="text-lg font-semibold text-gray-800 mb-3">Entry Manual (Order ID/NIS)</h3>
+                    <p class="text-sm text-yellow-600 mb-3">Jika NIS 0, gunakan Order ID</p>
                     <form id="manualEntryForm" class="flex gap-2">
                         <input type="text" id="manualOrderId" placeholder="Masukkan Order ID/NIS"
                             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
