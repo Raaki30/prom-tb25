@@ -57,9 +57,9 @@
 
                 <!-- Entry Manual -->
                 <div class="bg-white p-4 rounded-2xl shadow-lg mt-6 w-full max-w-md mx-auto">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Entry Manual (Order ID)</h3>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Entry Manual (Order ID/NIS)</h3>
                     <form id="manualEntryForm" class="flex gap-2">
-                        <input type="text" id="manualOrderId" placeholder="Masukkan Order ID"
+                        <input type="text" id="manualOrderId" placeholder="Masukkan Order ID/NIS"
                             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
                             required>
                         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Check</button>

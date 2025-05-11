@@ -49,6 +49,7 @@
                             <div>
                                 <label for="nis" class="block text-sm font-medium text-gray-700">NIS</label>
                                 <input type="text" name="nis" id="nis" value="{{ $tiket->nis }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
+                                <p class="mt-2 text-sm text-gray-500">Masukkan 0 untuk general/tidak diketahui NIS-nya</p>
                             </div>
                         </div>
     
