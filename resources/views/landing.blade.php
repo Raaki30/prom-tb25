@@ -197,66 +197,28 @@
     {{-- End Merch Section --}}
 
     {{-- Theme Section --}}
-    {{-- https://youtu.be/LJuM_Rqdd8o?si=LBlxS5uZn-HdiNZs --}}
     <section class="theme-section">
         <div class="py-24 sm:py-32">
             <div class="mx-auto max-w-2xl px-6 text-center lg:max-w-7xl lg:px-8">
                 <p class="font-fancy-4 mt-2 text-pretty text-6xl font-semibold tracking-tight text-yellow-500 sm:text-6xl lg:text-balance"
                     data-aos="fade-down" data-aos-delay="0" data-aos-duration="1200">
                     Event Theme</p>
-                <div class="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-2 lg:grid-rows-2">
-                    <div class="relative lg:row-span-2" data-aos="fade-right" data-aos-delay="200"
-                        data-aos-duration="1200">
-                        <div class="absolute inset-px rounded-lg bg-gray-200 lg:rounded-l-[2rem]"></div>
-                        <div
-                            class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
-                            <div class="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
-                                <p
-                                    class="font-fancy-4 mt-2 text-5xl font-medium tracking-tight text-gray-950 max-lg:text-center">
-                                    Man's Outfit Inspo</p>
-                                <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">This is an outfit
-                                    inspiration that you can use for men. <br>Color pallette: maroon red, navy, royal blue, black, gold, white, emerald green</p>
-                            </div>
-                            <div class="@container relative w-full grow max-lg:mx-auto max-lg:max-w-sm flex justify-center items-center">
-                                <img class="object-cover object-top p-5 max-w-xs max-h-[20rem]"
-                                    src="https://i.pinimg.com/736x/ba/57/93/ba5793f46bb73cb6bbd89667d2badbca.jpg"
-                                    alt="Outfit for men">
-                            </div>
+                <div class="mt-10 flex justify-center">
+                    <div class="relative rounded-lg bg-gray-200 p-6 sm:p-10 lg:p-12 max-w-md"
+                        data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
+                        <div class="text-center">
+                            <p class="font-fancy-4 text-4xl font-medium tracking-tight text-gray-950">
+                                Outfit Inspiration</p>
+                            <p class="mt-4 text-sm text-gray-600">This is an outfit inspiration for the event. <br>Color palette: maroon red, navy, royal blue, black, gold, white, emerald green.</p>
                         </div>
-                        <div
-                            class="pointer-events-none absolute inset-px rounded-lg shadow-sm ring-1 ring-black/5 lg:rounded-l-[2rem]">
-                        </div>
-                    </div>
-    
-                    <div class="relative lg:row-span-2" data-aos="fade-left" data-aos-delay="800"
-                        data-aos-duration="1200">
-                        <div
-                            class="absolute inset-px rounded-lg bg-gray-200 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]">
-                        </div>
-                        <div
-                            class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]">
-                            <div class="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
-                                <p
-                                    class="font-fancy-4 mt-2 text-5xl font-medium tracking-tight text-gray-950 max-lg:text-center">
-                                    Woman's Outfit Inspo</p>
-                                <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">This is an outfit
-                                    inspiration that you can use for women. <br>Color palette: maroon red, navy, royal blue, black, gold, white, emerald green</p>
-                            </div>
-                            <div class="relative w-full grow flex justify-center items-center">
-                                <img class="p-5 max-w-xs max-h-[20rem] object-cover object-top"
-                                    src="https://i.pinimg.com/736x/f2/89/3b/f2893b58c687837f536533def33572f4.jpg"
-                                    alt="Outfit for women">
-                            </div>
-                        </div>
-                        <div
-                            class="pointer-events-none absolute inset-px rounded-lg shadow-sm ring-1 ring-black/5 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]">
+                        <div class="mt-6 flex justify-center">
+                            <img class="rounded-md object-cover object-top" src="{{ asset('images/outfit-inspo.png') }}" alt="Outfit Inspiration">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
     {{-- End Theme Section --}}
 
 
