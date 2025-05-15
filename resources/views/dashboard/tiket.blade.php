@@ -190,6 +190,10 @@
                                             <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
                                                 <i class="fa-solid fa-check-circle mr-1"></i>Success
                                             </span>
+                                        @elseif($item->bukti == '-')
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                                                <i class="fa-solid fa-clock mr-1"></i>Unpaid
+                                            </span>
                                         @else
                                             <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
                                                 <i class="fa-solid fa-clock mr-1"></i>Pending
@@ -210,6 +214,11 @@
                                     <td class="px-4 py-2 text-sm text-gray-700">{{ $item->created_at->format('d M Y H:i') }}</td>
                                     <td class="px-4 py-2">
                                         <div class="flex items-center gap-3">
+                                            @if($item->bukti == '-' && !Str::startsWith($item->order_id, 'MN'))
+                                                <button class="p-1 text-gray-400 cursor-not-allowed" disabled title="Belum Upload">
+                                                    <i class="fa-solid fa-times-circle"></i>
+                                                </button>
+                                            @else
                                             <button
                                                 @click="modalImg = '{{ $item->bukti }}'; verifikasiUrl = '{{ route('tiket.verifikasi', $item->id, [], true) }}'; showModal = true"
                                                 class="p-1 text-green-600 hover:text-green-800"
@@ -217,7 +226,7 @@
                                             >
                                                 <i class="fa-solid fa-check-circle"></i>
                                             </button>
-                                            
+                                            @endif
                                             <a href="{{ route('tiket.edit', $item->id, [], true) }}" class="p-1 text-blue-600 hover:text-blue-800" title="Edit">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </a>
