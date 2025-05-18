@@ -109,7 +109,7 @@
         </div>
     </div>
     <x-footer></x-footer>
-    <x-whatsapp></x-whatsapp>
+    {{-- <x-whatsapp></x-whatsapp> --}}
 
     {{-- BACKEND STUFF --}}
     <form class="hidden" action="/payment/detail" method="POST" id="paymentForm">

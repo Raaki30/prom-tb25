@@ -157,8 +157,8 @@
 
     </div>
 
-
-    <x-whatsapp></x-whatsapp>
+    <x-footer></x-footer>
+    {{-- <x-whatsapp></x-whatsapp> --}}
     <script>
         const fileInput = document.getElementById('bukti');
         const previewImage = document.getElementById('previewImage');

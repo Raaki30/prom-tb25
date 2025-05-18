@@ -175,7 +175,7 @@
     </div>
 
     <x-footer></x-footer>
-    <x-whatsapp></x-whatsapp>
+    {{-- <x-whatsapp></x-whatsapp> --}}
 </body>
 
 </html>

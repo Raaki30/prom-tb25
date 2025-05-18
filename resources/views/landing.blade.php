@@ -568,7 +568,7 @@
                     class="transition hover:text-yellow-400 focus:text-yellow-400">
                     <i class="fab fa fa-whatsapp"></i>
                 </a>
-                <a href="#" aria-label="Instagram"
+                <a href="https://www.instagram.com/casinodelamour/" aria-label="Instagram"
                     class="transition hover:text-yellow-400 focus:text-yellow-400">
                     <i class="fab fa-instagram"></i>
                 </a>
@@ -624,7 +624,7 @@
             typeNext();
         });
     </script>
-    <script async
+    {{-- <script async
     src="https://kac3opy67dsogirllmtqz3bn.agents.do-ai.run/static/chatbot/widget.js"
     data-agent-id="c646abf9-1fe5-11f0-bf8f-4e013e2ddde4"
     data-chatbot-id="NmTrlKnYY2GIKDE2rwZKe8786fy2Q0Wk"
@@ -632,9 +632,9 @@
     data-primary-color="#2D1E2F" 
     data-secondary-color="#F5EAEA" 
     data-button-background-color="#FFFFFF" 
-    data-starting-message="Bonsoir, mon ami ✨ Siap untuk malam prom yang penuh cinta dan pesona? Bagaimana aku bisa membantumu?"
+    data-starting-message="Hai ✨ Siap untuk malam prom yang penuh cinta dan pesona? Bagaimana aku bisa membantumu?"
     data-logo="/static/chatbot/icons/default-agent.svg">
-  </script>
+  </script> --}}
   
 </body>
 
