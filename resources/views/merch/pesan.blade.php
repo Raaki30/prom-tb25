@@ -75,7 +75,7 @@
                                 <img src="{{ asset('images/Totebag1.png') }}" alt="Tote Bag"
                                     class="mb-4 h-48 w-48 object-contain">
                                 <h2 class="text-lg font-semibold">Design 1</h2>
-                                <p class="text-gray-700">Price: Rp20,000</p>
+                                <p class="text-gray-700">Price: Rp50,000</p>
                                 <div class="mt-2 flex items-center">
                                     <button type="button"
                                         class="btn-decrease flex h-10 w-10 items-center justify-center rounded bg-red-500 text-white">-</button>
@@ -95,7 +95,7 @@
                                 <img src="{{ asset('images/Totebag2.png') }}" alt="Tote Bag"
                                     class="mb-4 h-48 w-48 object-contain">
                                 <h2 class="text-lg font-semibold">Design 2</h2>
-                                <p class="text-gray-700">Price: Rp15,000</p>
+                                <p class="text-gray-700">Price: Rp50,000</p>
                                 <div class="mt-2 flex items-center">
                                     <button type="button"
                                         class="btn-decrease flex h-10 w-10 items-center justify-center rounded bg-red-500 text-white">-</button>
@@ -119,7 +119,7 @@
                                 <img src="{{ asset('images/Tumblr1.png') }}" alt="Tumblr"
                                     class="mb-4 h-48 w-48 object-contain">
                                 <h2 class="text-lg font-semibold">Design 1</h2>
-                                <p class="text-gray-700">Price: Rp25,000</p>
+                                <p class="text-gray-700">Price: Rp65,000</p>
                                 <div class="mt-2 flex items-center">
                                     <button type="button"
                                         class="btn-decrease flex h-10 w-10 items-center justify-center rounded bg-red-500 text-white">-</button>
@@ -139,7 +139,7 @@
                                 <img src="{{ asset('images/Tumblr2.png') }}" alt="Tumblr"
                                     class="mb-4 h-48 w-48 object-contain">
                                 <h2 class="text-lg font-semibold">Design 2</h2>
-                                <p class="text-gray-700">Price: Rp22,000</p>
+                                <p class="text-gray-700">Price: Rp65,000</p>
                                 <div class="mt-2 flex items-center">
                                     <button type="button"
                                         class="btn-decrease flex h-10 w-10 items-center justify-center rounded bg-red-500 text-white">-</button>
@@ -163,7 +163,7 @@
                                 <img src="{{ asset('images/Lanyard1.png') }}" alt="Lanyard"
                                     class="mb-4 h-48 w-48 object-contain">
                                 <h2 class="text-lg font-semibold">Design 1</h2>
-                                <p class="text-gray-700">Price: Rp10,000</p>
+                                <p class="text-gray-700">Price: Rp30,000</p>
                                 <div class="mt-2 flex items-center">
                                     <button type="button"
                                         class="btn-decrease flex h-10 w-10 items-center justify-center rounded bg-red-500 text-white">-</button>
@@ -183,7 +183,7 @@
                                 <img src="{{ asset('images/Lanyard2.png') }}" alt="Lanyard"
                                     class="mb-4 h-48 w-48 object-contain">
                                 <h2 class="text-lg font-semibold">Design 2</h2>
-                                <p class="text-gray-700">Price: Rp12,000</p>
+                                <p class="text-gray-700">Price: Rp30,000</p>
                                 <div class="mt-2 flex items-center">
                                     <button type="button"
                                         class="btn-decrease flex h-10 w-10 items-center justify-center rounded bg-red-500 text-white">-</button>
@@ -207,7 +207,7 @@
                                 <img src="{{ asset('images/EnamelPin1.png') }}" alt="Enamel Pin"
                                     class="mb-4 h-48 w-48 object-contain">
                                 <h2 class="text-lg font-semibold">Design 1</h2>
-                                <p class="text-gray-700">Price: Rp8,000</p>
+                                <p class="text-gray-700">Price: Rp35,000</p>
                                 <div class="mt-2 flex items-center">
                                     <button type="button"
                                         class="btn-decrease flex h-10 w-10 items-center justify-center rounded bg-red-500 text-white">-</button>
@@ -227,7 +227,7 @@
                                 <img src="{{ asset('images/EnamelPin2.png') }}" alt="Enamel Pin"
                                     class="mb-4 h-48 w-48 object-contain">
                                 <h2 class="text-lg font-semibold">Design 2</h2>
-                                <p class="text-gray-700">Price: Rp9,000</p>
+                                <p class="text-gray-700">Price: Rp35,000</p>
                                 <div class="mt-2 flex items-center">
                                     <button type="button"
                                         class="btn-decrease flex h-10 w-10 items-center justify-center rounded bg-red-500 text-white">-</button>
@@ -288,6 +288,8 @@
                             </div>
                         </ul>
                     </div>
+                    
+                    <div class="my-6"></div>
                     <div class="mb-4">
                         <label for="bukti_bayar" class="block text-sm font-medium text-gray-700">Bukti Bayar</label>
                         <input type="file" id="bukti_bayar" name="bukti_bayar" accept="image/*,.pdf"
@@ -331,14 +333,14 @@
     
             // Product prices and variants
             const prices = {
-                'TB01': 20000,
-                'TB02': 15000,
-                'TM01': 25000,
-                'TM02': 22000,
-                'LN01': 10000,
-                'LN02': 12000,
-                'EP01': 8000,
-                'EP02': 9000
+                'TB01': 50000,
+                'TB02': 50000,
+                'TM01': 65000,
+                'TM02': 65000,
+                'LN01': 30000,
+                'LN02': 30000,
+                'EP01': 35000,
+                'EP02': 35000
             };
     
             const variants = {

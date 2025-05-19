@@ -31,14 +31,14 @@
                             @php
                                 // Define product names mapping in PHP
                                 $productNames = [
-                                    'TB01' => 'Tote Bag Casino Design - Regular',
-                                    'TB02' => 'Tote Bag Cards Design - Regular',
-                                    'TM01' => 'Tumbler Casino Design - 500ml',
-                                    'TM02' => 'Tumbler Cards Design - 500ml',
-                                    'LN01' => 'Lanyard Casino Design - Standard',
-                                    'LN02' => 'Lanyard Cards Design - Standard',
-                                    'EP01' => 'Enamel Pin Casino Design - Small',
-                                    'EP02' => 'Enamel Pin Cards Design - Small'
+                                    'TB01' => 'Tote Bag - Design 1',
+                                    'TB02' => 'Tote Bag - Design 2',
+                                    'TM01' => 'Tumbler - Design 1',
+                                    'TM02' => 'Tumbler - Design 2',
+                                    'LN01' => 'Lanyard - Design 1',
+                                    'LN02' => 'Lanyard - Design 2',
+                                    'EP01' => 'Enamel Pin - Design 1',
+                                    'EP02' => 'Enamel Pin - Design 2'
                                 ];
                             @endphp
                             
