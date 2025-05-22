@@ -136,8 +136,8 @@
                             @enderror
                         </div>
                         <div>
-                            <label class="mb-2 block text-sm font-medium text-gray-200">Metode Pembayaran</label <div
-                                class="space-y-2">
+                            <label class="mb-2 block text-sm font-medium text-gray-200">Metode Pembayaran</label>
+                                
                             <label class="flex cursor-pointer items-center gap-2">
                                 <input type="radio" name="metodebayar" value="bca" class="peer sr-only" checked>
                                 <div
