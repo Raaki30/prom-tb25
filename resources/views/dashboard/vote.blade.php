@@ -13,67 +13,80 @@
                     {{ __('Hasil Voting Prom Awards') }}
                 </h1>
             </div>
-
+            <div class="flex items-center justify-between mb-6">
+                <div class="text-sm text-muted-foreground">
+                    Terakhir diperbaharui: {{ now()->format('d M Y H:i') }}
+                </div>
+                <form method="GET" action="{{ url()->current() }}">
+                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition border border-blue-600 shadow">
+                        <i class="fa fa-refresh mr-2"></i> Refresh
+                    </button>
+                </form>
+            </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-    @foreach ($votes as $index => $category)
-    <div class="bg-background rounded-2xl p-6 shadow-sm flex flex-col">
-        <h3 class="text-lg font-semibold text-foreground mb-4">{{ $category['name'] }}</h3>
-        <canvas id="chart-{{ $index }}" height="120"></canvas>
-        <div class="overflow-x-auto mt-4">
-            <table class="min-w-full text-sm text-left border">
-                <thead>
-                    <tr>
-                        <th class="px-4 py-2 border-b">#</th>
-                        <th class="px-4 py-2 border-b">Nama Kandidat</th>
-                        <th class="px-4 py-2 border-b">Jumlah Vote</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($category['candidates'] as $i => $candidate)
-                    <tr>
-                        <td class="px-4 py-2 border-b">{{ $i + 1 }}</td>
-                        <td class="px-4 py-2 border-b">{{ $candidate['name'] }}</td>
-                        <td class="px-4 py-2 border-b">{{ $candidate['votes'] }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-    @endforeach
-</div>
+                @foreach ($votes as $index => $category)
+                    @php
+                        $topVotes = collect($category['candidates'])->max('votes');
+                    @endphp
+                    <div class="bg-background rounded-2xl p-6 shadow-sm flex flex-col">
+                        <h3 class="text-lg font-semibold text-foreground mb-4">{{ $category['name'] }}</h3>
+                        <canvas id="chart-{{ $index }}" height="120"></canvas>
+
+                        <div class="mt-4 space-y-3">
+                            @foreach ($category['candidates'] as $i => $candidate)
+                                <div class="flex items-center gap-4 bg-muted/50 p-3 rounded-xl shadow-sm">
+                                    <div class="relative w-14 h-14 shrink-0 rounded-full overflow-hidden border border-muted">
+                                        <img src="{{ $candidate['photo_url'] }}" alt="{{ $candidate['name'] }}" class="w-full h-full object-cover">
+                                        @if ($candidate['votes'] == $topVotes)
+                                            <div class="absolute -top-3 -right-3 text-xl">👑</div>
+                                        @endif
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="font-medium text-foreground">
+                                            {{ $candidate['name'] }}
+                                        </div>
+                                        <div class="text-sm text-muted-foreground">
+                                            {{ $candidate['votes'] }} suara
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endforeach
+            </div>
 
             <x-footer></x-footer>
         </div>
     </div>
 
     @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const votes = @json($votes);
-        const pieColors = [
-            '#3B82F6', '#F59E42', '#10B981', '#EF4444', '#A78BFA', '#F472B6', '#FCD34D', '#60A5FA'
-        ];
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const votes = @json($votes);
+            const pieColors = [
+                '#3B82F6', '#F59E42', '#10B981', '#EF4444', '#A78BFA', '#F472B6', '#FCD34D', '#60A5FA'
+            ];
 
-        votes.forEach((category, index) => {
-            const ctx = document.getElementById('chart-' + index).getContext('2d');
-            new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: category.candidates.map(c => c.name),
-                    datasets: [{
-                        data: category.candidates.map(c => c.votes),
-                        backgroundColor: pieColors,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { display: true, position: 'bottom' }
+            votes.forEach((category, index) => {
+                const ctx = document.getElementById('chart-' + index).getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: category.candidates.map(c => c.name),
+                        datasets: [{
+                            data: category.candidates.map(c => c.votes),
+                            backgroundColor: pieColors,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: true, position: 'bottom' }
+                        }
                     }
-                }
+                });
             });
-        });
-    </script>
+        </script>
     @endpush
 </x-app-layout>

@@ -394,6 +394,8 @@ class VoteController extends Controller
             foreach ($category['candidates'] as &$candidate) {
             $key = $category['id'] . '_' . $candidate['id'];
             $candidate['votes'] = isset($voteCounts[$key]) ? $voteCounts[$key]->total : 0;
+            // Attach photo_url explicitly (already present, but for clarity)
+            $candidate['photo_url'] = $candidate['photo_url'] ?? null;
             }
         }
         unset($category, $candidate);
