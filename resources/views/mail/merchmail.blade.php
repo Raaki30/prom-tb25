@@ -108,7 +108,7 @@
           <!-- Footer -->
           <tr>
             <td align="center" style="padding:20px; background-color:#f9fafb; border-top:1px solid #e5e7eb; font-size:12px; color:#6b7280;">
-              <p style="margin:0;">Butuh bantuan? Hubungi kami di <a href="https://wa.me/6281234567890" style="color:#2563eb; text-decoration:underline;">WhatsApp</a></p>
+              <p style="margin:0;">Butuh bantuan? Hubungi kami di <a href="https://wa.me/6285222928594" style="color:#2563eb; text-decoration:underline;">WhatsApp</a></p>
               <p style="margin-top:10px;">&copy; 2025 Prom Night Committee</p>
             </td>
           </tr>

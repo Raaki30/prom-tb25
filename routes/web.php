@@ -9,6 +9,7 @@ use App\Http\Controllers\NisController;
 use App\Models\Tiket;
 use App\Models\Control;
 use App\Http\Controllers\MerchController;
+use App\Http\Controllers\VoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,11 @@ Route::get('/', fn() => view('landing'));
 
 Route::get('/eticket/{id}', [TiketController::class, 'show'])->name('eticket.show');
 
-Route::get('/vote', fn() => view('forms.vote'))->name('vote');
+Route::get('/vote', function () {
+    $control = Control::where('isvoteactive', true)->first();
+    return $control ? view('vote.index') : redirect()->route('failed');
+})->name('vote');
+Route::post('/submit-vote', [VoteController::class, 'submitVote'])->name('vote.submit');
 
 Route::get('/failed', fn() => view('payment.failed'))->name('failed');
 
@@ -106,6 +111,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Manage
         Route::get('/merch-manage', [MerchController::class, 'manage'])->name('merch.manage');
     });
+
+    // Vote Management
+    Route::get('/dashboard/vote', [VoteController::class, 'dashboard'])->name('dashboard.vote');
 
 });
 

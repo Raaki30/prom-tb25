@@ -72,8 +72,8 @@
         </p>
         <p class="mx-auto mt-2 max-w-md text-base text-red-700">
             Questions? WhatsApp us at
-            <a class="font-medium text-red-800 underline" href="https://wa.me/6281234567890" target="_blank"
-                rel="noopener">+6281234567890</a>
+            <a class="font-medium text-red-800 underline" href="https://wa.me/6285222928594" target="_blank"
+                rel="noopener">+6285222928594</a>
         </p>
     </main>
 </body>

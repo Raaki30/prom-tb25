@@ -564,7 +564,7 @@
                 © {{ date('Y') }} Prom Night TB25. All rights reserved.
             </div>
             <div class="flex space-x-5 text-xl text-white">
-                <a href="https://wa.me/6282262293060" aria-label="whatsapp"
+                <a href="https://wa.me/6285222928594" aria-label="whatsapp"
                     class="transition hover:text-yellow-400 focus:text-yellow-400">
                     <i class="fab fa fa-whatsapp"></i>
                 </a>
