@@ -25,6 +25,10 @@
                         <div class="text-muted-foreground text-base font-medium">
                             orang sudah melakukan voting
                         </div>
+                        <div class="text-xs text-muted-foreground mt-1">
+                            <i class="fa fa-info-circle mr-1"></i>
+                            Tidak termasuk voters eksternal
+                        </div>
                     </div>
                 </div>
             </div>

@@ -34,7 +34,6 @@
                     </x-nav-link>
                     <x-nav-link :href="route('dashboard.vote')" :active="request()->routeIs('dashboard.vote')">
                         {{ __('Vote') }}
-                        <span class="ml-2 inline-block px-2 py-0.5 text-xs font-semibold bg-green-500 text-white rounded-full align-middle">New</span>
                     </x-nav-link>
                 </div>
             </div>
@@ -107,7 +106,6 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('dashboard.vote')" :active="request()->routeIs('dashboard.vote')">
                 {{ __('Vote') }}
-                <span class="ml-2 inline-block px-2 py-0.5 text-xs font-semibold bg-green-500 text-white rounded-full align-middle">New</span>
             </x-responsive-nav-link>
         </div>
 
