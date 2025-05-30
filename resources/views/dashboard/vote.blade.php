@@ -13,6 +13,21 @@
                     {{ __('Hasil Voting Prom Awards') }}
                 </h1>
             </div>
+            <div class="flex items-center justify-center mb-8">
+                <div class="flex items-center gap-4 bg-muted px-8 py-5 rounded-2xl shadow">
+                    <div class="flex items-center justify-center w-14 h-14 rounded-full bg-white shadow-inner">
+                        <i class="fa fa-users text-3xl text-blue-600"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="text-3xl font-bold text-foreground leading-tight">
+                            {{ number_format($totalVoters) }}
+                        </div>
+                        <div class="text-muted-foreground text-base font-medium">
+                            orang sudah melakukan voting
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="flex items-center justify-between mb-6">
                 <div class="text-sm text-muted-foreground">
                     Terakhir diperbaharui: {{ now()->format('d M Y H:i') }}

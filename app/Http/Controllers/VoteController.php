@@ -401,6 +401,7 @@ class VoteController extends Controller
         unset($category, $candidate);
 
         $votes = $categories;
-        return view('dashboard.vote', compact('votes'));
+        $totalVoters = Nis::where('sudah_polling', true)->count();
+        return view('dashboard.vote', compact('votes', 'totalVoters'));
     }
 }
