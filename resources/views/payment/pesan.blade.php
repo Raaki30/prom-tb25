@@ -98,7 +98,11 @@
                         <p class="text-sm text-gray-600" id="siswaKelas"></p>
                     </div>
                 </div>
-
+                <div class="text-center mt-4">
+                    <a href="/guest-registration" class="text-blue-400 hover:underline text-sm">
+                        Dari Luar TB? pesan disini
+                    </a>
+                </div>
                 <button type="submit" id="submitButton"
                     class="flex w-full items-center justify-center gap-2 rounded-xl bg-red-500 py-3 font-semibold text-white transition-all hover:bg-red-600 disabled:opacity-50"
                     disabled>
