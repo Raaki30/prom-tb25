@@ -1,6 +1,6 @@
 @php
     use App\Models\Control;
-    $harga = Control::where('jenis_tiket', 'general')->value('harga');
+    $harga = Control::where('jenis_tiket', 'general')->value('harga_tamu');
     $biaya_lain = Control::where('jenis_tiket', 'general')->value('biaya_lain');
     $grand_total = $harga + $biaya_lain;
 @endphp
@@ -41,13 +41,9 @@
 
             <form id="guestForm" action="/tamu-beli" enctype="multipart/form-data" class="mt-6">
                 @csrf
-                <!-- Input Partner Search -->
-                <label class="block font-semibold mb-2 text-gray-700">Cari Partner Kamu</label>
-                <input type="text" id="partner" name="partner" placeholder="Masukkan nama partner kamu" class="w-full rounded-lg border border-gray-300 px-5 py-3 text-black outline-none transition-all focus:border-gold-500 focus:ring-2 focus:ring-gold-500" autocomplete="off" required />
-                <p class="text-sm text-gray-500 mt-1">Pastikan dia sudah membeli tiket terlebih dahulu</p>
-                <div id="searchResults" class="hidden border mt-2 bg-white rounded-md shadow-md overflow-hidden"></div>
+                
 
-                <div id="formutama" class="hidden">
+                
                     <!-- Nama -->
                     <label class="block font-semibold mt-4 mb-2 text-gray-700">Nama</label>
                     <input type="text" name="nama" placeholder="Nama Kamu" class="w-full rounded-lg border border-gray-300 px-5 py-3 outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500" required>
@@ -61,10 +57,10 @@
                     <input type="email" name="email" placeholder="example@example.com" class="w-full rounded-lg border border-gray-300 px-5 py-3 outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500" required>
 
                     <!-- Metode Bayar -->
-                    <input type="hidden" name="metodebayar" value="transfer">
+                    <input type="hidden" name="metodebayar" value="bca">
                     <div class="mt-6 p-6 bg-gray-100 border rounded-lg flex justify-between items-center">
                         <div class="text-lg">
-                            <p class="mb-2">Student Ticket:</p>
+                            <p class="mb-2">Tiket Tamu:</p>
                             <p class="mb-2">Biaya Lain:</p>
                             <hr class="my-2 border-gold-500">
                             <p class="font-bold">Total Price:</p>
@@ -80,16 +76,14 @@
 
                     <!-- Nominal & Instruksi -->
                     <div class="mt-6 p-6 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg">
-                        <p class="font-semibold text-gray-800"><strong>Instruksi Pembayaran:</strong></p>
-                        <p class="text-gray-700">Silakan transfer sebesar nominal di atas ke rekening berikut:</p>
-                        <ul class="mt-2 text-sm text-gray-700">
-                            <div class="rounded-lg border border-gray-600 bg-gray-600 w-fit p-4 my-5">
-                                <h6 class="mb-2 font-medium">Transfer Bank BCA :</h6>
-                                <p>Bank: BCA</p>
-                                <p>Nomor Rekening: 4490327547</p>
-                                <p class="mb-4">Atas Nama: RHEAN DARMA</p>
-                            </div>
-                        </ul>
+                        <p class="font-semibold text-gray-800 mb-2"><strong>Instruksi Pembayaran:</strong></p>
+                        <p class="text-gray-700 mb-2">Silakan transfer total nominal di atas ke rekening berikut:</p>
+                        <div class="rounded-lg border border-gray-300 bg-white w-fit p-4 my-4">
+                            <p class="font-semibold text-gray-800 mb-1">Bank: <span class="font-normal">BCA</span></p>
+                            <p class="font-semibold text-gray-800 mb-1">Nomor Rekening: <span class="font-mono font-normal text-lg tracking-wider">4490327547</span></p>
+                            <p class="font-semibold text-gray-800">Atas Nama: <span class="font-normal">RHEAN DARMA</span></p>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">Pastikan nominal transfer sesuai dan upload bukti pembayaran dengan jelas.</p>
                     </div>
 
                     <!-- Bukti Bayar -->
@@ -113,80 +107,16 @@
                     </div>
 
                     <button type="submit" class="mt-6 w-full bg-gray-200 hover:bg-gray-300 text-black py-3 rounded-lg font-bold shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">Submit</button>
-                </div>
+                
             </form>
         </div>
     </div>
     <x-footer></x-footer>
 
     <script>
-        const container = document.getElementById('container');
-        const formUtama = document.getElementById('formutama');
-        const partnerInput = document.getElementById('partner');
-
-        partnerInput.addEventListener('input', () => {
-            if (formUtama.classList.contains('hidden')) {
-                container.classList.add('items-center', 'justify-center');
-                container.classList.remove('items-start');
-            }
-        });
-
         
 
-                // searchResults
-                async function performSearch(query) {
-            const results = document.getElementById('searchResults');
-            const form = document.getElementById('formutama');
-            if (query.length < 3) return results.classList.add('hidden');
-
-            try {
-            const res = await fetch(`/api/cari-buyer?query=${encodeURIComponent(query)}`);
-            const data = await res.json();
-
-            results.innerHTML = '';
-
-            const filteredData = data.filter(siswa => siswa.status === 'completed' && siswa.kelas !== 'general');
-
-            if (!filteredData.length) {
-                results.innerHTML = `<div class="p-4 text-center text-gray-500">
-                <i class="fas fa-search text-gray-400 mb-2 text-lg"></i>
-                <p class="text-sm">Tidak ada hasil</p>
-                </div>`;
-            } else {
-                filteredData.forEach(siswa => {
-                const item = document.createElement('div');
-                item.className = 'p-3 cursor-pointer hover:bg-gray-50 border-b border-gray-100';
-                item.innerHTML = `
-                    <div class="text-blue-500 text-sm">${siswa.order_id}</div>
-                    <div class="text-gray-900 font-semibold">${siswa.nama}</div>
-                    <div class="text-gray-500 text-sm">${siswa.kelas}</div>
-                `;
-                item.onclick = () => {
-                    document.getElementById('partner').value = siswa.nama;
-                    results.classList.add('hidden');
-                    form.classList.remove('hidden');
-                };
-                results.appendChild(item);
-                });
-            }
-
-            results.classList.remove('hidden');
-            } catch (err) {
-            console.error('Search error:', err);
-            }
-        }
-
-        document.getElementById('partner').addEventListener('input', (e) => performSearch(e.target.value));
-
-        // on change input partner
-        document.getElementById('partner').addEventListener('change', (e) => {
-            const form = document.getElementById('formutama');
-            const results = document.getElementById('searchResults');
-            if (!e.target.value.trim()) {
-            form.classList.add('hidden');
-            results.classList.add('hidden');
-            }
-        });
+        
 
         // file preview and validation
         const fileInput = document.getElementById('bukti');
@@ -274,15 +204,8 @@
             });
         });
 
-        // Show warning on page load
-        window.addEventListener('load', () => {
-            Swal.fire({
-            icon: 'warning',
-            title: 'Perhatian!',
-            text: 'Pastikan partner kamu sudah membeli tiket dan terverifikasi sebelum melanjutkan.',
-            confirmButtonText: 'Mengerti'
-            });
-        });
+        
+        
     </script>
 </body>
 </html>

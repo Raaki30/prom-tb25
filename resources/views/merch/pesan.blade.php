@@ -325,12 +325,12 @@
             const checkoutButton = document.getElementById('checkoutButton');
             const merchForm = document.getElementById('merchForm');
             const buktiBayarInput = document.getElementById('bukti_bayar');
-    
+
             // Set form attributes
             merchForm.action = "/beli-merch";
             merchForm.method = "POST";
             merchForm.enctype = "multipart/form-data";
-    
+
             // Product prices and variants
             const prices = {
                 'TB01': 50000,
@@ -342,7 +342,7 @@
                 'EP01': 35000,
                 'EP02': 35000
             };
-    
+
             const variants = {
                 'TB01': 'TB01-V1',
                 'TB02': 'TB02-V1',
@@ -353,17 +353,125 @@
                 'EP01': 'EP01-V1',
                 'EP02': 'EP02-V1'
             };
-    
-            // Update total price
+            
+            // Define product categories for bundling
+            const productCategories = {
+                'TB01': 'TB',
+                'TB02': 'TB',
+                'TM01': 'TM',
+                'TM02': 'TM',
+                'LN01': 'LN',
+                'LN02': 'LN',
+                'EP01': 'EP',
+                'EP02': 'EP'
+            };
+            
+            // Define bundles and their discounted prices
+            const bundles = [
+                {
+                    categories: ['TB', 'TM'],
+                    price: 95000,
+                    description: 'Bundle: Tote Bag + Tumblr = Rp95.000'
+                },
+                {
+                    categories: ['LN', 'EP'],
+                    price: 45000,
+                    description: 'Bundle: Lanyard + Enamel Pin = Rp45.000'
+                },
+                {
+                    categories: ['TB', 'EP'],
+                    price: 65000,
+                    description: 'Bundle: Tote Bag + Enamel Pin = Rp65.000'
+                },
+                {
+                    categories: ['TB', 'TM', 'LN', 'EP'],
+                    price: 165000,
+                    description: 'Bundle: All Items = Rp165.000'
+                }
+            ];
+            
+            // Create bundle info container if it doesn't exist
+            let bundleInfoContainer = document.getElementById('bundleInfo');
+            if (!bundleInfoContainer) {
+                bundleInfoContainer = document.createElement('div');
+                bundleInfoContainer.id = 'bundleInfo';
+                bundleInfoContainer.className = 'mt-4 p-4 bg-yellow-50 rounded-lg border border-yellow-200';
+                document.querySelector('.total-harga').insertAdjacentElement('afterend', bundleInfoContainer);
+            }
+
+            // Update total price with bundle calculations
             const updateTotalPrice = () => {
-                let total = 0;
+                // Get quantities by product
+                const quantities = {};
                 document.querySelectorAll('.hidden-quantity').forEach((quantityInput) => {
                     const quantity = parseInt(quantityInput.value);
                     const productId = quantityInput.name.match(/\[(.*?)\]/)[1];
-                    total += quantity * prices[productId];
+                    quantities[productId] = quantity;
                 });
-                totalPriceElement.textContent = `Rp${total.toLocaleString('id-ID')}`;
-    
+                
+                // Get quantities by category
+                const categoryQuantities = {};
+                let regularTotal = 0;
+                
+                Object.keys(quantities).forEach(productId => {
+                    const category = productCategories[productId];
+                    const quantity = quantities[productId];
+                    
+                    if (!categoryQuantities[category]) {
+                        categoryQuantities[category] = 0;
+                    }
+                    
+                    categoryQuantities[category] += quantity;
+                    regularTotal += quantity * prices[productId];
+                });
+                
+                // Calculate bundle pricing
+                let finalTotal = regularTotal;
+                let appliedBundles = [];
+                let bundleDiscount = 0;
+                
+                // Check which bundles apply (starting from largest/most valuable bundle)
+                bundles.sort((a, b) => b.categories.length - a.categories.length).forEach(bundle => {
+                    // Check if all required categories for this bundle are present
+                    const hasAllCategories = bundle.categories.every(category => 
+                        categoryQuantities[category] && categoryQuantities[category] > 0
+                    );
+                    
+                    if (hasAllCategories) {
+                        // Calculate how many complete bundles can be made
+                        let bundleCount = Math.min(...bundle.categories.map(category => categoryQuantities[category]));
+                        
+                        if (bundleCount > 0) {
+                            // Calculate the regular price for these items
+                            let regularBundlePrice = 0;
+                            bundle.categories.forEach(category => {
+                                // Find a product in this category
+                                const productId = Object.keys(productCategories).find(id => productCategories[id] === category);
+                                regularBundlePrice += prices[productId];
+                            });
+                            
+                            const bundleSavings = (regularBundlePrice - bundle.price) * bundleCount;
+                            bundleDiscount += bundleSavings;
+                            finalTotal = regularTotal - bundleDiscount;
+                            
+                            appliedBundles.push({
+                                description: bundle.description,
+                                count: bundleCount,
+                                savings: bundleSavings
+                            });
+                            
+                            // Remove these items from consideration for other bundles
+                            bundle.categories.forEach(category => {
+                                categoryQuantities[category] -= bundleCount;
+                            });
+                        }
+                    }
+                });
+                
+                // Update UI with the total
+                totalPriceElement.textContent = `Rp${finalTotal.toLocaleString('id-ID')}`;
+                
+                // Update hidden input for the total
                 let grandTotalInput = document.getElementById('grand_total');
                 if (!grandTotalInput) {
                     grandTotalInput = document.createElement('input');
@@ -372,9 +480,56 @@
                     grandTotalInput.name = 'grand_total';
                     merchForm.appendChild(grandTotalInput);
                 }
-                grandTotalInput.value = total;
+                grandTotalInput.value = finalTotal;
+                
+                // Add discount info to hidden input
+                let bundleDiscountInput = document.getElementById('bundle_discount');
+                if (!bundleDiscountInput) {
+                    bundleDiscountInput = document.createElement('input');
+                    bundleDiscountInput.type = 'hidden';
+                    bundleDiscountInput.id = 'bundle_discount';
+                    bundleDiscountInput.name = 'bundle_discount';
+                    merchForm.appendChild(bundleDiscountInput);
+                }
+                bundleDiscountInput.value = bundleDiscount;
+                
+                // Show bundle information
+                if (appliedBundles.length > 0) {
+                    let bundleHTML = `
+                        <h3 class="text-md font-semibold text-green-800 mb-2">Bundling Applied!</h3>
+                        <ul class="text-sm text-gray-700 space-y-1">
+                    `;
+                    
+                    appliedBundles.forEach(bundle => {
+                        bundleHTML += `
+                            <li class="flex justify-between">
+                                <span>${bundle.count}x ${bundle.description}</span>
+                                <span class="text-green-600 font-medium">-Rp${bundle.savings.toLocaleString('id-ID')}</span>
+                            </li>
+                        `;
+                    });
+                    
+                    bundleHTML += `
+                        </ul>
+                        <div class="mt-2 pt-2 border-t border-yellow-200">
+                            <div class="flex justify-between">
+                                <span class="font-medium">Regular Price:</span>
+                                <span>Rp${regularTotal.toLocaleString('id-ID')}</span>
+                            </div>
+                            <div class="flex justify-between text-green-600 font-medium">
+                                <span>Bundle Discount:</span>
+                                <span>-Rp${bundleDiscount.toLocaleString('id-ID')}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    bundleInfoContainer.innerHTML = bundleHTML;
+                    bundleInfoContainer.style.display = 'block';
+                } else {
+                    bundleInfoContainer.style.display = 'none';
+                }
             };
-    
+
             // Quantity button handlers
             decreaseButtons.forEach((btn) => {
                 btn.addEventListener('click', () => {
@@ -388,7 +543,7 @@
                     }
                 });
             });
-    
+
             increaseButtons.forEach((btn) => {
                 btn.addEventListener('click', () => {
                     const quantitySpan = btn.parentElement.querySelector('.quantity');
@@ -399,7 +554,7 @@
                     updateTotalPrice();
                 });
             });
-    
+
             // File validation
             buktiBayarInput.addEventListener('change', (e) => {
                 const file = e.target.files[0];

@@ -114,7 +114,6 @@ class PayController extends Controller
 public function tamubeli(Request $request)
     {
         $request->validate([
-            'partner' => 'required|string|max:255',
             'nama' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'required|string|max:255',

@@ -40,6 +40,13 @@
                             placeholder="Masukkan biaya lain">
                         <p class="mt-2 text-sm text-gray-500">Opsional: Tambahkan biaya tambahan jika diperlukan. Masukkan 0 jika tidak ada</p>
                     </div>
+                    <!-- Harga Tamu -->
+                    <div>
+                        <label for="harga" class="block text-sm font-medium text-gray-700">Harga Tiket Tamu</label>
+                        <input type="number" name="harga_tamu" id="harga_tamu" value="{{ $control->harga_tamu }}" 
+                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 ease-in-out" 
+                            placeholder="Masukkan harga tiket tamu">
+                    </div>
                     <!-- Tanggal Mulai -->
                     <div>
                         <label for="tanggal_mulai" class="block text-sm font-medium text-gray-700">Tanggal Mulai Penjualan</label>
