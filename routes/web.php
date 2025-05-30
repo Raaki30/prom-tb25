@@ -23,7 +23,7 @@ Route::get('/eticket/{id}', [TiketController::class, 'show'])->name('eticket.sho
 
 Route::get('/vote', function () {
     $control = Control::where('isvoteactive', true)->first();
-    return $control ? view('vote.index') : redirect()->route('failed');
+    return $control ? view('vote.index') : view('vote.closed');
 })->name('vote');
 Route::post('/submit-vote', [VoteController::class, 'submitVote'])->name('vote.submit');
 

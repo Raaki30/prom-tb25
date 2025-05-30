@@ -27,14 +27,63 @@
     <h1
         class="font-fancy-4 text-pretty pt-20 text-center text-5xl font-bold tracking-tight text-yellow-500 sm:text-6xl lg:text-balance">
         Merchandise <br> Casino de L'Amour</h1>
+
+    <!-- Bundle Information Section -->
+    <div x-data="{ showBundle: true }" x-show="showBundle" class="mx-auto mt-6 w-full max-w-3xl p-4">
+        <div class="relative rounded-xl bg-gradient-to-r from-yellow-50 to-yellow-100 p-5 shadow-md border border-yellow-200">
+            <button @click="showBundle = false" type="button"
+                class="absolute top-3 right-3 text-yellow-700 hover:text-yellow-900 rounded-full p-1 transition"
+                aria-label="Tutup">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h2 class="text-xl font-bold text-center text-yellow-800 mb-3">✨ Special Bundle Offers ✨</h2>
+            <p class="text-gray-700 text-center mb-4">Dapatkan promo menarik dengan pembelian bundle</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="bg-white rounded-lg p-3 shadow-sm border border-yellow-200">
+                    <p class="font-medium text-yellow-800">Tote Bag + Tumblr</p>
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-gray-500 line-through">Rp115,000</span>
+                        <span class="font-bold text-green-600">Rp95,000</span>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg p-3 shadow-sm border border-yellow-200">
+                    <p class="font-medium text-yellow-800">Lanyard + Enamel Pin</p>
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-gray-500 line-through">Rp65,000</span>
+                        <span class="font-bold text-green-600">Rp45,000</span>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg p-3 shadow-sm border border-yellow-200">
+                    <p class="font-medium text-yellow-800">Tote Bag + Enamel Pin</p>
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-gray-500 line-through">Rp85,000</span>
+                        <span class="font-bold text-green-600">Rp65,000</span>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg p-3 shadow-sm border border-yellow-200">
+                    <p class="font-medium text-yellow-800">Complete Bundle (All Items)</p>
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-gray-500 line-through">Rp180,000</span>
+                        <span class="font-bold text-green-600">Rp165,000</span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-sm text-center mt-3 text-gray-600">Promo otomatis terpasang saat pembayaran</p>
+        </div>
+    </div>
+    <!-- End Bundle Information Section -->
+
     <section id="all-merch" class="mx-auto mt-5 w-full p-5 sm:w-3/4" x-data="{ activeTab: 'tab-1' }">
-        <div class="container mx-auto w-full rounded-xl bg-white pb-40 pt-5 shadow-lg sm:px-10">
+        <div class="container mx-auto w-full rounded-2xl bg-white pb-80 pt-8 sm:pb-56 shadow-2xl sm:px-14">
             <form id="merchForm" class="w-full p-0" method="POST" action="/beli-merch" enctype="multipart/form-data">
                 @csrf
-                <a href="/"
-                    class="relative top-5 left-2 rounded-lg bg-gray-200 px-4 py-2 text-gray-700 shadow-md transition hover:bg-gray-300">
-                    Back
-                </a>
+                
                 <div id="tabs" class="tabs m-auto sm:w-full md:w-3/4 lg:w-1/2 mt-10">
                     <ul
                         class="flex flex-wrap justify-center border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
@@ -396,6 +445,7 @@
                 bundleInfoContainer = document.createElement('div');
                 bundleInfoContainer.id = 'bundleInfo';
                 bundleInfoContainer.className = 'mt-4 p-4 bg-yellow-50 rounded-lg border border-yellow-200';
+                bundleInfoContainer.style.display = 'none'; // Hide by default
                 document.querySelector('.total-harga').insertAdjacentElement('afterend', bundleInfoContainer);
             }
 
