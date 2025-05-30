@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Guest Registration - Prom Night TB25</title> 
+    <title>Beli Tiket Eksternal - Prom Night TB25</title> 
 
     {{-- TAILWIND --}}
     @vite('resources/css/app.css')
@@ -36,7 +36,7 @@
     <div id="container" class="flex items-center justify-center min-h-screen">
         <div class="max-w-3xl mx-auto p-8 bg-white shadow-lg rounded-lg border border-gray-200">
             <h1 class="text-3xl font-bold text-center text-gray-800 border-b pb-4 mb-8" style="font-family: 'Imperial Script', cursive; color: #b8860b;">
-                Guest Registration
+                Pembelian Tiket Eksternal
             </h1>
 
             <form id="guestForm" action="/tamu-beli" enctype="multipart/form-data" class="mt-6">
