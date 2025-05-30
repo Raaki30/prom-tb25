@@ -43,13 +43,88 @@
             border-color: rgb(234 179 8);
             background-color: rgba(234, 179, 8, 0.1);
         }
+        
+        /* Background pattern */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(234,179,8,0.03) 1px, transparent 1px),
+                radial-gradient(circle at 75% 75%, rgba(234,179,8,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+            pointer-events: none;
+        }
+        
+        /* Sparkling stars */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: twinkle 4s infinite ease-in-out;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.8; }
+        }
     </style>
+
+    <script>
+        // Add this before your main script
+        document.addEventListener('DOMContentLoaded', function() {
+            const starsContainer = document.createElement('div');
+            starsContainer.className = 'stars';
+            document.body.appendChild(starsContainer);
+            
+            // Create background pattern
+            const pattern = document.createElement('div');
+            pattern.className = 'bg-pattern';
+            document.body.appendChild(pattern);
+            
+            // Create stars
+            for(let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 3 + 1;
+                
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 4}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        });
+    </script>
 </head>
 <body class="bg-gradient-to-br from-[#2e0705] to-[#060604] min-h-full">
     <div class="mx-auto max-w-4xl px-6 py-10 min-h-screen flex flex-col justify-center" x-data="votingApp()" x-init="init()">
         <h1 class="font-fancy-4 my-5 text-pretty text-6xl font-semibold tracking-tight text-yellow-400 sm:text-6xl lg:text-balance text-center" data-aos="fade-down" data-aos-duration="1500">
-            Prom Voting Form
+            Prom Awards Voting
         </h1>
+
+        <!-- Add this right after the "Prom Voting Form" heading -->
+        <div class="text-center mb-6 text-yellow-200" data-aos="fade-up" data-aos-duration="700">
+            <div class="p-3 bg-[#18181b]/60 rounded-lg border border-yellow-500/30 inline-block">
+                <i class="fas fa-ticket-alt mr-2"></i>
+                <span>Voting hanya untuk pemegang tiket yang sudah terverifikasi</span>
+            </div>
+        </div>
 
         <div>
             <!-- Phone verification step -->
