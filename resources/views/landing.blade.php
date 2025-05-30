@@ -40,23 +40,37 @@
 
 <body>
     {{-- Hero Section --}}
+    
+        <div x-data="{ open: true }" x-show="open" x-transition.opacity
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-2"
+            @click.self="open = false">
+            <div class="relative w-full max-w-sm rounded-lg bg-white p-5 shadow-lg border border-yellow-400"
+                @click.stop>
+                <div class="flex flex-col items-center text-center">
+                    <div class="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-yellow-100">
+                        <i class="fa-solid fa-bullhorn text-xl text-yellow-600"></i>
+                    </div>
+                    <h2 class="mb-1 text-lg font-bold text-yellow-700">Voting is Open!</h2>
+                    <p class="mb-4 text-gray-700 text-sm">Vote for Prom King, Queen, and more. Make your choice now!</p>
+                    <a href="/vote"
+                        class="inline-block rounded bg-yellow-500 px-4 py-2 text-sm font-semibold text-white hover:bg-yellow-600 transition">
+                        Vote Now
+                    </a>
+                    <button @click="open = false"
+                        class="mt-4 text-xs text-yellow-600 underline hover:text-yellow-800">Close</button>
+                </div>
+            </div>
+        </div>
+   
+
     <section class="hero-section relative flex items-center"
         style="background-image: url('{{ asset('images/prom-bg.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
         <!-- Overlay gelap di atas background image -->
         <div class="absolute inset-0 z-0 bg-black opacity-50"></div>
         <div class="relative z-10 min-h-screen w-full">
 
-
             <div class="relative isolate px-6 pt-14 lg:px-8">
                 <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-                    {{-- <div class="hidden sm:mb-8 sm:flex sm:justify-center">
-                        <div
-                            class="relative rounded-full px-3 py-1 text-sm/6 text-white ring-1 ring-gray-100/20 hover:ring-gray-100/40 bg-black bg-opacity-40">
-                            Announcing our next round of funding. <a href="#"
-                                class="font-semibold text-red-200"><span class="absolute inset-0"
-                                    aria-hidden="true"></span>Read more <span aria-hidden="true">&rarr;</span></a>
-                        </div>
-                    </div> --}}
                     <div class="text-center">
                         <h1
                             class="text-gold-500 font-fancy-3 text-balance text-5xl font-semibold tracking-tight sm:text-8xl">
