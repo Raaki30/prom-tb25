@@ -164,5 +164,145 @@ public function tamubeli(Request $request)
         ]);
     }
 
+    public function showCoupleForm()
+    {
+        return view('payment.couple');
+    }
+
+    public function initCouplePayment(Request $request)
+    {
+        //validasi request
+        $request->validate([
+            'nis1' => 'required|string',
+            'nama_siswa1' => 'required|string',
+            'kelas1' => 'required|string',
+            'nis2' => 'required|string',
+            'nama_siswa2' => 'required|string',
+            'kelas2' => 'required|string',
+        ]);
+
+        // Harga tetap untuk couple: 840000 untuk berdua
+        $harga = 420000; // per orang
+        $biaya_lain = 0;
+        $total_per_tiket = $harga;
+        $total_discount = 0;
+        $grand_total = 840000;
+        
+        // return view
+        return view('payment.couple-payment', [
+            'nis1' => $request->nis1,
+            'nama_siswa1' => $request->nama_siswa1,
+            'kelas1' => $request->kelas1,
+            'nis2' => $request->nis2,
+            'nama_siswa2' => $request->nama_siswa2,
+            'kelas2' => $request->kelas2,
+            'harga' => $harga,
+            'biaya_lain' => $biaya_lain,
+            'total_per_tiket' => $total_per_tiket,
+            'total_discount' => $total_discount,
+            'grand_total' => $grand_total,
+        ]);
+    }
+
+    public function processCouplePayment(Request $request)
+    {
+        // Validate request
+        $request->validate([
+            'order_id' => 'required|string',
+            'nis1' => 'required|string',
+            'nama_siswa1' => 'required|string',
+            'kelas1' => 'required|string',
+            'nis2' => 'required|string',
+            'nama_siswa2' => 'required|string',
+            'kelas2' => 'required|string',
+            'harga' => 'required|numeric',
+            'grandtotal' => 'required|numeric',
+            'email1' => 'required|email',
+            'phone1' => 'required|string',
+            'email2' => 'required|email', 
+            'phone2' => 'required|string',
+            'metodebayar' => 'required|string|in:bca,mandiri',
+        ]);
+
+        // Generate base order ID with CP- prefix
+        $baseOrderId = $request->order_id;
+        
+        // Create first ticket with -1 suffix
+        $tiket1 = Tiket::create([
+            'order_id' => $baseOrderId . '-1',
+            'nis' => $request->nis1,
+            'nama' => $request->nama_siswa1,
+            'kelas' => $request->kelas1,
+            'jumlah_tiket' => 1,
+            'harga' => $request->grandtotal / 2, // Split the price between two tickets
+            'email' => $request->email1, // Use person 1's email
+            'phone' => $request->phone1, // Use person 1's phone
+            'metodebayar' => $request->metodebayar,
+            'status' => 'pending',
+        ]);
+        
+        // Create second ticket with -2 suffix
+        $tiket2 = Tiket::create([
+            'order_id' => $baseOrderId . '-2',
+            'nis' => $request->nis2,
+            'nama' => $request->nama_siswa2,
+            'kelas' => $request->kelas2,
+            'jumlah_tiket' => 1,
+            'harga' => $request->grandtotal / 2, // Split the price between two tickets
+            'email' => $request->email2, // Use person 2's email
+            'phone' => $request->phone2, // Use person 2's phone
+            'metodebayar' => $request->metodebayar,
+            'status' => 'pending',
+        ]);
+
+        return view('payment.couple-instruction', [
+            'tiket1' => $tiket1, 
+            'tiket2' => $tiket2, 
+            'baseOrderId' => $baseOrderId
+        ]);
+    }
+
+    public function uploadCoupleProof(Request $request)
+    {
+        $request->validate([
+            'bukti' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            'base_order_id' => 'required|string'
+        ]);
+
+        $baseOrderId = $request->base_order_id;
+        $tiket1 = Tiket::where('order_id', $baseOrderId . '-1')->firstOrFail();
+        $tiket2 = Tiket::where('order_id', $baseOrderId . '-2')->firstOrFail();
+        
+        $file = $request->file('bukti');
+
+        try {
+            $fileName = 'bukti/couple-' . Str::slug($tiket1->nama) . '-' . time() . '.' . $file->extension();
+            
+            Storage::disk('spaces')->put(
+                $fileName, 
+                file_get_contents($file),
+                'public'
+            );
+            
+            $url = env('DO_SPACES_CDN_URL') . '/' . $fileName;
+            
+            // Update both tickets with the same proof
+            $tiket1->update(['bukti' => $url]);
+            $tiket2->update(['bukti' => $url]);
+
+            return response()->json([
+                'success' => true,
+                'image_url' => $url,
+                'base_order_id' => $baseOrderId,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Upload Error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Upload failed. Please try again.'
+            ], 500);
+        }
+    }
+
 
 }

@@ -145,6 +145,17 @@ Route::get('/payment/afterpay', fn() => view('payment.success'))->name('success'
 
 /*
 |--------------------------------------------------------------------------
+| Couple Ticket Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/couple', [PayController::class, 'showCoupleForm'])->name('couple.form');
+Route::post('/payment/couple', [PayController::class, 'initCouplePayment'])->name('couple.init');
+Route::post('/payment/couple/process', [PayController::class, 'processCouplePayment'])->name('couple.process');
+Route::post('/payment/couple/upload', [PayController::class, 'uploadCoupleProof'])->name('couple.upload');
+
+/*
+|--------------------------------------------------------------------------
 | Auth Routes (Laravel Breeze/Fortify/etc.)
 |--------------------------------------------------------------------------
 */

@@ -66,8 +66,32 @@
         </ol>
     </div>
 
+    {{-- COUPLE TICKET PROMO BANNER --}}
+    {{-- <div class="container mx-auto px-4 pb-2 pt-4">
+        <div class="mx-auto max-w-2xl">
+            <div class="bg-gradient-to-r from-red-900 to-purple-900 rounded-xl p-4 shadow-lg border border-pink-500/30 mb-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex-1">
+                        <h2 class="text-xl md:text-2xl font-bold text-white mb-1 flex items-center">
+                            <i class="fas fa-heart text-pink-400 mr-2"></i>
+                            Promo Spesial: Beli 2 Tiket Hanya Rp840.000!
+                            </h2>
+                            <p class="text-pink-200 mb-2">Beli 2 tiket hanya Rp840.000. Ajak teman atau pasanganmu!</p>
+                            
+                            </div>
+                            </div>
+                            <div class="mt-3">
+                                <a href="/couple" class="flex items-center justify-center gap-2 bg-pink-600 hover:bg-pink-700 text-white py-2 px-4 rounded-lg w-full font-medium transition-all">
+                                    <i class="fas fa-heart"></i>
+                                    Pesan 2 Tiket Sekaligus
+                                </a>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+
     {{-- ISI IDENTITAS --}}
-    <div class="w-full ">
+    <div class="w-full">
         <div
             class="identitas identitas mt-30 mx-auto bg-gelap-800 sm:scale-130 w-full scale-100 rounded-xl px-5 pb-10 pt-5 sm:w-1/3 md:w-2/3 lg:w-1/2 xl:w-1/3">
             <h1 class="font-fancy-3 mb-10 mt-5 text-center text-6xl text-white sm:text-5xl">Registration</h1>
@@ -100,7 +124,7 @@
                 </div>
                 <div class="text-center mt-4">
                     <a href="/guest-registration" class="text-blue-400 hover:underline text-sm">
-                        Dari Luar TB? pesan disini
+                        Dari Luar TB? Pesan disini
                     </a>
                 </div>
                 <button type="submit" id="submitButton"

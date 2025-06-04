@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Petunjuk Pembayaran - Prom Night TB25</title>
+    <title>Petunjuk Pembayaran Couple - Prom Night TB25</title>
 
     {{-- TAILWIND --}}
     @vite('resources/css/app.css')
@@ -21,6 +21,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Ephesis&family=Imperial+Script&family=Lavishly+Yours&display=swap"
         rel="stylesheet">
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body class="gradient-bg-dark">
@@ -70,61 +72,45 @@
             <div class="rounded-lg bg-gelap-800 text-white shadow-lg">
                 <div class="p-6">
                     <div class="mb-8 text-center">
-                        <h1 class="font-fancy-3 text-4xl sm:text-5xl text-white mb-4">Pembayaran Tiket</h1>
+                        <h1 class="font-fancy-3 text-4xl sm:text-5xl text-white mb-4">Pembayaran Couple Ticket</h1>
                         <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4 mb-4 inline-block">
                             <div class="flex items-center gap-2">
-                                <i class="fas fa-ticket-alt text-red-400"></i>
-                                <span class="text-red-400 text-lg">Order ID: <span class="font-mono">{{ $tiket->order_id }}</span></span>
+                                <i class="fas fa-heart text-red-400"></i>
+                                <span class="text-red-400 text-lg">Order ID: <span class="font-mono">{{ $baseOrderId }}</span></span>
                             </div>
                         </div>
                         <p class="text-gray-300">Silakan lakukan pembayaran sebesar:</p>
-                        <p class="text-3xl font-bold text-green-500 mt-2">Rp{{ number_format($tiket->harga, 0, ',', '.') }}</p>
-                        <p class="text-gray-300 text-sm mt-1">Transfer ke rekening berikut:</p>
-                        
+                        <p class="text-3xl font-bold text-green-500 mt-2">Rp{{ number_format($tiket1->harga * 2, 0, ',', '.') }}</p>
+                        <p class="text-gray-300 text-sm mt-1">Transfer ke salah satu rekening berikut:</p>
                         <div class="flex flex-col gap-4 mt-4 max-w-md mx-auto">
-                            @if ($tiket->metodebayar === 'bca')
                             <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 text-left">
                                 <p class="text-blue-300 font-medium">Bank BCA</p>
                                 <p class="text-xl font-bold text-white mt-1">4490327547</p>
                                 <p class="text-white">RHEAN DARMA</p>
                             </div>
-                            @elseif ($tiket->metodebayar === 'mandiri')
-                            <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-4 text-left">
-                                <p class="text-yellow-300 font-medium">Bank Mandiri</p>
-                                <p class="text-xl font-bold text-white mt-1">0987654321</p>
-                                <p class="text-white">Your Company Name</p>
-                            </div>
-                            @elseif ($tiket->metodebayar === 'qris')
-                            <div class="bg-purple-900/20 border border-purple-500/30 rounded-lg p-4 text-left">
-                                <p class="text-purple-300 font-medium">QRIS</p>
-                                <div class="flex justify-center my-2">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" 
-                                        alt="QRIS Code" class="h-40 w-40 bg-white p-2 rounded">
-                                </div>
-                                <p class="text-white">Your Company Name</p>
-                            </div>
-                            @else
-                            <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-4 text-left">
-                                <p class="text-yellow-300 font-medium">Metode pembayaran tidak dikenali</p>
-                            </div>
-                            @endif
                         </div>
                     </div>
 
                     <div class="mb-8">
                         <h2 class="text-xl font-semibold mb-4">Informasi Ticket</h2>
+                        <div class="bg-gray-800 p-4 rounded-lg mb-4">
+                            <h3 class="font-medium text-red-400">Peserta 1:</h3>
+                            <p>NIS: {{ $tiket1->nis }}</p>
+                            <p>Nama: {{ $tiket1->nama }}</p>
+                            <p>Kelas: {{ $tiket1->kelas }}</p>
+                        </div>
                         <div class="bg-gray-800 p-4 rounded-lg">
-                            <h3 class="font-medium text-red-400">Detail Peserta:</h3>
-                            <p>NIS: {{ $tiket->nis }}</p>
-                            <p>Nama: {{ $tiket->nama }}</p>
-                            <p>Kelas: {{ $tiket->kelas }}</p>
+                            <h3 class="font-medium text-red-400">Peserta 2:</h3>
+                            <p>NIS: {{ $tiket2->nis }}</p>
+                            <p>Nama: {{ $tiket2->nama }}</p>
+                            <p>Kelas: {{ $tiket2->kelas }}</p>
                         </div>
                     </div>
 
                     <!-- Upload Form -->
                     <form id="uploadForm" enctype="multipart/form-data" class="mb-8">
                         @csrf
-                        <input type="hidden" name="order_id" value="{{ $tiket->order_id }}">
+                        <input type="hidden" name="base_order_id" value="{{ $baseOrderId }}">
                         <h2 class="text-xl font-semibold mb-4">Upload Bukti Bayar</h2>
                         <p class="text-gray-300 text-sm mb-4">Setelah melakukan pembayaran, silakan upload bukti pembayaran di bawah ini.</p>
                         
@@ -151,6 +137,8 @@
                             Konfirmasi
                         </button>
                     </form>
+                    
+                    
                 </div>
             </div>
         </div>
@@ -206,7 +194,7 @@
           confirmButton.disabled = true;
           confirmButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengupload...';
       
-          fetch("/payment/upload", {
+          fetch("/payment/couple/upload", {
             method: "POST",
             headers: {
               "X-CSRF-TOKEN": formData.get('_token')
@@ -224,25 +212,27 @@
                 timerProgressBar: true,
                 showConfirmButton: false,
               }).then(() => {
-                window.location.href = "/payment/afterpay?order_id=" + data.order_id;
+                window.location.href = "/payment/afterpay?order_id={{ $baseOrderId }}";
               });
             } else {
               Swal.fire({
                 icon: 'error',
-                title: 'Gagal upload',
-                text: data.message || 'Unknown error',
+                title: 'Upload Gagal',
+                text: data.message || 'Terjadi kesalahan saat mengupload bukti bayar.',
+                confirmButtonColor: '#3b82f6'
               });
+              confirmButton.disabled = false;
+              confirmButton.textContent = "Konfirmasi";
             }
           })
           .catch(err => {
             console.error(err);
             Swal.fire({
               icon: 'error',
-              title: 'Terjadi kesalahan',
+              title: 'Terjadi Kesalahan',
               text: 'Gagal mengupload bukti bayar.',
+              confirmButtonColor: '#3b82f6'
             });
-          })
-          .finally(() => {
             confirmButton.disabled = false;
             confirmButton.textContent = "Konfirmasi";
           });

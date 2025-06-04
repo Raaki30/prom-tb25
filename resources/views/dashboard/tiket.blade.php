@@ -171,6 +171,11 @@
                                         @if(Str::startsWith($item->order_id, 'LN-'))
                                             <span class="text-xs bg-blue-100 text-blue-800 px-1 rounded ml-1">Luar TB</span>
                                         @endif
+                                        @if(Str::startsWith($item->order_id, 'CP-'))
+                                            <span class="text-xs bg-purple-100 text-purple-800 px-1 rounded ml-1 flex items-center gap-1">
+                                                <i class="fa-solid fa-heart text-purple-500"></i> Couple
+                                            </span>
+                                        @endif
                                     </td>
                                     <td class="px-4 py-2 text-sm text-gray-700">{{ $item->email }}</td>
                                     <td class="px-4 py-2">
