@@ -30,38 +30,36 @@
     {{-- AOS --}}
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
-        html, body {
+        html,
+        body {
             width: 100vw;
             overflow-x: hidden
         }
-
     </style>
 </head>
 
 <body>
     {{-- Hero Section --}}
-    
-        <div x-data="{ open: true }" x-show="open" x-transition.opacity
-            class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-2"
-            @click.self="open = false">
-            <div class="relative w-full max-w-sm rounded-lg bg-white p-5 shadow-lg border border-yellow-400"
-                @click.stop>
-                <div class="flex flex-col items-center text-center">
-                    <div class="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-yellow-100">
-                        <i class="fa-solid fa-bullhorn text-xl text-yellow-600"></i>
-                    </div>
-                    <h2 class="mb-1 text-lg font-bold text-yellow-700">Voting is Open!</h2>
-                    <p class="mb-4 text-gray-700 text-sm">Vote for Prom King, Queen, and more. Make your choice now!</p>
-                    <a href="/vote"
-                        class="inline-block rounded bg-yellow-500 px-4 py-2 text-sm font-semibold text-white hover:bg-yellow-600 transition">
-                        Vote Now
-                    </a>
-                    <button @click="open = false"
-                        class="mt-4 text-xs text-yellow-600 underline hover:text-yellow-800">Close</button>
+
+    <div x-data="{ open: true }" x-show="open" x-transition.opacity
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-2" @click.self="open = false">
+        <div class="relative w-full max-w-sm rounded-lg border border-yellow-400 bg-white p-5 shadow-lg" @click.stop>
+            <div class="flex flex-col items-center text-center">
+                <div class="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-yellow-100">
+                    <i class="fa-solid fa-bullhorn text-xl text-yellow-600"></i>
                 </div>
+                <h2 class="mb-1 text-lg font-bold text-yellow-700">Voting is Open!</h2>
+                <p class="mb-4 text-sm text-gray-700">Vote for Prom King, Queen, and more. Make your choice now!</p>
+                <a href="/vote"
+                    class="inline-block rounded bg-yellow-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-yellow-600">
+                    Vote Now
+                </a>
+                <button @click="open = false"
+                    class="mt-4 text-xs text-yellow-600 underline hover:text-yellow-800">Close</button>
             </div>
         </div>
-   
+    </div>
+
 
     <section class="hero-section relative flex items-center"
         style="background-image: url('{{ asset('images/prom-bg.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
@@ -71,7 +69,28 @@
 
             <div class="relative isolate px-6 pt-14 lg:px-8">
                 <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-                    <div class="text-center">
+                    {{-- <div class="text-center">
+                        <div x-data="{ open: true }" x-show="open" x-transition.opacity
+                            class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-2"
+                            @click.self="open = false">
+                            <div class="relative w-full max-w-sm rounded-lg border border-red-400 bg-white p-5 shadow-lg"
+                                @click.stop>
+                                <div class="flex flex-col items-center text-center">
+                                    <div
+                                        class="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-red-100">
+                                        <i class="fa-solid fa-tags text-xl text-red-600"></i>
+                                    </div>
+                                    <h2 class="mb-1 text-lg font-bold text-red-700">New Offer!</h2>
+                                    <p class="mb-4 text-sm text-gray-700">Cheaper ticket price for a couple</p>
+                                    <a href="/pesan"
+                                        class="inline-block rounded bg-red-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-600">
+                                        Check Offer
+                                    </a>
+                                    <button @click="open = false"
+                                        class="mt-4 text-xs text-red-600 underline hover:text-red-800">Close</button>
+                                </div>
+                            </div>
+                        </div> --}}
                         <h1
                             class="text-gold-500 font-fancy-3 text-balance text-5xl font-semibold tracking-tight sm:text-8xl">
                             <span id="type-casino"></span><span id="type-de"></span><span id="type-lamour"></span>
@@ -93,7 +112,7 @@
                                     Soon</a>
                             @endif
                         </div>
-                        <div class="bouncing-arrow bouncing-icon" data-aos="fade-up" data-aos-delay="600"
+                        <div class="bouncing-arrow bouncing-icon flex justify-center" data-aos="fade-up" data-aos-delay="600"
                             data-aos-duration="1200">
                             <i class="fa-solid fa-angles-down relative top-20 text-xl text-white"></i>
                         </div>
@@ -113,7 +132,10 @@
                         data-aos="fade-down" data-aos-delay="50" data-aos-duration="1000">
                         About This Event</p>
                     <p class="mt-6 text-lg/8 text-gray-200" data-aos="fade-up" data-aos-delay="100"
-                        data-aos-duration="1200">Casino De L’amour is a prom night wrapped in glamour and romance, inspired by the charm of a classic casino. Blending elegant décor, timeless music, and interactive games, it creates a luxurious atmosphere to celebrate friendship, love, and lasting memories. More than just a party, it’s an evening of style, emotion, and unforgettable moments.
+                        data-aos-duration="1200">Casino De L’amour is a prom night wrapped in glamour and romance,
+                        inspired by the charm of a classic casino. Blending elegant décor, timeless music, and
+                        interactive games, it creates a luxurious atmosphere to celebrate friendship, love, and lasting
+                        memories. More than just a party, it’s an evening of style, emotion, and unforgettable moments.
                     </p>
                 </div>
                 <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
@@ -126,7 +148,9 @@
                                 </div>
                                 Philosophy
                             </dt>
-                            <dd class="mt-2 text-base/7 text-gray-300">Casino De L’amour is more than a theme—it’s a celebration of love, risk, and youthful elegance. A graceful farewell to high school, and a timeless memory in the making.
+                            <dd class="mt-2 text-base/7 text-gray-300">Casino De L’amour is more than a theme—it’s a
+                                celebration of love, risk, and youthful elegance. A graceful farewell to high school,
+                                and a timeless memory in the making.
                             </dd>
                         </div>
                         <div class="relative pl-16" data-aos="fade-left" data-aos-delay="400" data-aos-duration="1200">
@@ -137,10 +161,13 @@
                                 </div>
                                 Purpose
                             </dt>
-                            <dd class="mt-2 text-base/7 text-gray-300">This night honors the journey shared—laughter, growth, and friendship. A final gathering to reflect, celebrate, and part ways with joy and gratitude.
+                            <dd class="mt-2 text-base/7 text-gray-300">This night honors the journey shared—laughter,
+                                growth, and friendship. A final gathering to reflect, celebrate, and part ways with joy
+                                and gratitude.
                             </dd>
                         </div>
-                        <div class="relative pl-16" data-aos="fade-right" data-aos-delay="600" data-aos-duration="1200">
+                        <div class="relative pl-16" data-aos="fade-right" data-aos-delay="600"
+                            data-aos-duration="1200">
                             <dt class="text-base/7 font-semibold text-gray-100">
                                 <div
                                     class="absolute left-0 top-0 flex size-10 items-center justify-center rounded-lg bg-red-600">
@@ -148,9 +175,12 @@
                                 </div>
                                 Highlights
                             </dt>
-                            <dd class="mt-2 text-base/7 text-gray-300">Step into a night of Monte Carlo-inspired glamour—elegant décor, live entertainment, themed games, curated dining, photo spots, and a dance floor lit with love and luck.</dd>
+                            <dd class="mt-2 text-base/7 text-gray-300">Step into a night of Monte Carlo-inspired
+                                glamour—elegant décor, live entertainment, themed games, curated dining, photo spots,
+                                and a dance floor lit with love and luck.</dd>
                         </div>
-                        <div class="relative pl-16" data-aos="fade-left" data-aos-delay="800" data-aos-duration="1200">
+                        <div class="relative pl-16" data-aos="fade-left" data-aos-delay="800"
+                            data-aos-duration="1200">
                             <dt class="text-base/7 font-semibold text-gray-100">
                                 <div
                                     class="absolute left-0 top-0 flex size-10 items-center justify-center rounded-lg bg-red-600">
@@ -158,7 +188,9 @@
                                 </div>
                                 Audience
                             </dt>
-                            <dd class="mt-2 text-base/7 text-gray-300">We’re going to invite an audience that consists of students from Taruna Bakti High School and a limited number of external personnels besides Taruna Bakti students</dd>
+                            <dd class="mt-2 text-base/7 text-gray-300">We’re going to invite an audience that consists
+                                of students from Taruna Bakti High School and a limited number of external personnels
+                                besides Taruna Bakti students</dd>
                         </div>
                     </dl>
                 </div>
@@ -168,39 +200,37 @@
     {{-- End About Section --}}
 
     {{-- Merch Section --}}
-    
+
     <section class="merch-section bg-gradient-to-b from-gray-900 via-gray-950 to-black py-24 sm:py-32">
         <div class="mx-auto max-w-2xl px-6 text-center lg:max-w-7xl lg:px-8">
             <p class="font-fancy-4 mt-2 text-pretty text-6xl font-semibold tracking-tight text-yellow-500 sm:text-6xl lg:text-balance"
                 data-aos="fade-down" data-aos-delay="0" data-aos-duration="1200">
                 Merchandise</p>
             <p class="mt-6 text-lg/8 text-gray-200" data-aos="fade-up" data-aos-delay="100"
-                data-aos-duration="1200">Explore our exclusive merchandise for this event. Grab your favorite items and make this prom unforgettable!</p>
+                data-aos-duration="1200">Explore our exclusive merchandise for this event. Grab your favorite items and
+                make this prom unforgettable!</p>
             <div class="mt-10 grid gap-8 sm:mt-16 lg:grid-cols-4">
                 <!-- Card Template -->
-                @foreach ([
-                    ['title' => 'Tote Bag', 'description' => 'Stylish and eco-friendly tote bags with exclusive designs.', 'image' => 'Totebag1.png'],
-                    ['title' => 'Tumblr', 'description' => 'Stay hydrated with our premium tumblers featuring unique designs.', 'image' => 'Tumblr1.png'],
-                    ['title' => 'Lanyard', 'description' => 'Carry your essentials in style with our custom lanyards.', 'image' => 'Lanyard1.png'],
-                    ['title' => 'Enamel Pin', 'description' => 'Collectible enamel pins to commemorate this special event.', 'image' => 'EnamelPin1.png']
-                ] as $item)
-                    <div class="relative flex flex-col items-center overflow-hidden rounded-lg bg-gradient-to-br from-[#2e0705] via-yellow-950 to-black shadow-lg p-6 transform transition duration-300 hover:-translate-y-2"
+                @foreach ([['title' => 'Tote Bag', 'description' => 'Stylish and eco-friendly tote bags with exclusive designs.', 'image' => 'Totebag1.png'], ['title' => 'Tumblr', 'description' => 'Stay hydrated with our premium tumblers featuring unique designs.', 'image' => 'Tumblr1.png'], ['title' => 'Lanyard', 'description' => 'Carry your essentials in style with our custom lanyards.', 'image' => 'Lanyard1.png'], ['title' => 'Enamel Pin', 'description' => 'Collectible enamel pins to commemorate this special event.', 'image' => 'EnamelPin1.png']] as $item)
+                    <div class="relative flex transform flex-col items-center overflow-hidden rounded-lg bg-gradient-to-br from-[#2e0705] via-yellow-950 to-black p-6 shadow-lg hover-bouncing-dikit transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl"
                         data-aos="fade-up" data-aos-delay="{{ $loop->index * 200 }}" data-aos-duration="1200">
-                        <img class="mb-4 h-64 w-auto object-cover rounded-md" src="{{ asset('images/' . $item['image']) }}" alt="{{ $item['title'] }}">
+                        <img class="mb-4 h-64 w-auto rounded-md object-cover"
+                            src="{{ asset('images/' . $item['image']) }}" alt="{{ $item['title'] }}">
                         <h3 class="text-2xl font-semibold text-yellow-400">{{ $item['title'] }}</h3>
-                        <p class="mt-2 text-base text-gray-300 text-center">{{ $item['description'] }}</p>
+                        <p class="mt-2 text-center text-base text-gray-300">{{ $item['description'] }}</p>
                     </div>
                 @endforeach
             </div>
-            <div class="mt-10 flex items-center justify-center gap-x-6" data-aos="fade-up" data-aos-delay="800" data-aos-duration="1200">
+            <div class="mt-10 flex items-center justify-center gap-x-6" data-aos="fade-up" data-aos-delay="800"
+                data-aos-duration="1200">
                 @if ($ismerch_active == true)
                     <a href="/merch"
-                        class="mt-10 shadow-xs rounded-md bg-red-500 px-5 py-3 text-lg font-semibold text-white hover:bg-red-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500">
+                        class="shadow-xs mt-10 rounded-md bg-red-500 px-5 py-3 text-lg font-semibold text-white hover:bg-red-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 transition-all duration-300 ease-in-out">
                         Explore More
                     </a>
                 @else
                     <a href="#"
-                        class="mt-10 shadow-xs cursor-not-allowed rounded-md bg-gray-500 px-5 py-3 text-lg font-semibold text-white opacity-50">
+                        class="shadow-xs mt-10 cursor-not-allowed rounded-md bg-gray-500 px-5 py-3 text-lg font-semibold text-white opacity-50">
                         Coming Soon
                     </a>
                 @endif
@@ -210,33 +240,82 @@
 
     {{-- End Merch Section --}}
 
-    {{-- Theme Section --}}
+
+    {{-- Theme Section with Extra Information --}}
     <section class="theme-section">
         <div class="py-24 sm:py-32">
             <div class="mx-auto max-w-2xl px-6 text-center lg:max-w-7xl lg:px-8">
                 <p class="font-fancy-4 mt-2 text-pretty text-6xl font-semibold tracking-tight text-yellow-500 sm:text-6xl lg:text-balance"
                     data-aos="fade-down" data-aos-delay="0" data-aos-duration="1200">
-                    Event Theme</p>
+                    Event Theme & Information</p>
+                
+                <!-- Theme Content -->
                 <div class="mt-10 flex justify-center">
-                    <div class="relative rounded-lg bg-gray-200 p-6 sm:p-10 lg:p-12 max-w-md"
-                        data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
+                    <div class="relative max-w-md rounded-lg bg-gray-200 p-6 sm:p-10 lg:p-12" data-aos="fade-up"
+                        data-aos-delay="200" data-aos-duration="1200">
                         <div class="text-center">
                             <p class="font-fancy-4 text-4xl font-medium tracking-tight text-gray-950">
                                 Outfit Inspiration</p>
-                            <p class="mt-4 text-sm text-gray-600">This is an outfit inspiration for the event. <br>Color palette: maroon red, navy, royal blue, black, gold, white, emerald green.</p>
+                            <p class="mt-4 text-sm text-gray-600">This is an outfit inspiration for the event.
+                                <br>Color palette: maroon red, navy, royal blue, black, gold, white, emerald green.</p>
                         </div>
                         <div class="mt-6 flex justify-center">
-                            <img class="rounded-md object-cover object-top" src="{{ asset('images/outfit-inspo.png') }}" alt="Outfit Inspiration">
+                            <img class="rounded-md object-cover object-top"
+                                src="{{ asset('images/outfit-inspo.png') }}" alt="Outfit Inspiration">
                         </div>
+                    </div>
+                </div>
+                
+                <!-- Extra Information Cards -->
+                <div class="grid grid-cols-1 gap-10 mt-16 md:grid-cols-2">
+                    <!-- Couple Discount Card -->
+                    <div class="animate_animated animate_fadeIn mx-auto flex max-w-lg flex-col gap-4 rounded-2xl border border-red-600/30 bg-white/10 p-8 text-left font-medium text-white shadow-lg backdrop-blur-md"
+                        style="box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);" data-aos="fade-right"
+                        data-aos-delay="200" data-aos-duration="1200">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
+                                <i class="fa-solid fa-tags text-2xl text-red-600"></i>
+                            </div>
+                            <p class="font-fancy-4 text-4xl text-red-400">
+                                Special Offer
+                            </p>
+                        </div>
+                        
+                        <h3 class="text-2xl font-semibold text-yellow-300 mt-2">New Offer! Cheaper ticket for couple</h3>
+                        <p class="text-base text-yellow-100">Bring your date and enjoy special pricing when you purchase tickets as a couple. Limited time offer!</p>
+                        
+                        <a href="/couple" class="mt-4 inline-block self-start rounded bg-red-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-600">
+                            Get Couple Tickets
+                        </a>
+                    </div>
+                    
+                    <!-- Voting Information Card -->
+                    <div class="animate_animated animate_fadeIn mx-auto flex max-w-lg flex-col gap-4 rounded-2xl border border-yellow-600/30 bg-white/10 p-8 text-left font-medium text-white shadow-lg backdrop-blur-md"
+                        style="box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);" data-aos="fade-left"
+                        data-aos-delay="400" data-aos-duration="1200">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-100">
+                                <i class="fa-solid fa-crown text-2xl text-yellow-600"></i>
+                            </div>
+                            <p class="font-fancy-4 text-4xl text-yellow-400">
+                                Prom Voting
+                            </p>
+                        </div>
+                        
+                        <h3 class="text-2xl font-semibold text-yellow-300 mt-2">Vote for Prom King, Queen & More</h3>
+                        <p class="text-base text-yellow-100">Cast your vote for Prom King, Queen, and other awards. Make your voice heard and celebrate your peers!</p>
+                        
+                        <a href="/vote" class="mt-4 inline-block self-start rounded bg-yellow-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-yellow-600">
+                            Vote Now
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    {{-- End Theme Section --}}
+    {{-- End Theme Section with Extra Information --}}
 
 
-    
     {{-- Venue Section --}}
     <section class="venue-section">
         <div class="py-12 text-center sm:py-32">
@@ -254,16 +333,14 @@
                                 class="h-full w-full object-cover" />
                         </div>
                         <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-700">
-                            <img
-                                src="https://thepapandayan.com/wp-content/uploads/2018/03/SUAGI-GRAND-BALLROOM.jpg" />
+                            <img src="https://thepapandayan.com/wp-content/uploads/2018/03/SUAGI-GRAND-BALLROOM.jpg" />
                         </div>
                         <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-700">
                             <img src="https://ik.imagekit.io/tvlk/blog/2021/07/Grand-Ballroom-InterContinental-Bandung-Dago-Pakar.jpg"
                                 class="h-full w-full object-cover" />
                         </div>
                         <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-700">
-                            <img
-                                src="https://thepapandayan.com/wp-content/uploads/2018/04/pic-suagi-ballroom.jpg" />
+                            <img src="https://thepapandayan.com/wp-content/uploads/2018/04/pic-suagi-ballroom.jpg" />
                         </div>
                     </div>
 
@@ -399,7 +476,8 @@
                 data-aos-delay="1200" data-aos-duration="1200">
                 Until Prom Night Begins!
             </p>
-            <div class="mt-10 flex items-center justify-center gap-x-6" data-aos="fade-up" data-aos-delay="1400" data-aos-duration="1200">
+            <div class="mt-10 flex items-center justify-center gap-x-6" data-aos="fade-up" data-aos-delay="1400"
+                data-aos-duration="1200">
                 @if ($is_active == true)
                     <a href="/pesan"
                         class="shadow-xs rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500">Get
@@ -649,7 +727,7 @@
     data-starting-message="Hai ✨ Siap untuk malam prom yang penuh cinta dan pesona? Bagaimana aku bisa membantumu?"
     data-logo="/static/chatbot/icons/default-agent.svg">
   </script> --}}
-  
+
 </body>
 
 </html>

@@ -66,29 +66,7 @@
         </ol>
     </div>
 
-    {{-- COUPLE TICKET PROMO BANNER --}}
-    {{-- <div class="container mx-auto px-4 pb-2 pt-4">
-        <div class="mx-auto max-w-2xl">
-            <div class="bg-gradient-to-r from-red-900 to-purple-900 rounded-xl p-4 shadow-lg border border-pink-500/30 mb-4">
-                <div class="flex items-center justify-between">
-                    <div class="flex-1">
-                        <h2 class="text-xl md:text-2xl font-bold text-white mb-1 flex items-center">
-                            <i class="fas fa-heart text-pink-400 mr-2"></i>
-                            Promo Spesial: Beli 2 Tiket Hanya Rp840.000!
-                            </h2>
-                            <p class="text-pink-200 mb-2">Beli 2 tiket hanya Rp840.000. Ajak teman atau pasanganmu!</p>
-                            
-                            </div>
-                            </div>
-                            <div class="mt-3">
-                                <a href="/couple" class="flex items-center justify-center gap-2 bg-pink-600 hover:bg-pink-700 text-white py-2 px-4 rounded-lg w-full font-medium transition-all">
-                                    <i class="fas fa-heart"></i>
-                                    Pesan 2 Tiket Sekaligus
-                                </a>
-                </div>
-            </div>
-        </div>
-    </div> --}}
+   
 
     {{-- ISI IDENTITAS --}}
     <div class="w-full">
@@ -136,6 +114,33 @@
             </form>
         </div>
     </div>
+
+    <!-- Couple Ticket Popup -->
+    <div id="couplePopup" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div class="absolute inset-0 bg-black/30 backdrop-blur-md" id="popupOverlay"></div>
+        <div class="relative mx-auto flex max-w-lg flex-col gap-4 rounded-2xl border border-red-600/30 bg-black p-8 text-left font-medium text-white shadow-lg transform transition-all duration-300 scale-95 opacity-0"
+            style="box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);" id="popupContent">
+            <button class="absolute right-4 top-4 text-white hover:text-red-400 transition-colors" id="closePopup">
+            <i class="fas fa-times text-xl"></i>
+            </button>
+            <div class="flex items-center gap-3">
+            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
+                <i class="fa-solid fa-heart text-2xl text-red-600"></i>
+            </div>
+            <p class="font-fancy-3 text-4xl text-red-400">
+                Couple Package
+            </p>
+            </div>
+            
+            <h3 class="text-2xl font-semibold text-gold-300 mt-2">Special Discount for Couples!</h3>
+            <p class="text-base text-yellow-100">Bring your date and save on tickets when you register as a couple. Enjoy the perfect night together with special pricing!</p>
+            
+            <a href="/couple" class="mt-4 inline-block self-start rounded-xl bg-red-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-600">
+            <i class="fas fa-ticket-alt mr-2"></i> Get Couple Tickets
+            </a>
+        </div>
+    </div>
+
     <x-footer></x-footer>
     {{-- <x-whatsapp></x-whatsapp> --}}
 
@@ -256,6 +261,36 @@
             
 
             document.getElementById('paymentForm').submit();
+        });
+
+        // Popup functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const popup = document.getElementById('couplePopup');
+            const popupContent = document.getElementById('popupContent');
+            const closeBtn = document.getElementById('closePopup');
+            const overlay = document.getElementById('popupOverlay');
+            
+            // Show popup with slight delay
+            setTimeout(() => {
+                popup.classList.remove('hidden');
+                setTimeout(() => {
+                    popupContent.classList.add('scale-100', 'opacity-100');
+                    popupContent.classList.remove('scale-95', 'opacity-0');
+                }, 10);
+            }, 750);
+            
+            // Close popup function
+            const closePopup = () => {
+                popupContent.classList.remove('scale-100', 'opacity-100');
+                popupContent.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    popup.classList.add('hidden');
+                }, 300);
+            };
+            
+            // Close events
+            closeBtn.addEventListener('click', closePopup);
+            overlay.addEventListener('click', closePopup);
         });
     </script>
 </body>
