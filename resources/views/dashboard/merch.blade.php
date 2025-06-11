@@ -148,8 +148,75 @@
 
                 <!-- Pagination -->
                 @if($merchs->hasPages())
-                <div class="px-6 py-3 border-t border-gray-200">
-                    {{ $merchs->withQueryString()->links() }}
+                <div class="px-6 py-4 border-t border-gray-100 bg-white">
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="text-sm text-gray-600">
+                            Menampilkan <span class="font-semibold">{{ $merchs->firstItem() }}</span> sampai <span class="font-semibold">{{ $merchs->lastItem() }}</span> dari <span class="font-semibold">{{ $merchs->total() }}</span> entri
+                        </div>
+                        <div class="flex items-center justify-center space-x-1">
+                            <!-- Tombol ke Halaman Pertama -->
+                            @if($merchs->onFirstPage())
+                                <span class="px-3 py-1 text-gray-400 bg-gray-100 border border-gray-200 rounded-md">
+                                    <i class="fa-solid fa-angles-left"></i>
+                                </span>
+                            @else
+                                <a href="{{ $merchs->url(1) }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
+                                    <i class="fa-solid fa-angles-left"></i>
+                                </a>
+                            @endif
+
+                            <!-- Tombol Previous -->
+                            @if($merchs->onFirstPage())
+                                <span class="px-3 py-1 text-gray-400 bg-gray-100 border border-gray-200 rounded-md">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </span>
+                            @else
+                                <a href="{{ $merchs->previousPageUrl() }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </a>
+                            @endif
+
+                            <!-- Nomor Halaman -->
+                            @php
+                                $currentPage = $merchs->currentPage();
+                                $lastPage = $merchs->lastPage();
+                                $start = max(1, $currentPage - 2);
+                                $end = min($lastPage, $start + 4);
+                                if ($end - $start < 4) {
+                                    $start = max(1, $end - 4);
+                                }
+                            @endphp
+                            @for ($i = $start; $i <= $end; $i++)
+                                @if ($i == $currentPage)
+                                    <span class="px-3 py-1 text-blue-600 bg-blue-100 border border-blue-200 rounded-md font-medium">{{ $i }}</span>
+                                @else
+                                    <a href="{{ $merchs->url($i) }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">{{ $i }}</a>
+                                @endif
+                            @endfor
+
+                            <!-- Tombol Next -->
+                            @if($merchs->hasMorePages())
+                                <a href="{{ $merchs->nextPageUrl() }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </a>
+                            @else
+                                <span class="px-3 py-1 text-gray-400 bg-gray-100 border border-gray-200 rounded-md">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            @endif
+
+                            <!-- Tombol ke Halaman Terakhir -->
+                            @if($merchs->currentPage() == $merchs->lastPage())
+                                <span class="px-3 py-1 text-gray-400 bg-gray-100 border border-gray-200 rounded-md">
+                                    <i class="fa-solid fa-angles-right"></i>
+                                </span>
+                            @else
+                                <a href="{{ $merchs->url($merchs->lastPage()) }}" class="px-3 py-1 text-gray-600 bg-white hover:bg-gray-100 border border-gray-200 rounded-md">
+                                    <i class="fa-solid fa-angles-right"></i>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
                 </div>
                 @endif
             </div>
