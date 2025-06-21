@@ -13,5 +13,12 @@ class Control extends Model
         'harga',
         'tanggal_mulai',
         'tanggal_berakhir',
+        'biaya_lain',
+        'isguestactive',
+        'ismerchactive',
+        'isvoteactive',
+        'iswaitingroomactive',
+        'harga_tamu',
+        'quantity_waiting',
     ];
 }

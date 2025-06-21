@@ -17,6 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->group('payment', [
             \App\Http\Middleware\Payment::class
         ]);
+        $middleware->group('waiting_room', [
+            \App\Http\Middleware\WaitingRoomMiddleware::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         // You can customize exception handling here

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Control;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Nis;
+use App\Models\WaitingRoom;
 
 class PayController extends Controller
 {
@@ -84,6 +85,12 @@ class PayController extends Controller
 
     $tiket = Tiket::where('order_id', $request->order_id)->firstOrFail();
     $file = $request->file('bukti');
+    $session_id = Session::getId();
+    $waitingRoom = WaitingRoom::where('session_id', $session_id)->first();
+        if ($waitingRoom) {
+            $waitingRoom->status = 'completed';
+            $waitingRoom->save();
+        }
 
     try {
         $fileName = 'bukti/' . Str::slug($tiket->nama) . '-' . time() . '.' . $file->extension();
@@ -127,6 +134,7 @@ public function tamubeli(Request $request)
         $order_id = 'LN-' . Str::upper(Str::random(4)) . mt_rand(10, 99);
         $file = $request->file('bukti');
         $nis = 0;
+        
 
         try {
             $fileName = 'bukti/' . Str::slug($request->nama) . '-' . time() . '.' . $file->extension();

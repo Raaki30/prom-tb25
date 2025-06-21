@@ -108,6 +108,58 @@
                             </label>
                         </div>
                     </div>
+                    
+                    <!-- Toggle Waiting Room Group (Minimized) -->
+                    <div x-data="{ open: false }" class="border rounded-lg p-4 bg-gray-50">
+                        <div class="flex items-center justify-between cursor-pointer" @click="open = !open">
+                            <div class="flex items-center gap-2">
+                                <span class="font-medium text-gray-700">Waiting Room</span>
+                                <span class="ml-2 px-2 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-700">New</span>
+                                
+                            </div>
+                            <svg :class="open ? 'rotate-180' : ''" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                        <div x-show="open" class="mt-4 space-y-4" x-cloak>
+                            <!-- Toggle Waiting Room Status -->
+                            <div>
+                                <label for="iswaitingroomactive" class="block text-sm font-medium text-gray-700">Aktifkan Waiting Room</label>
+                                <div class="flex items-center mt-2">
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" name="iswaitingroomactive" id="iswaitingroomactive" 
+                                            {{ $control->iswaitingroomactive ? 'checked' : '' }} 
+                                            class="sr-only peer" @change="open = $event.target.checked">
+                                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-500 rounded-full peer peer-checked:bg-indigo-600 peer-checked:after:translate-x-5 peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+                                        <span class="ml-3 text-sm text-gray-700">
+                                            {{ $control->iswaitingroomactive ? 'Aktif' : 'Tidak Aktif' }}
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Quantity When Waiting Room -->
+                            <div>
+                                <label for="quantity_waiting" class="block text-sm font-medium text-gray-700">Kuantitas Waiting Room</label>
+                                <input type="number" name="quantity_waiting" id="quantity_waiting" 
+                                    value="{{ $control->quantity_waiting }}" 
+                                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 ease-in-out" 
+                                    placeholder="Masukkan kuantitas waiting room">
+                                <p class="mt-2 text-sm text-gray-500">Jumlah tiket yang tersedia di waiting room. Masukkan 0 jika tidak dibatasi</p>
+                            </div>
+                            
+                            <!-- Reset Waiting Room Button -->
+                            <div class="border-t pt-4">
+                                <form action="{{ route('waiting.reset') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus semua data waiting room?');">
+                                    @csrf
+                                    <button type="submit"
+                                        class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-md shadow focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition duration-200 ease-in-out">
+                                        <i class="fas fa-trash-alt mr-2"></i> Reset Waiting Room
+                                    </button>
+                                </form>
+                                <p class="mt-2 text-xs text-red-600">⚠️ Tindakan ini akan menghapus semua data antrian pengguna.</p>
+                            </div>
+                        </div>
+                    </div>
                 
                     <!-- Aktif / Nonaktif -->
                     <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full shadow-sm"

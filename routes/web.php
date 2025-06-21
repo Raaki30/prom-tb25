@@ -10,6 +10,7 @@ use App\Models\Tiket;
 use App\Models\Control;
 use App\Http\Controllers\MerchController;
 use App\Http\Controllers\VoteController;
+use App\Http\Controllers\WaitingRoomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -136,10 +137,19 @@ Route::get('/guest-registration', function () {
 
 Route::match(['get', 'post'], '/tamu-beli', [PayController::class, 'tamubeli'])->name('tamubeli');
 
-Route::get('/pesan', function () {
-    $control = Control::where('is_active', true)->first();
-    return $control ? view('payment.pesan') : redirect()->route('failed');
-})->name('pesan');
+Route::middleware(['waiting_room'])->group(function () {
+    Route::get('/pesan', function () {
+        $control = Control::where('is_active', true)->first();
+        return $control ? view('payment.pesan') : redirect()->route('failed');
+    })->name('pesan');
+});
+
+Route::get('/waiting', fn() => view('waiting.show'))->name('waiting.show');
+Route::match(['get', 'post'], '/waiting/join', [WaitingRoomController::class, 'show'])->name('waiting.join');
+Route::get('/waiting/status', [WaitingRoomController::class, 'checkStatus'])->name('waiting.status');
+Route::get('/waiting/sold', fn() => view('waiting.sold-out'))->name('waiting.sold-out');
+Route::post('/waiting/abandon', [WaitingRoomController::class, 'markAsAbandoned'])->name('waiting.abandon');
+Route::post('/waiting/reset', [WaitingRoomController::class, 'resetWaitingRoom'])->name('waiting.reset');
 
 Route::get('/payment/afterpay', fn() => view('payment.success'))->name('success');
 
@@ -161,3 +171,5 @@ Route::post('/payment/couple/upload', [PayController::class, 'uploadCoupleProof'
 */
 
 require __DIR__ . '/auth.php';
+
+
