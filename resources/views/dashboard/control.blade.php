@@ -149,14 +149,13 @@
                             
                             <!-- Reset Waiting Room Button -->
                             <div class="border-t pt-4">
-                                <form action="{{ route('waiting.reset') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus semua data waiting room?');">
-                                    @csrf
-                                    <button type="submit"
-                                        class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-md shadow focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition duration-200 ease-in-out">
-                                        <i class="fas fa-trash-alt mr-2"></i> Reset Waiting Room
-                                    </button>
-                                </form>
-                                <p class="mt-2 text-xs text-red-600">⚠️ Tindakan ini akan menghapus semua data antrian pengguna.</p>
+                                <button type="button"
+                                    onclick="resetWaitingRoom()"
+                                    class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-md shadow focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition duration-200 ease-in-out">
+                                    <i class="fas fa-trash-alt mr-2"></i> Reset Waiting Room
+                                </button>
+                                
+                                <p class="mt-2 text-xs text-red-600">⚠️ Tindakan ini akan menghapus semua data antrian penggunu.'</p>
                             </div>
                         </div>
                     </div>
@@ -187,3 +186,66 @@
         <x-footer></x-footer>
     </div>
 </x-app-layout>
+
+<script>
+function resetWaitingRoom() {
+    Swal.fire({
+        title: 'Reset Waiting Room?',
+        text: 'Apakah Anda yakin ingin menghapus semua data waiting room?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, reset!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Show loading indicator
+            Swal.fire({
+            title: 'Memproses...',
+            text: 'Sedang mereset waiting room.',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+            });
+
+            fetch('{{ route("waiting.reset") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            credentials: 'same-origin'
+            })
+            .then(response => {
+            if (response.ok) {
+                Swal.fire({
+                title: 'Berhasil',
+                text: 'Waiting room telah direset.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+                });
+            } else {
+                Swal.fire({
+                title: 'Gagal',
+                text: 'Terjadi kesalahan saat mereset waiting room.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+                });
+            }
+            })
+            .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Error',
+                text: 'An error occurred while resetting the waiting room database',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+            });
+        }
+    });
+}
+</script>
