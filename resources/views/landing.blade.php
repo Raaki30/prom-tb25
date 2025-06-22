@@ -12,22 +12,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Prom Night: Casino de L'Amour</title>
 
-    
-    <link rel="preload" as="style" href="https://casinodelamour.my.id/build/assets/app-Dt3iZuDd.css" /><link rel="stylesheet" href="https://casinodelamour.my.id/build/assets/app-Dt3iZuDd.css" />
+    {{-- TAILWIND / APP CSS --}}
+    @vite('resources/css/app.css')
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Ephesis&family=Imperial+Script&family=Lavishly+Yours&family=Tangerine&display=swap"
         rel="stylesheet">
 
-    
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         html,
@@ -37,6 +34,7 @@
         }
     </style>
 </head>
+
 
 <body>
     
