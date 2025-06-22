@@ -160,7 +160,10 @@ Route::get('/payment/afterpay', fn() => view('payment.success'))->name('success'
 |--------------------------------------------------------------------------
 */
 
-Route::get('/group', [PayController::class, 'showGroupForm'])->name('group.form');
+Route::get('/group', function () {
+    $control = Control::where('is_active', true)->first();
+    return $control ? app(PayController::class)->showGroupForm() : redirect()->route('failed');
+})->name('group.form');
 Route::middleware('payment')->prefix('payment')->name('group.')->group(function () {
     Route::match(['get', 'post'], '/group', [PayController::class, 'initGroupPayment'])->name('init');
     Route::match(['get', 'post'], '/group/process', [PayController::class, 'processGroupPayment'])->name('process');

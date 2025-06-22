@@ -1,6 +1,7 @@
 @php
     $is_active = \App\Models\Control::value('is_active');
     $ismerch_active = \App\Models\Control::value('ismerchactive');
+    $isvote_active = \App\Models\Control::value('isvoteactive');
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -11,23 +12,22 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Prom Night: Casino de L'Amour</title>
 
-    {{-- TAILWIND --}}
-    @vite('resources/css/app.css')
-
-    {{-- Font Awesome --}}
+    
+    <link rel="preload" as="style" href="https://casinodelamour.my.id/build/assets/app-Dt3iZuDd.css" /><link rel="stylesheet" href="https://casinodelamour.my.id/build/assets/app-Dt3iZuDd.css" />
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    {{-- Alpine JS --}}
+    
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-    {{-- Google Fonts --}}
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Ephesis&family=Imperial+Script&family=Lavishly+Yours&family=Tangerine&display=swap"
         rel="stylesheet">
 
-    {{-- AOS --}}
+    
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         html,
@@ -39,58 +39,39 @@
 </head>
 
 <body>
-    {{-- Hero Section --}}
+    
 
-    <div x-data="{ open: true }" x-show="open" x-transition.opacity
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-2" @click.self="open = false">
-        <div class="relative w-full max-w-sm rounded-lg border border-yellow-400 bg-white p-5 shadow-lg" @click.stop>
-            <div class="flex flex-col items-center text-center">
-                <div class="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-yellow-100">
-                    <i class="fa-solid fa-bullhorn text-xl text-yellow-600"></i>
+    @if ($isvote_active == true)
+        <div x-data="{ open: true }" x-show="open" x-transition.opacity
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-2" @click.self="open = false">
+            <div class="relative w-full max-w-sm rounded-lg border border-yellow-400 bg-white p-5 shadow-lg" @click.stop>
+                <div class="flex flex-col items-center text-center">
+                    <div class="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-yellow-100">
+                        <i class="fa-solid fa-bullhorn text-xl text-yellow-600"></i>
+                    </div>
+                    <h2 class="mb-1 text-lg font-bold text-yellow-700">Voting is Open!</h2>
+                    <p class="mb-4 text-sm text-gray-700">Vote for Prom King, Queen, and more. Make your choice now!</p>
+                    <a href="/vote"
+                        class="inline-block rounded bg-yellow-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-yellow-600">
+                        Vote Now
+                    </a>
+                    <button @click="open = false"
+                        class="mt-4 text-xs text-yellow-600 underline hover:text-yellow-800">Close</button>
                 </div>
-                <h2 class="mb-1 text-lg font-bold text-yellow-700">Voting is Open!</h2>
-                <p class="mb-4 text-sm text-gray-700">Vote for Prom King, Queen, and more. Make your choice now!</p>
-                <a href="/vote"
-                    class="inline-block rounded bg-yellow-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-yellow-600">
-                    Vote Now
-                </a>
-                <button @click="open = false"
-                    class="mt-4 text-xs text-yellow-600 underline hover:text-yellow-800">Close</button>
             </div>
         </div>
-    </div>
+    @endif
 
 
     <section class="hero-section relative flex items-center"
-        style="background-image: url('{{ asset('images/prom-bg.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        style="background-image: url('https://casinodelamour.my.id/images/prom-bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
         <!-- Overlay gelap di atas background image -->
         <div class="absolute inset-0 z-0 bg-black opacity-50"></div>
         <div class="relative z-10 min-h-screen w-full">
 
             <div class="relative isolate px-6 pt-14 lg:px-8">
                 <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-                    {{-- <div class="text-center">
-                        <div x-data="{ open: true }" x-show="open" x-transition.opacity
-                            class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-2"
-                            @click.self="open = false">
-                            <div class="relative w-full max-w-sm rounded-lg border border-red-400 bg-white p-5 shadow-lg"
-                                @click.stop>
-                                <div class="flex flex-col items-center text-center">
-                                    <div
-                                        class="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-red-100">
-                                        <i class="fa-solid fa-tags text-xl text-red-600"></i>
-                                    </div>
-                                    <h2 class="mb-1 text-lg font-bold text-red-700">New Offer!</h2>
-                                    <p class="mb-4 text-sm text-gray-700">Cheaper ticket price for a couple</p>
-                                    <a href="/pesan"
-                                        class="inline-block rounded bg-red-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-600">
-                                        Check Offer
-                                    </a>
-                                    <button @click="open = false"
-                                        class="mt-4 text-xs text-red-600 underline hover:text-red-800">Close</button>
-                                </div>
-                            </div>
-                        </div> --}}
+                    
                         <h1
                             class="text-gold-500 font-fancy-3 text-balance text-5xl font-semibold tracking-tight sm:text-8xl">
                             <span id="type-casino"></span><span id="type-de"></span><span id="type-lamour"></span>
@@ -102,16 +83,15 @@
                             fancy and classy.</p>
                         <div class="mt-10 flex items-center justify-center gap-x-6" data-aos="zoom-in"
                             data-aos-delay="400" data-aos-duration="1200">
-                            @if ($is_active == true)
-                                <a href="/pesan"
-                                    class="shadow-xs rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500">Get
-                                    Your Ticket</a>
-                            @else
-                                <a href="#"
-                                    class="shadow-xs cursor-not-allowed rounded-md bg-gray-500 px-3.5 py-2.5 text-sm font-semibold text-white opacity-50">Coming
-                                    Soon</a>
-                            @endif
-                        </div>
+                                                            @if ($is_active == true)
+                                                                <a href="/pesan"
+                                                                    class="shadow-xs rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500">Get
+                                                                    Your Ticket</a>
+                                                            @else
+                                                                <a href="#"
+                                                                    class="shadow-xs cursor-not-allowed rounded-md bg-gray-500 px-3.5 py-2.5 text-sm font-semibold text-white opacity-50">Coming
+                                                                    Soon</a>
+                                                            @endif
                         <div class="bouncing-arrow bouncing-icon flex justify-center" data-aos="fade-up" data-aos-delay="600"
                             data-aos-duration="1200">
                             <i class="fa-solid fa-angles-down relative top-20 text-xl text-white"></i>
@@ -121,9 +101,9 @@
             </div>
         </div>
     </section>
-    {{-- End Hero Section --}}
+    
 
-    {{-- About Section --}}
+    
     <section class="about-section">
         <div class="py-24 sm:py-32">
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
@@ -197,9 +177,9 @@
             </div>
         </div>
     </section>
-    {{-- End About Section --}}
+    
 
-    {{-- Merch Section --}}
+    
 
     <section class="merch-section bg-gradient-to-b from-gray-900 via-gray-950 to-black py-24 sm:py-32">
         <div class="mx-auto max-w-2xl px-6 text-center lg:max-w-7xl lg:px-8">
@@ -211,37 +191,55 @@
                 make this prom unforgettable!</p>
             <div class="mt-10 grid gap-8 sm:mt-16 lg:grid-cols-4">
                 <!-- Card Template -->
-                @foreach ([['title' => 'Tote Bag', 'description' => 'Stylish and eco-friendly tote bags with exclusive designs.', 'image' => 'Totebag1.png'], ['title' => 'Tumblr', 'description' => 'Stay hydrated with our premium tumblers featuring unique designs.', 'image' => 'Tumblr1.png'], ['title' => 'Lanyard', 'description' => 'Carry your essentials in style with our custom lanyards.', 'image' => 'Lanyard1.png'], ['title' => 'Enamel Pin', 'description' => 'Collectible enamel pins to commemorate this special event.', 'image' => 'EnamelPin1.png']] as $item)
-                    <div class="relative flex transform flex-col items-center overflow-hidden rounded-lg bg-gradient-to-br from-[#2e0705] via-yellow-950 to-black p-6 shadow-lg hover-bouncing-dikit transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl"
-                        data-aos="fade-up" data-aos-delay="{{ $loop->index * 200 }}" data-aos-duration="1200">
+                                    <div class="relative flex transform flex-col items-center overflow-hidden rounded-lg bg-gradient-to-br from-[#2e0705] via-yellow-950 to-black p-6 shadow-lg hover-bouncing-dikit transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl"
+                        data-aos="fade-up" data-aos-delay="0" data-aos-duration="1200">
                         <img class="mb-4 h-64 w-auto rounded-md object-cover"
-                            src="{{ asset('images/' . $item['image']) }}" alt="{{ $item['title'] }}">
-                        <h3 class="text-2xl font-semibold text-yellow-400">{{ $item['title'] }}</h3>
-                        <p class="mt-2 text-center text-base text-gray-300">{{ $item['description'] }}</p>
+                            src="https://casinodelamour.my.id/images/Totebag1.png" alt="Tote Bag">
+                        <h3 class="text-2xl font-semibold text-yellow-400">Tote Bag</h3>
+                        <p class="mt-2 text-center text-base text-gray-300">Stylish and eco-friendly tote bags with exclusive designs.</p>
                     </div>
-                @endforeach
-            </div>
+                                    <div class="relative flex transform flex-col items-center overflow-hidden rounded-lg bg-gradient-to-br from-[#2e0705] via-yellow-950 to-black p-6 shadow-lg hover-bouncing-dikit transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl"
+                        data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
+                        <img class="mb-4 h-64 w-auto rounded-md object-cover"
+                            src="https://casinodelamour.my.id/images/Tumblr1.png" alt="Tumblr">
+                        <h3 class="text-2xl font-semibold text-yellow-400">Tumblr</h3>
+                        <p class="mt-2 text-center text-base text-gray-300">Stay hydrated with our premium tumblers featuring unique designs.</p>
+                    </div>
+                                    <div class="relative flex transform flex-col items-center overflow-hidden rounded-lg bg-gradient-to-br from-[#2e0705] via-yellow-950 to-black p-6 shadow-lg hover-bouncing-dikit transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl"
+                        data-aos="fade-up" data-aos-delay="400" data-aos-duration="1200">
+                        <img class="mb-4 h-64 w-auto rounded-md object-cover"
+                            src="https://casinodelamour.my.id/images/Lanyard1.png" alt="Lanyard">
+                        <h3 class="text-2xl font-semibold text-yellow-400">Lanyard</h3>
+                        <p class="mt-2 text-center text-base text-gray-300">Carry your essentials in style with our custom lanyards.</p>
+                    </div>
+                                    <div class="relative flex transform flex-col items-center overflow-hidden rounded-lg bg-gradient-to-br from-[#2e0705] via-yellow-950 to-black p-6 shadow-lg hover-bouncing-dikit transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl"
+                        data-aos="fade-up" data-aos-delay="600" data-aos-duration="1200">
+                        <img class="mb-4 h-64 w-auto rounded-md object-cover"
+                            src="https://casinodelamour.my.id/images/EnamelPin1.png" alt="Enamel Pin">
+                        <h3 class="text-2xl font-semibold text-yellow-400">Enamel Pin</h3>
+                        <p class="mt-2 text-center text-base text-gray-300">Collectible enamel pins to commemorate this special event.</p>
+                    </div>
+                            </div>
             <div class="mt-10 flex items-center justify-center gap-x-6" data-aos="fade-up" data-aos-delay="800"
                 data-aos-duration="1200">
-                @if ($ismerch_active == true)
-                    <a href="/merch"
-                        class="shadow-xs mt-10 rounded-md bg-red-500 px-5 py-3 text-lg font-semibold text-white hover:bg-red-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 transition-all duration-300 ease-in-out">
-                        Explore More
-                    </a>
-                @else
-                    <a href="#"
-                        class="shadow-xs mt-10 cursor-not-allowed rounded-md bg-gray-500 px-5 py-3 text-lg font-semibold text-white opacity-50">
-                        Coming Soon
-                    </a>
-                @endif
-            </div>
+                                    @if ($ismerch_active == true)
+                                        <a href="/merch"
+                                            class="shadow-xs mt-10 rounded-md bg-red-500 px-5 py-3 text-lg font-semibold text-white hover:bg-red-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 transition-all duration-300 ease-in-out">
+                                            Explore More
+                                        </a>
+                                    @else
+                                        <a href="#"
+                                            class="shadow-xs mt-10 cursor-not-allowed rounded-md bg-gray-500 px-5 py-3 text-lg font-semibold text-white opacity-50">
+                                            Coming Soon
+                                        </a>
+                                    @endif
         </div>
     </section>
 
-    {{-- End Merch Section --}}
+    
 
 
-    {{-- Theme Section with Extra Information --}}
+    
     <section class="theme-section">
         <div class="py-24 sm:py-32">
             <div class="mx-auto max-w-2xl px-6 text-center lg:max-w-7xl lg:px-8">
@@ -261,7 +259,7 @@
                         </div>
                         <div class="mt-6 flex justify-center">
                             <img class="rounded-md object-cover object-top"
-                                src="{{ asset('images/outfit-inspo.png') }}" alt="Outfit Inspiration">
+                                src="https://casinodelamour.my.id/images/outfit-inspo.png" alt="Outfit Inspiration">
                         </div>
                     </div>
                 </div>
@@ -281,12 +279,18 @@
                             </p>
                         </div>
                         
-                        <h3 class="text-2xl font-semibold text-yellow-300 mt-2">New Offer! Cheaper ticket for couple</h3>
-                        <p class="text-base text-yellow-100">Bring your date and enjoy special pricing when you purchase tickets as a couple. Limited time offer!</p>
+                        <h3 class="text-2xl font-semibold text-yellow-300 mt-2">New Offer! Cheaper ticket for a group</h3>
+                        <p class="text-base text-yellow-100">Bring your friends and enjoy special pricing when you purchase tickets as a group bundle. Limited time offer!</p>
                         
-                        <a href="/couple" class="mt-4 inline-block self-start rounded bg-red-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-600">
-                            Get Couple Tickets
-                        </a>
+                        @if ($is_active == true)
+                            <a href="/group" class="mt-4 inline-block self-start rounded bg-red-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-600">
+                                Get Group Tickets
+                            </a>
+                        @else
+                            <a href="#" class="mt-4 inline-block self-start cursor-not-allowed rounded bg-gray-500 px-4 py-2 text-sm font-semibold text-white opacity-50">
+                                Coming Soon
+                            </a>
+                        @endif
                     </div>
                     
                     <!-- Voting Information Card -->
@@ -305,25 +309,31 @@
                         <h3 class="text-2xl font-semibold text-yellow-300 mt-2">Vote for Prom King, Queen & More</h3>
                         <p class="text-base text-yellow-100">Cast your vote for Prom King, Queen, and other awards. Make your voice heard and celebrate your peers!</p>
                         
-                        <a href="/vote" class="mt-4 inline-block self-start rounded bg-yellow-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-yellow-600">
-                            Vote Now
-                        </a>
+                        @if ($isvote_active == true)
+                            <a href="/vote" class="mt-4 inline-block self-start rounded bg-yellow-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-yellow-600">
+                                Vote Now
+                            </a>
+                        @else
+                            <a href="#" class="mt-4 inline-block self-start cursor-not-allowed rounded bg-gray-500 px-4 py-2 text-sm font-semibold text-white opacity-50">
+                                Coming Soon
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    {{-- End Theme Section with Extra Information --}}
+    
 
 
-    {{-- Venue Section --}}
+    
     <section class="venue-section">
         <div class="py-12 text-center sm:py-32">
             <p class="font-fancy-4 mt-2 text-pretty text-6xl font-semibold tracking-tight text-yellow-500 sm:text-6xl lg:text-balance"
                 data-aos="fade-down" data-aos-delay="0" data-aos-duration="1200">
                 The Venue</p>
             <div class="grid grid-cols-1 gap-10 p-5 sm:grid-cols-2 sm:p-20">
-                {{-- CAROUSEL --}}
+                
                 <div class="relative mx-auto w-full max-w-3xl"data-aos="fade-up" data-aos-delay="200"
                     data-aos-duration="1200">
                     <!-- Slides container -->
@@ -438,10 +448,10 @@
 
         </div>
     </section>
-    {{-- End Venue Section --}}
+    
 
 
-    {{-- Date & Time Section --}}
+    
     <section class="date-time-section bg-gradient-to-b from-gray-900 via-gray-950 to-black py-20 text-white sm:py-32">
         <div class="mx-auto max-w-4xl text-center">
             <h2 class="font-fancy-4 mb-6 text-6xl font-bold tracking-tight text-yellow-400 sm:text-7xl"
@@ -478,16 +488,18 @@
             </p>
             <div class="mt-10 flex items-center justify-center gap-x-6" data-aos="fade-up" data-aos-delay="1400"
                 data-aos-duration="1200">
-                @if ($is_active == true)
-                    <a href="/pesan"
-                        class="shadow-xs rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500">Get
-                        Your Ticket</a>
-                @else
-                    <a href="#"
-                        class="shadow-xs cursor-not-allowed rounded-md bg-gray-500 px-3.5 py-2.5 text-sm font-semibold text-white opacity-50">Coming
-                        Soon</a>
-                @endif
-            </div>
+                                    @if ($is_active == true)
+                                        <a href="/pesan"
+                                            class="shadow-xs rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500">
+                                            Get Your Ticket
+                                        </a>
+                                    @else
+                                        <a href="#"
+                                            class="shadow-xs cursor-not-allowed rounded-md bg-gray-500 px-3.5 py-2.5 text-sm font-semibold text-white opacity-50">
+                                            Coming Soon
+                                        </a>
+                                    @endif
+                            </div>
         </div>
         <style>
             /* [unchanged CSS from your previous version] */
@@ -613,8 +625,8 @@
             }
         </style>
         <script>
-            // Countdown to 5 July 2025, 17:00 (5 PM) UTC+7 (Asia/Jakarta/Bangkok)
-            const countdownTarget = new Date('2025-07-05T17:00:00+07:00');
+            // Countdown to 5 July 2025, 18:30 (5 PM) UTC+7 (Asia/Jakarta/Bangkok)
+            const countdownTarget = new Date('2025-07-05T18:30:00+07:00');
 
             function animateFlip(element, newValue) {
                 if (element.textContent == newValue) return;
@@ -648,12 +660,12 @@
             const timerInterval = setInterval(updateCountdown, 1000);
         </script>
     </section>
-    {{-- End Date & Time Section --}}
+    
 
     <footer class="w-full bg-black px-4 py-6 shadow-inner backdrop-blur">
         <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 sm:flex-row">
             <div class="text-sm tracking-wide text-yellow-200">
-                © {{ date('Y') }} Prom Night TB25. All rights reserved.
+                © 2025 Prom Night TB25. All rights reserved.
             </div>
             <div class="flex space-x-5 text-xl text-white">
                 <a href="https://wa.me/6285222928594" aria-label="whatsapp"
@@ -716,17 +728,7 @@
             typeNext();
         });
     </script>
-    {{-- <script async
-    src="https://kac3opy67dsogirllmtqz3bn.agents.do-ai.run/static/chatbot/widget.js"
-    data-agent-id="c646abf9-1fe5-11f0-bf8f-4e013e2ddde4"
-    data-chatbot-id="NmTrlKnYY2GIKDE2rwZKe8786fy2Q0Wk"
-    data-name="Casino de L’Amour Assistant"
-    data-primary-color="#2D1E2F" 
-    data-secondary-color="#F5EAEA" 
-    data-button-background-color="#FFFFFF" 
-    data-starting-message="Hai ✨ Siap untuk malam prom yang penuh cinta dan pesona? Bagaimana aku bisa membantumu?"
-    data-logo="/static/chatbot/icons/default-agent.svg">
-  </script> --}}
+    
 
 </body>
 

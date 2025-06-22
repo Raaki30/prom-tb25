@@ -149,28 +149,28 @@
         </div>
     </div>
 
-    <!-- Couple Ticket Popup -->
+    <!-- Group Ticket Popup -->
     <div id="couplePopup" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
         <div class="absolute inset-0 bg-black/30 backdrop-blur-md" id="popupOverlay"></div>
         <div class="relative mx-auto flex max-w-lg flex-col gap-4 rounded-2xl border border-red-600/30 bg-black p-8 text-left font-medium text-white shadow-lg transform transition-all duration-300 scale-95 opacity-0"
             style="box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);" id="popupContent">
             <button class="absolute right-4 top-4 text-white hover:text-red-400 transition-colors" id="closePopup">
-            <i class="fas fa-times text-xl"></i>
+                <i class="fas fa-times text-xl"></i>
             </button>
             <div class="flex items-center gap-3">
-            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
-                <i class="fa-solid fa-heart text-2xl text-red-600"></i>
-            </div>
-            <p class="font-fancy-3 text-4xl text-red-400">
-                Couple Package
-            </p>
+                <div class="flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
+                    <i class="fa-solid fa-users text-2xl text-red-600"></i>
+                </div>
+                <p class="font-fancy-3 text-4xl text-red-400">
+                    Group Package
+                </p>
             </div>
             
-            <h3 class="text-2xl font-semibold text-gold-300 mt-2">Special Discount for Couples!</h3>
-            <p class="text-base text-yellow-100">Bring your date and save on tickets when you register as a couple. Enjoy the perfect night together with special pricing!</p>
+            <h3 class="text-2xl font-semibold text-gold-300 mt-2">Special Discount for Groups!</h3>
+            <p class="text-base text-yellow-100">Register together with your friends and enjoy special group pricing for an unforgettable night!</p>
             
-            <a href="/couple" class="mt-4 inline-block self-start rounded-xl bg-red-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-600">
-            <i class="fas fa-ticket-alt mr-2"></i> Get Couple Tickets
+            <a href="/group" class="mt-4 inline-block self-start rounded-xl bg-red-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-600">
+                <i class="fas fa-ticket-alt mr-2"></i> Get Group Tickets
             </a>
         </div>
     </div>
