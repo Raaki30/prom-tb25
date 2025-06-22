@@ -78,6 +78,41 @@
             <x-footer></x-footer>
         </div>
 
+        <!-- DP Payment Confirmation Modal -->
+        <div id="dpConfirmationModal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+            <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 relative z-10">
+                <div class="mb-4">
+                    <div class="flex items-center justify-center mb-4">
+                        <div class="rounded-full bg-orange-100 p-3">
+                            <i class="fas fa-exclamation-triangle text-orange-500 text-xl"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-center text-gray-800">Konfirmasi Pembayaran</h3>
+                    <p class="mt-2 text-center text-red-500 font-medium">Tiket ini baru dibayar DP!</p>
+                </div>
+
+                <div class="bg-orange-50 p-4 rounded-lg mb-4">
+                    <div id="dpTicketDetails" class="space-y-2 text-sm">
+                        <!-- Ticket details will be inserted here -->
+                    </div>
+                </div>
+
+                <p class="mb-4 text-gray-700 text-center">
+                    Pastikan pembayaran lunas telah diterima sebelum melakukan check-in.
+                </p>
+
+                <div class="flex gap-3">
+                    <button id="cancelDpConfirm" class="flex-1 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-lg">
+                        Batal
+                    </button>
+                    <button id="confirmFullPayment" class="flex-1 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg flex items-center justify-center">
+                        <i class="fas fa-check-circle mr-2"></i>Konfirmasi Lunas & Check-In
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
         <script>
             function updateClock() {
@@ -93,6 +128,9 @@
             let isScanning = false;
             let html5QrCode;
             let selectedCameraId = null;
+
+            // Add these variables
+            let currentHalfPaidTicket = null;
 
             function showNotification(type, title, message) {
                 const notification = document.getElementById('notification');
@@ -241,11 +279,15 @@
                             showNotification('success', 'Sukses', data.message);
                             showTicketDetails(data.ticket);
                             stopScanner();
+                        } else if (data.message === 'ticket_half_paid') {
+                            showDpConfirmation(data.ticket);
+                            stopScanner();
                         } else {
                             const messages = {
                                 ticket_not_found: 'Tiket tidak ditemukan',
                                 ticket_pending: 'Tiket belum diverifikasi',
-                                ticket_already_used: 'Tiket sudah digunakan'
+                                ticket_already_used: 'Tiket sudah digunakan',
+                                ticket_half_paid: 'Tiket baru dibayar DP'
                             };
                             showNotification('error', 'Gagal', messages[data.message] || 'QR tidak valid');
                             isScanning = true;
@@ -276,11 +318,14 @@
                         if (data.valid) {
                             showNotification('success', 'Sukses', data.message);
                             showTicketDetails(data.ticket);
+                        } else if (data.message === 'ticket_half_paid') {
+                            showDpConfirmation(data.ticket);
                         } else {
                             const messages = {
                                 ticket_not_found: 'Tiket tidak ditemukan',
                                 ticket_pending: 'Tiket belum diverifikasi',
-                                ticket_already_used: 'Tiket sudah digunakan'
+                                ticket_already_used: 'Tiket sudah digunakan',
+                                ticket_half_paid: 'Tiket baru dibayar DP'
                             };
                             showNotification('error', 'Gagal', messages[data.message] || 'Tiket tidak valid');
                         }
@@ -290,6 +335,57 @@
                     });
             });
 
+            function showDpConfirmation(ticket) {
+                currentHalfPaidTicket = ticket;
+                const modal = document.getElementById('dpConfirmationModal');
+                const details = document.getElementById('dpTicketDetails');
+                
+                details.innerHTML = `
+                    <div class="flex justify-between"><span class="font-medium">Order ID:</span> <span>${ticket.order_id}</span></div>
+                    <div class="flex justify-between"><span class="font-medium">Nama:</span> <span>${ticket.nama_siswa}</span></div>
+                    <div class="flex justify-between"><span class="font-medium">Kelas:</span> <span>${ticket.kelas}</span></div>
+                    <div class="flex justify-between"><span class="font-medium">Status:</span> <span class="text-orange-600 font-medium">DP</span></div>
+                `;
+                
+                modal.classList.remove('hidden');
+            }
+
+            function hideDpConfirmation() {
+                document.getElementById('dpConfirmationModal').classList.add('hidden');
+                currentHalfPaidTicket = null;
+                isScanning = true;
+            }
+
+            function confirmFullPaymentAndCheckIn() {
+                if (!currentHalfPaidTicket) return;
+                
+                fetch('/api/scan/confirm-payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        ticket_id: currentHalfPaidTicket.id
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.valid) {
+                        hideDpConfirmation();
+                        showNotification('success', 'Sukses', data.message);
+                        showTicketDetails(data.ticket);
+                    } else {
+                        showNotification('error', 'Gagal', 'Gagal mengkonfirmasi pembayaran');
+                        hideDpConfirmation();
+                    }
+                })
+                .catch(() => {
+                    showNotification('error', 'Error', 'Terjadi kesalahan saat konfirmasi pembayaran');
+                    hideDpConfirmation();
+                });
+            }
+
             document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('startScan').addEventListener('click', startScanner);
                 document.getElementById('stopScan').addEventListener('click', stopScanner);
@@ -298,6 +394,11 @@
                     selectedCameraId = e.target.value;
                     if (isScanning) stopScanner().then(startScanner);
                 });
+                
+                // Add these new event listeners
+                document.getElementById('cancelDpConfirm').addEventListener('click', hideDpConfirmation);
+                document.getElementById('confirmFullPayment').addEventListener('click', confirmFullPaymentAndCheckIn);
+                
                 populateCameraList();
             });
         </script>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Pesan Tiket Couple - Prom Night TB25</title>
+    <title>Pesan Tiket Bundle - Prom Night TB25</title>
 
     {{-- TAILWIND --}}
     @vite('resources/css/app.css')
@@ -22,9 +22,43 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Ephesis&family=Imperial+Script&family=Lavishly+Yours&display=swap"
         rel="stylesheet">
+    <style>
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(234,179,8,0.03) 1px, transparent 1px),
+                radial-gradient(circle at 75% 75%, rgba(234,179,8,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+            pointer-events: none;
+        }
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .star {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: twinkle 4s infinite ease-in-out;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.8; }
+        }
+    </style>
 </head>
 
-<body class="gradient-bg-dark">
+<body class="bg-gradient-to-br from-[#2e0705] to-[#060604] min-h-full">
 
     {{-- NAVIGATION - PROSES BAYAR --}}
     <div id="progress-bar" class="progress-bar m-auto w-full">
@@ -189,6 +223,28 @@
     </form>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const starsContainer = document.createElement('div');
+            starsContainer.className = 'stars';
+            document.body.appendChild(starsContainer);
+            // Create background pattern
+            const pattern = document.createElement('div');
+            pattern.className = 'bg-pattern';
+            document.body.appendChild(pattern);
+            // Create stars
+            for(let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 4}s`;
+                starsContainer.appendChild(star);
+            }
+        });
+
         // Step control
         const step1 = document.getElementById('step1');
         const step2 = document.getElementById('step2');

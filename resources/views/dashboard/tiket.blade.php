@@ -176,6 +176,11 @@
                                                 <i class="fa-solid fa-heart text-purple-500"></i> Couple
                                             </span>
                                         @endif
+                                        @if(Str::startsWith($item->order_id, 'GP-'))
+                                            <span class="text-xs bg-green-100 text-green-800 px-1 rounded ml-1 flex items-center gap-1">
+                                                <i class="fa-solid fa-users text-green-500"></i> Group
+                                            </span>
+                                        @endif
                                     </td>
                                     <td class="px-4 py-2 text-sm text-gray-700">{{ $item->email }}</td>
                                     <td class="px-4 py-2">
@@ -188,6 +193,10 @@
                                         @if($item->status === 'completed')
                                             <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
                                                 <i class="fa-solid fa-check-circle mr-1"></i>Success
+                                            </span>
+                                        @elseif($item->status === 'half')
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800">
+                                                <i class="fa-solid fa-circle-half-stroke mr-1"></i>DP
                                             </span>
                                         @elseif($item->bukti == '-')
                                             <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
@@ -331,7 +340,7 @@
         <!-- Modal Verifikasi -->
         <div x-show="showModal" class="fixed inset-0 z-50 flex items-center justify-center" x-transition>
             <div class="absolute inset-0 bg-white/30 backdrop-blur-md" @click="showModal = false"></div>
-        
+
             <div class="bg-white rounded-lg overflow-hidden shadow-lg max-w-xl w-full relative z-10" @click.stop>
                 <button @click="showModal = false" class="absolute top-2 right-2 text-gray-600 hover:text-gray-800 text-xl font-bold">&times;</button>
                 <div class="p-4 space-y-4">
@@ -340,12 +349,24 @@
                     </h3>
                     <img :src="modalImg" alt="Bukti Pembayaran" class="w-full max-h-[70vh] object-contain rounded border">
                     <p class="text-sm text-gray-600">Pastikan bukti pembayaran sesuai dan jelas terlihat sebelum memverifikasi.</p>
-                    <form :action="verifikasiUrl" method="POST">
-                        @csrf
-                        <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded flex items-center justify-center">
-                            <i class="fa-solid fa-check-circle mr-2"></i>Verifikasi Pembayaran
-                        </button>
-                    </form>
+                    
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <!-- Verifikasi Penuh Button -->
+                        <form :action="verifikasiUrl" method="POST" class="flex-1">
+                            @csrf
+                            <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded flex items-center justify-center">
+                                <i class="fa-solid fa-check-circle mr-2"></i>Verifikasi Penuh
+                            </button>
+                        </form>
+                        
+                        <!-- Verifikasi DP Button -->
+                        <form :action="verifikasiUrl.replace('verifikasi', 'verifikasi-half')" method="POST" class="flex-1">
+                            @csrf
+                            <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded flex items-center justify-center">
+                                <i class="fa-solid fa-circle-half-stroke mr-2"></i>Verifikasi DP
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

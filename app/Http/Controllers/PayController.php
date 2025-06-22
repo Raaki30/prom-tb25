@@ -172,39 +172,57 @@ public function tamubeli(Request $request)
         ]);
     }
 
-    public function showCoupleForm()
+    public function showGroupForm()
     {
-        return view('payment.couple');
+        return view('payment.group');
     }
 
-    public function initCouplePayment(Request $request)
+    public function initGroupPayment(Request $request)
     {
-        //validasi request
-        $request->validate([
+        // Determine the number of tickets from the request
+        $ticketCount = $request->input('ticket_count', 2);
+        
+        // Validate based on ticket count
+        $validationRules = [
             'nis1' => 'required|string',
             'nama_siswa1' => 'required|string',
             'kelas1' => 'required|string',
             'nis2' => 'required|string',
             'nama_siswa2' => 'required|string',
             'kelas2' => 'required|string',
-        ]);
-
-        // Harga tetap untuk couple: 840000 untuk berdua
-        $harga = 420000; // per orang
+        ];
+        
+        // Add validation rules for additional tickets if more than 2
+        for ($i = 3; $i <= $ticketCount; $i++) {
+            $validationRules["nis$i"] = 'required|string';
+            $validationRules["nama_siswa$i"] = 'required|string';
+            $validationRules["kelas$i"] = 'required|string';
+        }
+        
+        $request->validate($validationRules);
+        
+        // Set pricing based on group size
+        $price_per_ticket = $ticketCount > 2 ? 390000 : 415000;
         $biaya_lain = 0;
-        $total_per_tiket = $harga;
+        $total_per_tiket = $price_per_ticket;
         $total_discount = 0;
-        $grand_total = 840000;
+        $grand_total = $price_per_ticket * $ticketCount;
+        
+        // Build participants data for the view
+        $participants = [];
+        for ($i = 1; $i <= $ticketCount; $i++) {
+            $participants[] = [
+                'nis' => $request->{"nis$i"},
+                'nama_siswa' => $request->{"nama_siswa$i"},
+                'kelas' => $request->{"kelas$i"},
+            ];
+        }
         
         // return view
-        return view('payment.couple-payment', [
-            'nis1' => $request->nis1,
-            'nama_siswa1' => $request->nama_siswa1,
-            'kelas1' => $request->kelas1,
-            'nis2' => $request->nis2,
-            'nama_siswa2' => $request->nama_siswa2,
-            'kelas2' => $request->kelas2,
-            'harga' => $harga,
+        return view('payment.group-payment', [
+            'participants' => $participants,
+            'ticketCount' => $ticketCount,
+            'harga' => $price_per_ticket,
             'biaya_lain' => $biaya_lain,
             'total_per_tiket' => $total_per_tiket,
             'total_discount' => $total_discount,
@@ -212,65 +230,58 @@ public function tamubeli(Request $request)
         ]);
     }
 
-    public function processCouplePayment(Request $request)
+    public function processGroupPayment(Request $request)
     {
-        // Validate request
+        // Basic validation
         $request->validate([
             'order_id' => 'required|string',
-            'nis1' => 'required|string',
-            'nama_siswa1' => 'required|string',
-            'kelas1' => 'required|string',
-            'nis2' => 'required|string',
-            'nama_siswa2' => 'required|string',
-            'kelas2' => 'required|string',
             'harga' => 'required|numeric',
             'grandtotal' => 'required|numeric',
-            'email1' => 'required|email',
-            'phone1' => 'required|string',
-            'email2' => 'required|email', 
-            'phone2' => 'required|string',
             'metodebayar' => 'required|string|in:bca,mandiri',
+            'ticketCount' => 'required|integer|min:2'
         ]);
-
-        // Generate base order ID with CP- prefix
+        
+        // Generate base order ID with GP- prefix (Group Purchase)
         $baseOrderId = $request->order_id;
+        $ticketCount = $request->ticketCount;
+        $tickets = [];
         
-        // Create first ticket with -1 suffix
-        $tiket1 = Tiket::create([
-            'order_id' => $baseOrderId . '-1',
-            'nis' => $request->nis1,
-            'nama' => $request->nama_siswa1,
-            'kelas' => $request->kelas1,
-            'jumlah_tiket' => 1,
-            'harga' => $request->grandtotal / 2, // Split the price between two tickets
-            'email' => $request->email1, // Use person 1's email
-            'phone' => $request->phone1, // Use person 1's phone
-            'metodebayar' => $request->metodebayar,
-            'status' => 'pending',
-        ]);
-        
-        // Create second ticket with -2 suffix
-        $tiket2 = Tiket::create([
-            'order_id' => $baseOrderId . '-2',
-            'nis' => $request->nis2,
-            'nama' => $request->nama_siswa2,
-            'kelas' => $request->kelas2,
-            'jumlah_tiket' => 1,
-            'harga' => $request->grandtotal / 2, // Split the price between two tickets
-            'email' => $request->email2, // Use person 2's email
-            'phone' => $request->phone2, // Use person 2's phone
-            'metodebayar' => $request->metodebayar,
-            'status' => 'pending',
-        ]);
+        // Create tickets for all participants
+        for ($i = 1; $i <= $ticketCount; $i++) {
+            // Validate individual participant data
+            $request->validate([
+                "nis$i" => 'required|string',
+                "nama_siswa$i" => 'required|string',
+                "kelas$i" => 'required|string',
+                "email$i" => 'required|email',
+                "phone$i" => 'required|string',
+            ]);
+            
+            // Create ticket with -N suffix
+            $ticket = Tiket::create([
+                'order_id' => $baseOrderId . '-' . $i,
+                'nis' => $request->{"nis$i"},
+                'nama' => $request->{"nama_siswa$i"},
+                'kelas' => $request->{"kelas$i"},
+                'jumlah_tiket' => 1,
+                'harga' => $request->grandtotal / $ticketCount, // Split the price equally
+                'email' => $request->{"email$i"}, // Use person's email
+                'phone' => $request->{"phone$i"}, // Use person's phone
+                'metodebayar' => $request->metodebayar,
+                'status' => 'pending',
+            ]);
+            
+            $tickets[] = $ticket;
+        }
 
-        return view('payment.couple-instruction', [
-            'tiket1' => $tiket1, 
-            'tiket2' => $tiket2, 
-            'baseOrderId' => $baseOrderId
+        return view('payment.group-instruction', [
+            'tickets' => $tickets, 
+            'baseOrderId' => $baseOrderId,
+            'ticketCount' => $ticketCount
         ]);
     }
 
-    public function uploadCoupleProof(Request $request)
+    public function uploadGroupProof(Request $request)
     {
         $request->validate([
             'bukti' => 'required|image|mimes:jpeg,jpg,png|max:2048',
@@ -278,13 +289,21 @@ public function tamubeli(Request $request)
         ]);
 
         $baseOrderId = $request->base_order_id;
-        $tiket1 = Tiket::where('order_id', $baseOrderId . '-1')->firstOrFail();
-        $tiket2 = Tiket::where('order_id', $baseOrderId . '-2')->firstOrFail();
+        
+        // Find all tickets with this base order ID
+        $tickets = Tiket::where('order_id', 'like', $baseOrderId . '-%')->get();
+        
+        if ($tickets->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tickets not found'
+            ], 404);
+        }
         
         $file = $request->file('bukti');
 
         try {
-            $fileName = 'bukti/couple-' . Str::slug($tiket1->nama) . '-' . time() . '.' . $file->extension();
+            $fileName = 'bukti/group-' . Str::slug($tickets->first()->nama) . '-' . time() . '.' . $file->extension();
             
             Storage::disk('spaces')->put(
                 $fileName, 
@@ -294,9 +313,10 @@ public function tamubeli(Request $request)
             
             $url = env('DO_SPACES_CDN_URL') . '/' . $fileName;
             
-            // Update both tickets with the same proof
-            $tiket1->update(['bukti' => $url]);
-            $tiket2->update(['bukti' => $url]);
+            // Update all tickets with the same proof
+            foreach ($tickets as $ticket) {
+                $ticket->update(['bukti' => $url]);
+            }
 
             return response()->json([
                 'success' => true,

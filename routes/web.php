@@ -75,6 +75,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('/dashboard/tiket')->name('tiket.')->group(function () {
         Route::post('/{id}/verifikasi', [TiketController::class, 'verifikasi'])->name('verifikasi');
+        Route::post('/{id}/verifikasi-half', [TiketController::class, 'markDP'])->name('markDP');
         Route::get('/create', [TiketController::class, 'create'])->name('create');
         Route::post('/store', [TiketController::class, 'store'])->name('store');
         Route::get('/{id}/edit', [TiketController::class, 'edit'])->name('edit');
@@ -159,10 +160,12 @@ Route::get('/payment/afterpay', fn() => view('payment.success'))->name('success'
 |--------------------------------------------------------------------------
 */
 
-Route::get('/couple', [PayController::class, 'showCoupleForm'])->name('couple.form');
-Route::post('/payment/couple', [PayController::class, 'initCouplePayment'])->name('couple.init');
-Route::post('/payment/couple/process', [PayController::class, 'processCouplePayment'])->name('couple.process');
-Route::post('/payment/couple/upload', [PayController::class, 'uploadCoupleProof'])->name('couple.upload');
+Route::get('/group', [PayController::class, 'showGroupForm'])->name('group.form');
+Route::middleware('payment')->prefix('payment')->name('group.')->group(function () {
+    Route::match(['get', 'post'], '/group', [PayController::class, 'initGroupPayment'])->name('init');
+    Route::match(['get', 'post'], '/group/process', [PayController::class, 'processGroupPayment'])->name('process');
+    Route::match(['get', 'post'], '/group/upload', [PayController::class, 'uploadGroupProof'])->name('upload');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -171,5 +174,7 @@ Route::post('/payment/couple/upload', [PayController::class, 'uploadCoupleProof'
 */
 
 require __DIR__ . '/auth.php';
+
+
 
 

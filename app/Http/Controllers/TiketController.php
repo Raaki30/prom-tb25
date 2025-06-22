@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
+use App\Mail\DPMail;
 
 class TiketController extends Controller
 {
@@ -63,6 +64,37 @@ class TiketController extends Controller
         Mail::to($tiket->email)->send(new TiketMail($data));
 
         return redirect()->back()->with('success', 'Pembayaran berhasil diverifikasi.');
+    }
+
+    public function markDP($id)
+    {
+        $tiket = Tiket::findOrFail($id);
+        $tiket->status = 'half';
+        $tiket->save();
+
+        if ($tiket->nis != 0) {
+            $nis = Nis::where('nis', $tiket->nis)->first();
+            if ($nis) {
+                $nis->sudah_beli = true;
+                $nis->save();
+            }
+        }
+
+        $data = [
+            'nis' => $tiket->nis,
+            'nama' => $tiket->nama,
+            'kelas' => $tiket->kelas,
+            'status' => $tiket->status,
+            'order_id' => $tiket->order_id,
+            'email' => $tiket->email,
+            'no_hp' => $tiket->phone,
+            'metodebayar' => $tiket->metodebayar,
+            'url' => url('/eticket/' . $tiket->order_id . '?nis=' . $tiket->nis),
+        ];
+
+        Mail::to($tiket->email)->send(new DPMail($data));
+
+        return redirect()->back()->with('success', 'Pembayaran DP berhasil ditandai.');
     }
 
     public function create()
@@ -148,8 +180,22 @@ class TiketController extends Controller
                 ]);
             }
 
-            if ($tiket->status == 'completed' && $tiket->entry == 0) {
-                
+            if ($tiket->status == 'half' && $tiket->entry == 0) {
+                return response()->json([
+                    'valid' => false,
+                    'message' => 'ticket_half_paid',
+                    'ticket' => [
+                        'id' => $tiket->id,
+                        'nis' => $tiket->nis,
+                        'nama_siswa' => $tiket->nama,
+                        'kelas' => $tiket->kelas,
+                        'status' => $tiket->status,
+                        'order_id' => $tiket->order_id,
+                        'email' => $tiket->email,
+                        'no_hp' => $tiket->phone
+                    ]
+                ]);
+            } else if ($tiket->status == 'completed' && $tiket->entry == 0) {
                 $tiket->entry = 1;
                 $tiket->checkin_time = now();
                 $tiket->save();
@@ -172,7 +218,7 @@ class TiketController extends Controller
                     'valid' => false,
                     'message' => 'ticket_pending'
                 ]);
-            } else if ($tiket->status == 'completed' && $tiket->entry == 1) {
+            } else if ($tiket->entry == 1) {
                 return response()->json([
                     'valid' => false,
                     'message' => 'ticket_already_used'
@@ -241,6 +287,23 @@ class TiketController extends Controller
             return response()->json(['valid' => false, 'message' => 'ticket_already_used']);
         }
 
+        if ($ticket->status === 'half') {
+            return response()->json([
+                'valid' => false,
+                'message' => 'ticket_half_paid',
+                'ticket' => [
+                    'id' => $ticket->id,
+                    'nis' => $ticket->nis,
+                    'nama_siswa' => $ticket->nama,
+                    'kelas' => $ticket->kelas,
+                    'status' => $ticket->status,
+                    'order_id' => $ticket->order_id,
+                    'email' => $ticket->email,
+                    'no_hp' => $ticket->phone
+                ]
+            ]);
+        }
+
         $ticket->entry = 1;
         $ticket->checkin_time = now();
         $ticket->save();
@@ -275,7 +338,39 @@ class TiketController extends Controller
         return response()->json($search);
     }
 
-    
-
-    
+    public function confirmFullPayment(Request $request)
+    {
+        $request->validate([
+            'ticket_id' => 'required'
+        ]);
+        
+        $ticket = Tiket::find($request->ticket_id);
+        
+        if (!$ticket) {
+            return response()->json([
+                'valid' => false,
+                'message' => 'ticket_not_found'
+            ]);
+        }
+        
+        // Update status to completed and check in
+        $ticket->status = 'completed';
+        $ticket->entry = 1;
+        $ticket->checkin_time = now();
+        $ticket->save();
+        
+        return response()->json([
+            'valid' => true,
+            'message' => 'Pembayaran dikonfirmasi dan check-in berhasil',
+            'ticket' => [
+                'nis' => $ticket->nis,
+                'nama_siswa' => $ticket->nama,
+                'kelas' => $ticket->kelas,
+                'status' => $ticket->status,
+                'order_id' => $ticket->order_id,
+                'email' => $ticket->email,
+                'no_hp' => $ticket->phone
+            ]
+        ]);
+    }
 }

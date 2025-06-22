@@ -36,6 +36,7 @@ Route::post('/scan/manual-checkin', [TiketController::class, 'manualCheckin'])->
 Route::post('/scan/validate', [TiketController::class, 'validateScan'])->name('scan.validate');
 Route::get('/cari-buyer', [TiketController::class, 'caribuyer'])->name('tiket.caribuyer');
 Route::get('/verif-beli', [SiswaController::class, 'verify'])->name('siswa.verify');
+Route::post('/scan/confirm-payment', [TiketController::class, 'confirmFullPayment'])->name('scan.confirm-payment');
 
 /*
 |--------------------------------------------------------------------------
