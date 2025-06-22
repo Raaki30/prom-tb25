@@ -12,6 +12,7 @@ use App\Models\Control;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Nis;
 use App\Models\WaitingRoom;
+use Illuminate\Support\Facades\Cache;
 
 class PayController extends Controller
 {
@@ -77,48 +78,54 @@ class PayController extends Controller
     }
 
     public function uploadbukti(Request $request)
-{
-    $request->validate([
-        'bukti' => 'required|image|mimes:jpeg,jpg,png|max:2048',
-        'order_id' => 'required|exists:tikets,order_id'
-    ]);
+    {
+        $request->validate([
+            'bukti' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            'order_id' => 'required|exists:tikets,order_id'
+        ]);
 
-    $tiket = Tiket::where('order_id', $request->order_id)->firstOrFail();
-    $file = $request->file('bukti');
-    $session_id = Session::getId();
-    $waitingRoom = WaitingRoom::where('session_id', $session_id)->first();
+        $tiket = Tiket::where('order_id', $request->order_id)->firstOrFail();
+        $file = $request->file('bukti');
+        
+        // Mark waiting room status as completed
+        $session_id = Session::getId();
+        $waitingRoom = WaitingRoom::where('session_id', $session_id)->first();
+        
         if ($waitingRoom) {
             $waitingRoom->status = 'completed';
             $waitingRoom->save();
+            
+            // Clear relevant caches
+            Cache::forget('remaining_tickets');
         }
 
-    try {
-        $fileName = 'bukti/' . Str::slug($tiket->nama) . '-' . time() . '.' . $file->extension();
-        
-        Storage::disk('spaces')->put(
-            $fileName, 
-            file_get_contents($file),
-            'public'
-        );
-        
-        $url = env('DO_SPACES_CDN_URL') . '/' . $fileName;
-        $tiket->update(['bukti' => $url]);
+        try {
+            $fileName = 'bukti/' . Str::slug($tiket->nama) . '-' . time() . '.' . $file->extension();
+            
+            Storage::disk('spaces')->put(
+                $fileName, 
+                file_get_contents($file),
+                'public'
+            );
+            
+            $url = env('DO_SPACES_CDN_URL') . '/' . $fileName;
+            $tiket->update(['bukti' => $url]);
 
-        return response()->json([
-            'success' => true,
-            'image_url' => $url,
-            'order_id' => $tiket->order_id,
-        ]);
-    } catch (\Exception $e) {
-        Log::error('Upload Error: ' . $e->getMessage());
-        return response()->json([
-            'success' => false,
-            'message' => 'Upload failed. Please try again.'
-        ], 500);
+            return response()->json([
+                'success' => true,
+                'image_url' => $url,
+                'order_id' => $tiket->order_id,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Upload Error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Upload failed. Please try again.'
+            ], 500);
+        }
     }
-}
 
-public function tamubeli(Request $request)
+    public function tamubeli(Request $request)
     {
         $request->validate([
             'nama' => 'required|string|max:255',

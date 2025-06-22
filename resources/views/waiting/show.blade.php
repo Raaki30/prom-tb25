@@ -84,45 +84,57 @@
             50% { opacity: 0.8; }
         }
         
-        /* Progress bar animations */
-        @keyframes pulse {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 1; }
+        /* Animation for position changes */
+        @keyframes highlight-change {
+            0% { transform: scale(1); color: #eab308; }
+            50% { transform: scale(1.2); color: #ffc107; }
+            100% { transform: scale(1); color: #eab308; }
         }
 
-        /* Success animations */
-        @keyframes celebrate {
-            0% { transform: scale(0.8); opacity: 0; }
-            50% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(1); opacity: 1; }
+        .highlight-change {
+            animation: highlight-change 1s ease;
         }
         
-        .celebrate {
-            animation: celebrate 0.8s ease-out forwards;
+        /* Low ticket warning */
+        .tickets-low {
+            animation: pulse-red 1.5s infinite;
         }
         
-        @keyframes fadeInUp {
-            0% { transform: translateY(20px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
+        @keyframes pulse-red {
+            0%, 100% { color: #eab308; }
+            50% { color: #ef4444; }
         }
         
-        .fade-in-up {
-            animation: fadeInUp 0.6s ease forwards;
+        /* Progress bar animations */
+        .progress-bar-animated {
+            background-size: 30px 30px;
+            background-image: linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.15) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.15) 50%,
+                rgba(255, 255, 255, 0.15) 75%,
+                transparent 75%,
+                transparent
+            );
+            animation: progress-bar-stripes 1s linear infinite;
         }
         
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes progress-bar-stripes {
+            0% { background-position: 0 0; }
+            100% { background-position: 30px 0; }
         }
         
-        .spin {
-            animation: spin 1.5s linear infinite;
+        /* Connection error indicator */
+        .connection-error {
+            border: 2px solid #ef4444;
+            animation: pulse-border 1.5s infinite;
         }
         
-        .countdown-circle {
-            transform: rotate(-90deg);
-            transform-origin: center;
-            transition: stroke-dashoffset 1s linear;
+        @keyframes pulse-border {
+            0%, 100% { border-color: #ef4444; }
+            50% { border-color: #fee2e2; }
         }
     </style>
 </head>
@@ -156,7 +168,7 @@
 
         <div x-show="!isActive && hasAction" class="text-center space-y-6 animate-fade-in">
             <!-- In Queue -->
-            <div class="text-5xl font-extrabold text-yellow-400 font-fancy cute-icon" data-aos="fade-down" data-aos-duration="1500">Hang Tight!</div>
+            <div class="text-5xl font-extrabold text-yellow-400 font-fancy cute-icon" data-aos="fade-down" data-aos-duration="1500">Hold Tight!</div>
             <h1 class="text-2xl font-bold text-yellow-100">You're in the Queue</h1>
             
             <div class="p-3 bg-[#18181b]/60 rounded-lg border border-yellow-500/30 inline-block" data-aos="fade-up" data-aos-duration="700">
@@ -205,46 +217,50 @@
         <!-- You're in! Success state -->
         <div x-show="isActive" class="text-center space-y-8">
             <div class="text-6xl font-extrabold text-yellow-400 font-fancy celebrate" data-aos="fade-down" data-aos-duration="1500">
-                You're In! 🎉
+            You're In! 🎉
             </div>
             
             <div class="p-4 bg-yellow-500/20 rounded-lg border border-yellow-500/50 inline-block fade-in-up" style="animation-delay: 0.3s">
-                <i class="fas fa-check-circle text-2xl text-yellow-400 mr-2"></i>
-                <span class="text-yellow-200 text-lg">Your turn has arrived!</span>
+            <i class="fas fa-check-circle text-2xl text-yellow-400 mr-2"></i>
+            <span class="text-yellow-200 text-lg">Your turn has arrived!</span>
             </div>
             
             <div class="space-y-6 mt-4 fade-in-up" style="animation-delay: 0.6s">
-                <p class="text-yellow-100 text-lg">Preparing your experience...</p>
-                
-                <!-- Countdown timer circle -->
-                <div class="flex justify-center items-center my-6">
-                    <div class="relative w-24 h-24">
-                        <svg class="w-full h-full" viewBox="0 0 100 100">
-                            <!-- Background circle -->
-                            <circle cx="50" cy="50" r="45" fill="none" stroke="#2d2d33" stroke-width="8"/>
-                            
-                            <!-- Progress circle -->
-                            <circle id="countdown-circle" class="countdown-circle" 
-                                    cx="50" cy="50" r="45" 
-                                    fill="none" 
-                                    stroke="#eab308" 
-                                    stroke-width="8"
-                                    stroke-dasharray="283"
-                                    stroke-dashoffset="0"/>
-                        </svg>
-                        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-                            <span id="countdown-number" class="text-2xl font-bold text-yellow-400">5</span>
-                        </div>
-                    </div>
+            <p class="text-yellow-100 text-lg">Preparing your experience...</p>
+            
+            <!-- Countdown timer circle -->
+            <div class="flex justify-center items-center my-6">
+                <div class="relative w-24 h-24">
+                <svg class="w-full h-full" viewBox="0 0 100 100">
+                    <!-- Background circle -->
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="#2d2d33" stroke-width="8"/>
+                    
+                    <!-- Progress circle -->
+                    <circle id="countdown-circle" class="countdown-circle" 
+                        cx="50" cy="50" r="45" 
+                        fill="none" 
+                        stroke="#eab308" 
+                        stroke-width="8"
+                        stroke-dasharray="283"
+                        stroke-dashoffset="0"/>
+                </svg>
+                <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                    <span id="countdown-number" class="text-2xl font-bold text-yellow-400">5</span>
                 </div>
-                
-                <p class="text-yellow-100/70 text-sm">You'll be automatically redirected in a few seconds.</p>
+                </div>
+            </div>
+            
+            <p class="text-yellow-100/70 text-sm">You'll be automatically redirected in a few seconds.</p>
+            <p class="text-yellow-200 text-xs mt-2">
+                <i class="fas fa-clock mr-1"></i>
+                Setelah masuk, Anda harus menyelesaikan pesanan dalam waktu <span class="font-semibold text-yellow-400">10 menit</span> sebelum tiket Anda dilepas kembali.
+            </p>
             </div>
             
             <div class="mt-6 flex justify-center space-x-2 fade-in-up" style="animation-delay: 0.9s">
-                <span class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" style="animation-delay: 0s;"></span>
-                <span class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" style="animation-delay: 0.2s;"></span>
-                <span class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" style="animation-delay: 0.4s;"></span>
+            <span class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" style="animation-delay: 0s;"></span>
+            <span class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" style="animation-delay: 0.2s;"></span>
+            <span class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" style="animation-delay: 0.4s;"></span>
             </div>
         </div>
 
@@ -286,172 +302,299 @@
                 }
             });
             
-            function waitingRoom(hasUserAction) {
-                return {
-                    isActive: false,
-                    hasAction: hasUserAction,
-                    countdown: 5,
-                    countdownCircle: null,
-                    countdownNumber: null,
-                    
-                    initStars() {
-                        // Create stars
-                        const starsContainer = document.createElement('div');
-                        starsContainer.className = 'stars';
-                        document.body.appendChild(starsContainer);
-                        
-                        // Create background pattern
-                        const pattern = document.createElement('div');
-                        pattern.className = 'bg-pattern';
-                        document.body.appendChild(pattern);
-                        
-                        // Create stars
-                        for(let i = 0; i < 100; i++) {
-                            const star = document.createElement('div');
-                            star.className = 'star';
-                            const size = Math.random() * 3 + 1;
-                            
-                            star.style.width = `${size}px`;
-                            star.style.height = `${size}px`;
-                            star.style.top = `${Math.random() * 100}%`;
-                            star.style.left = `${Math.random() * 100}%`;
-                            star.style.animationDelay = `${Math.random() * 4}s`;
-                            
-                            starsContainer.appendChild(star);
-                        }
+            
+function waitingRoom(hasUserAction) {
+    return {
+        isActive: false,
+        hasAction: hasUserAction,
+        countdown: 5,
+        countdownCircle: null,
+        countdownNumber: null,
+        lastPosition: null,
+        retryCount: 0,
+        maxRetries: 5,
+        pollingInterval: 7000, // 7 seconds default polling
+        
+        initStars() {
+            // Create stars
+            const starsContainer = document.createElement('div');
+            starsContainer.className = 'stars';
+            document.body.appendChild(starsContainer);
+            
+            // Create background pattern
+            const pattern = document.createElement('div');
+            pattern.className = 'bg-pattern';
+            document.body.appendChild(pattern);
+            
+            // Create stars
+            for(let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 3 + 1;
+                
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 4}s`;
+                
+                starsContainer.appendChild(star);
+            }
 
-                        // Initialize countdown timer elements
-                        this.countdownCircle = document.getElementById('countdown-circle');
-                        this.countdownNumber = document.getElementById('countdown-number');
-                        
-                        // Start fetching queue status
-                        if (this.hasAction) {
-                            this.fetchQueueStatus();
-                            setInterval(() => this.fetchQueueStatus(), 7000);
-                        }
+            // Initialize countdown timer elements
+            this.countdownCircle = document.getElementById('countdown-circle');
+            this.countdownNumber = document.getElementById('countdown-number');
+            
+            // Start fetching queue status
+            if (this.hasAction) {
+                this.fetchQueueStatus();
+                
+                // Set up polling with exponential backoff
+                this.setupPolling();
+            }
 
-                        this.handlePageExit();
-                    },
+            this.handlePageExit();
+        },
+        
+        setupPolling() {
+            // Clear any existing interval
+            if (this.pollingIntervalId) {
+                clearInterval(this.pollingIntervalId);
+            }
+            
+            // Set up new polling interval
+            this.pollingIntervalId = setInterval(() => {
+                this.fetchQueueStatus();
+            }, this.pollingInterval);
+        },
 
-                    handlePageExit() {
-                        window.addEventListener('beforeunload', (event) => {
-                            // Only send the abandonment request if user is in queue
-                            if (this.hasAction && !this.isActive) {
-                                // Use sendBeacon for more reliable delivery when page is unloading
-                                navigator.sendBeacon('/waiting/abandon', JSON.stringify({
-                                    session_id: '{{ $session_id }}'
-                                }));
-                            }
-                        });
-                    },
-
-                    fetchQueueStatus() {
-                        fetch('/waiting/status')
-                            .then(response => response.json())
-                            .then(data => {
-                                // Redirect if tickets are sold out
-                                if (data && data.status === 'sold') {
-                                    window.location.href = '/waiting/sold';
-                                    return;
-                                }
-                                // Only update queue info if we're not in the active state
-                                if (!this.isActive) {
-                                    const waitTimeEl = document.getElementById('wait-time');
-                                    const positionEl = document.getElementById('queue-position');
-                                    const progressBarEl = document.getElementById('progress-bar');
-                                    const remainingTicketsEl = document.getElementById('remaining-tickets');
-
-                                    if (remainingTicketsEl) {
-                                        remainingTicketsEl.textContent = data.remainingTickets !== undefined 
-                                            ? data.remainingTickets 
-                                            : 'N/A';
-                                    }
-                                    
-                                    if (waitTimeEl && positionEl && progressBarEl) {
-                                        const position = parseInt(data.position) || 0;
-                                        const total = parseInt(data.total) || 100;
-
-                                        // Use originPosition as minimum, 1 as maximum
-                                        const originPosition = {{ $originPosition }};
-                                        const min = originPosition;
-                                        const max = 1;
-
-                                        // Clamp position between min and max for progress calculation
-                                        const clampedPosition = Math.max(max, Math.min(position, min));
-                                        // Progress: 100% if position == max (1), 0% if position == min (originPosition)
-                                        const progress = ((min - clampedPosition) / (min - max)) * 100;
-
-                                        if (data.estimatedTime !== undefined && data.estimatedTime < 10) {
-                                            waitTimeEl.textContent = '< 10 Minutes';
-                                        } else {
-                                            waitTimeEl.textContent = (data.estimatedTime !== undefined && data.estimatedTime !== null)
-                                                ? data.estimatedTime + ' Minutes'
-                                                : 'N/A';
-                                        }
-                                        positionEl.textContent = position ?? 'N/A';
-                                        progressBarEl.style.width = `${progress}%`;
-                                        progressBarEl.textContent = progress > 90 ? 'Almost there!' : '✨';
-                                    }
-
-                                    // Instead of immediate redirect, set active state
-                                    if (data && data.status === 'active') {
-                                        console.log("Activating transition screen!");
-                                        this.isActive = true;
-                                        this.startCountdown();
-                                    }
-                                }
-                            })
-                            .catch(err => {
-                                console.error("Error fetching queue status:", err);
-                                if (!this.isActive) {
-                                    const waitTimeEl = document.getElementById('wait-time');
-                                    const positionEl = document.getElementById('queue-position');
-                                    if (waitTimeEl) waitTimeEl.textContent = 'Error';
-                                    if (positionEl) positionEl.textContent = 'Error';
-                                }
-                            });
-                    },
-
-                    startCountdown() {
-                        console.log("Starting countdown");
-                        // Set initial countdown values
-                        this.countdown = 5;
-                        
-                        if (this.countdownNumber) {
-                            this.countdownNumber.textContent = this.countdown;
-                        }
-                        
-                        if (this.countdownCircle) {
-                            // The circumference of the circle (2πr)
-                            const circumference = 2 * Math.PI * 45;
-                            this.countdownCircle.style.strokeDasharray = circumference;
-                            this.countdownCircle.style.strokeDashoffset = '0';
-                        }
-                        
-                        // Start countdown timer
-                        const intervalId = setInterval(() => {
-                            this.countdown--;
-                            
-                            if (this.countdownNumber) {
-                                this.countdownNumber.textContent = this.countdown;
-                            }
-                            
-                            if (this.countdownCircle) {
-                                // Calculate dashoffset based on remaining time
-                                const circumference = 2 * Math.PI * 45;
-                                const offset = circumference * (1 - this.countdown / 5);
-                                this.countdownCircle.style.strokeDashoffset = offset;
-                            }
-                            
-                            if (this.countdown <= 0) {
-                                clearInterval(intervalId);
-                                // Redirect after countdown
-                                window.location.href = '{{ route('pesan') }}';
-                            }
-                        }, 1000);
+        handlePageExit() {
+            // Use both beforeunload and visibilitychange for better coverage
+            window.addEventListener('beforeunload', this.handleAbandon.bind(this));
+            
+            // Also handle tab switching/minimizing
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden' && this.hasAction && !this.isActive) {
+                    // Store timestamp when user left
+                    localStorage.setItem('waiting_room_left_at', Date.now());
+                }
+                
+                if (document.visibilityState === 'visible') {
+                    // Check if user was away for too long
+                    const leftAt = parseInt(localStorage.getItem('waiting_room_left_at') || '0');
+                    if (leftAt > 0 && Date.now() - leftAt > 5 * 60 * 1000) { // 5 minutes
+                        // Force refresh if away too long
+                        window.location.reload();
+                    } else {
+                        // Just update status immediately
+                        this.fetchQueueStatus();
                     }
                 }
+            });
+        },
+        
+        handleAbandon(event) {
+            // Only send the abandonment request if user is in queue
+            if (this.hasAction && !this.isActive) {
+                // Use sendBeacon for more reliable delivery when page is unloading
+                navigator.sendBeacon('/waiting/abandon', JSON.stringify({
+                    session_id: '{{ $session_id }}'
+                }));
             }
+        },
+
+        fetchQueueStatus() {
+            fetch('/waiting/status')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Reset retry count on successful fetch
+                    this.retryCount = 0;
+                
+                    // Redirect if tickets are sold out
+                    if (data && data.status === 'sold') {
+                        window.location.href = '/waiting/sold';
+                        return;
+                    }
+                    
+                    // Handle active status
+                    if (data && data.status === 'active' && !this.isActive) {
+                        console.log("Activating transition screen!");
+                        this.isActive = true;
+                        
+                        // Stop polling when active
+                        if (this.pollingIntervalId) {
+                            clearInterval(this.pollingIntervalId);
+                        }
+                        
+                        this.startCountdown();
+                        return;
+                    }
+                    
+                    // Only update queue info if we're not in the active state
+                    if (!this.isActive) {
+                        const waitTimeEl = document.getElementById('wait-time');
+                        const positionEl = document.getElementById('queue-position');
+                        const progressBarEl = document.getElementById('progress-bar');
+                        const remainingTicketsEl = document.getElementById('remaining-tickets');
+
+                        // Update remaining tickets indicator
+                        if (remainingTicketsEl) {
+                            remainingTicketsEl.textContent = data.remainingTickets !== undefined 
+                                ? data.remainingTickets 
+                                : 'N/A';
+                                
+                            // Add visual indication if tickets are running low
+                            if (data.remainingTickets < 10) {
+                                remainingTicketsEl.classList.add('text-red-400', 'animate-pulse');
+                            } else {
+                                remainingTicketsEl.classList.remove('text-red-400', 'animate-pulse');
+                            }
+                        }
+                        
+                        // Update wait time and position
+                        if (waitTimeEl && positionEl && progressBarEl) {
+                            const position = parseInt(data.position) || 0;
+                            const total = parseInt(data.total) || 100;
+                            
+                            // Animate position change
+                            if (this.lastPosition !== null && this.lastPosition !== position) {
+                                positionEl.classList.add('highlight-change');
+                                setTimeout(() => {
+                                    positionEl.classList.remove('highlight-change');
+                                }, 1000);
+                            }
+                            this.lastPosition = position;
+
+                            // Use originPosition as minimum, 1 as maximum
+                            const originPosition = {{ $originPosition ?? 0 }};
+                            const min = originPosition || 100;
+                            const max = 1;
+
+                            // Clamp position between min and max for progress calculation
+                            const clampedPosition = Math.max(max, Math.min(position, min));
+                            
+                            // Progress: 100% if position == max (1), 0% if position == min (originPosition)
+                            const progress = ((min - clampedPosition) / (min - max)) * 100;
+
+                            // Format estimated wait time with better wording
+                            if (data.estimatedTime !== undefined) {
+                                if (data.estimatedTime === 0) {
+                                    waitTimeEl.textContent = 'You\'re next!';
+                                    waitTimeEl.classList.add('text-green-400');
+                                } else if (data.estimatedTime < 1) {
+                                    waitTimeEl.textContent = 'Less than a minute';
+                                    waitTimeEl.classList.remove('text-green-400');
+                                } else {
+                                    waitTimeEl.textContent = `~${data.estimatedTime} ${data.estimatedTime === 1 ? 'minute' : 'minutes'}`;
+                                    waitTimeEl.classList.remove('text-green-400');
+                                }
+                            } else {
+                                waitTimeEl.textContent = 'Calculating...';
+                            }
+                            
+                            // Position indicator
+                            positionEl.textContent = position ?? 'N/A';
+                            
+                            // Progress bar with adaptive messaging
+                            progressBarEl.style.width = `${Math.max(5, progress)}%`; // Minimum 5% width for visibility
+                            
+                            if (progress > 90) {
+                                progressBarEl.textContent = 'Almost there!';
+                                progressBarEl.classList.add('font-bold');
+                            } else if (progress > 70) {
+                                progressBarEl.textContent = 'Getting closer!';
+                                progressBarEl.classList.remove('font-bold');
+                            } else if (progress > 40) {
+                                progressBarEl.textContent = 'Making progress...';
+                                progressBarEl.classList.remove('font-bold');
+                            } else {
+                                progressBarEl.textContent = '✨';
+                                progressBarEl.classList.remove('font-bold');
+                            }
+                            
+                            // Adapt polling frequency based on position
+                            if (position <= 10) {
+                                this.pollingInterval = 3000; // Poll faster when close to front
+                                this.setupPolling();
+                            } else if (position <= 50) {
+                                this.pollingInterval = 5000; // Medium frequency
+                                this.setupPolling();
+                            } else {
+                                this.pollingInterval = 7000; // Default frequency
+                            }
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.error("Error fetching queue status:", err);
+                    
+                    // Increment retry count
+                    this.retryCount++;
+                    
+                    if (this.retryCount <= this.maxRetries) {
+                        // Exponential backoff for retries (3s, 6s, 12s, etc.)
+                        const backoffTime = Math.min(15000, 3000 * Math.pow(2, this.retryCount - 1));
+                        
+                        console.log(`Retrying in ${backoffTime/1000} seconds... (Attempt ${this.retryCount} of ${this.maxRetries})`);
+                        
+                        // Try again after backoff period
+                        setTimeout(() => this.fetchQueueStatus(), backoffTime);
+                    } else {
+                        // Show error message after max retries
+                        const waitTimeEl = document.getElementById('wait-time');
+                        const positionEl = document.getElementById('queue-position');
+                        if (waitTimeEl) waitTimeEl.textContent = 'Connection error';
+                        if (positionEl) positionEl.textContent = 'Please refresh';
+                    }
+                });
+        },
+
+        startCountdown() {
+            console.log("Starting countdown");
+            // Set initial countdown values
+            this.countdown = 5;
+            
+            if (this.countdownNumber) {
+                this.countdownNumber.textContent = this.countdown;
+            }
+            
+            if (this.countdownCircle) {
+                // The circumference of the circle (2πr)
+                const circumference = 2 * Math.PI * 45;
+                this.countdownCircle.style.strokeDasharray = circumference;
+                this.countdownCircle.style.strokeDashoffset = '0';
+            }
+            
+            // Start countdown timer
+            const intervalId = setInterval(() => {
+                this.countdown--;
+                
+                if (this.countdownNumber) {
+                    this.countdownNumber.textContent = this.countdown;
+                }
+                
+                if (this.countdownCircle) {
+                    // Calculate dashoffset based on remaining time
+                    const circumference = 2 * Math.PI * 45;
+                    const offset = circumference * (1 - this.countdown / 5);
+                    this.countdownCircle.style.strokeDashoffset = offset;
+                }
+                
+                if (this.countdown <= 0) {
+                    clearInterval(intervalId);
+                    // Redirect after countdown
+                    window.location.href = '{{ route('pesan') }}';
+                }
+            }, 1000);
+        }
+    }
+}
+
         </script>
     </div>
 </body>
