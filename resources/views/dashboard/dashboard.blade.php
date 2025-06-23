@@ -5,9 +5,11 @@
 
     $totalTiket = Tiket::where('order_id', '!=', 'MN-E26KYO')->sum('jumlah_tiket');
     $totalPendapatan = Tiket::where('status', 'completed')->sum('harga');
-    $terverifikasi = Tiket::whereIn('status', ['completed', 'half'])->count();
-    $sudahCheckIn = Tiket::where('entry', '1')->count();
-    $belumCheckIn = Tiket::where('entry', '0')->count();
+    $terverifikasi = Tiket::whereIn('status', ['completed', 'half'])
+        ->where('order_id', '!=', 'MN-E26KYO')
+        ->count();
+    $sudahCheckIn = Tiket::where('entry', '1')->where('order_id', '!=', 'MN-E26KYO')->count();
+    $belumCheckIn = Tiket::where('entry', '0')->where('order_id', '!=', 'MN-E26KYO')->count();
     $pendapatanMerch = Merch::where('status_bayar', 'success')->sum(\DB::raw('grand_total'));
     $belumPickup = Merch::where('status_bayar', 'success')->where('status_pickup', 'not_picked')->count();
     $totalbuyerMerch = Merch::count();
