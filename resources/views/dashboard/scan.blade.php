@@ -344,6 +344,7 @@
                     <div class="flex justify-between"><span class="font-medium">Order ID:</span> <span>${ticket.order_id}</span></div>
                     <div class="flex justify-between"><span class="font-medium">Nama:</span> <span>${ticket.nama_siswa}</span></div>
                     <div class="flex justify-between"><span class="font-medium">Kelas:</span> <span>${ticket.kelas}</span></div>
+                    <div class="flex justify-between"><span class="font-medium">Kurang Bayar:</span> <span class="text-red-600 font-semibold">Rp ${ticket.harga.toLocaleString('id-ID')}</span></div>
                     <div class="flex justify-between"><span class="font-medium">Status:</span> <span class="text-orange-600 font-medium">DP</span></div>
                 `;
                 

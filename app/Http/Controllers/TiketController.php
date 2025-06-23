@@ -189,6 +189,7 @@ class TiketController extends Controller
                         'nis' => $tiket->nis,
                         'nama_siswa' => $tiket->nama,
                         'kelas' => $tiket->kelas,
+                        'harga' => $tiket->harga,
                         'status' => $tiket->status,
                         'order_id' => $tiket->order_id,
                         'email' => $tiket->email,
@@ -208,6 +209,7 @@ class TiketController extends Controller
                         'nama_siswa' => $tiket->nama,
                         'kelas' => $tiket->kelas,
                         'status' => $tiket->status,
+                        'harga' => $tiket->harga,
                         'order_id' => $tiket->order_id,
                         'email' => $tiket->email,
                         'no_hp' => $tiket->phone
@@ -297,6 +299,7 @@ class TiketController extends Controller
                     'nama_siswa' => $ticket->nama,
                     'kelas' => $ticket->kelas,
                     'status' => $ticket->status,
+                    'harga' => $ticket->harga,
                     'order_id' => $ticket->order_id,
                     'email' => $ticket->email,
                     'no_hp' => $ticket->phone
@@ -316,6 +319,7 @@ class TiketController extends Controller
                 'nama_siswa' => $ticket->nama,
                 'kelas' => $ticket->kelas,
                 'status' => $ticket->status,
+                'harga' => $ticket->harga,
                 'order_id' => $ticket->order_id,
                 'email' => $ticket->email,
                 'no_hp' => $ticket->phone
@@ -355,6 +359,7 @@ class TiketController extends Controller
         
         // Update status to completed and check in
         $ticket->status = 'completed';
+        $ticket->harga = $ticket->harga * 2;
         $ticket->entry = 1;
         $ticket->checkin_time = now();
         $ticket->save();
