@@ -67,22 +67,6 @@
                 <x-stat-card title="Terverifikasi" value="{{ $terverifikasi }}" />
                 <x-stat-card title="Sudah Check In" value="{{ $sudahCheckIn }}" />
             </div>
-
-            <div class="text-center pt-6">
-                <h2 class="text-2xl font-semibold text-foreground">
-                    {{ __('Merch Sales') }}
-                </h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <x-stat-card title="Total Pembeli" value="{{ $totalbuyerMerch }}" />
-                <x-stat-card title="Terverifikasi" value="{{ $merchverified }}" />
-                <x-stat-card title="Total Pendapatan" value="Rp {{ number_format($pendapatanMerch, 0, ',', '.') }}" />
-                <x-stat-card title="Menunggu Pickup" value="{{ $belumPickup }}" />
-            </div>
-
-            
-
             <!-- Tabel Persentase -->
             <div class="rounded-2xl bg-background p-4 shadow-sm mt-6">
                 <h3 class="text-lg font-semibold text-foreground mb-4">Tabel Persentase:</h3>
@@ -109,6 +93,23 @@
                     </tbody>
                 </table>
             </div>
+
+            <div class="text-center pt-6">
+                <h2 class="text-2xl font-semibold text-foreground">
+                    {{ __('Merch Sales') }}
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <x-stat-card title="Total Pembeli" value="{{ $totalbuyerMerch }}" />
+                <x-stat-card title="Terverifikasi" value="{{ $merchverified }}" />
+                <x-stat-card title="Total Pendapatan" value="Rp {{ number_format($pendapatanMerch, 0, ',', '.') }}" />
+                <x-stat-card title="Menunggu Pickup" value="{{ $belumPickup }}" />
+            </div>
+
+            
+
+            
 
             <x-footer />
         </div>
