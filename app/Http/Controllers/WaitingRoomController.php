@@ -22,17 +22,18 @@ class WaitingRoomController extends Controller
             // Update last activity timestamp
             $existingRoom->touch();
         } else {
-            // Check if we've reached the maximum completed tickets
+            // ONLY check if all tickets have been COMPLETED (purchased)
+            // NOT including active users, so people can join the waiting room
             $control = Control::first();
-            $totalLimit = $control ? ($control->quantity_waiting ?? 100) : 100;
+            $saleLimit = $control ? ($control->sale_quantity ?? 100) : 100;
             $completedCount = WaitingRoom::where('status', 'completed')->count();
             
-            // Only show sold out if we've reached the maximum COMPLETED tickets
-            if ($completedCount >= $totalLimit) {
+            // Only show sold out if all tickets have actually been purchased
+            if ($completedCount >= $saleLimit) {
                 return view('waiting.sold-out');
             }
 
-            // Create a new waiting room entry with proper timestamps
+            // Create a new waiting room entry
             try {
                 WaitingRoom::create([
                     'session_id' => $session_id,
@@ -42,11 +43,10 @@ class WaitingRoomController extends Controller
                 ]);
             } catch (\Exception $e) {
                 Log::error('Failed to create waiting room entry: ' . $e->getMessage());
-                // Still show waiting page even on error
             }
         }
 
-        // Calculate user's original position (for progress tracking)
+        // Calculate user's original position
         $originPosition = $this->calculateUserPosition($session_id);
         Session::put('origin_position', $originPosition);
         
@@ -71,32 +71,35 @@ class WaitingRoomController extends Controller
             // Update expired users to 'abandoned'
             $this->cleanupAbandonedSessions();
 
-            // Check if we've reached our limit of completed tickets
+            // Get control values
             $control = Control::first();
-            $totalLimit = $control ? ($control->quantity_waiting ?? 100) : 100;
+            $waitingLimit = $control ? ($control->quantity_waiting ?? 2) : 2; // Active user limit
+            $saleLimit = $control ? ($control->sale_quantity ?? 100) : 100;   // Total ticket limit
+            
+            // Count completed purchases and active reservations
             $completedCount = WaitingRoom::where('status', 'completed')->count();
-
-            // Only show sold out if completed = totalLimit
-            if ($completedCount >= $totalLimit) {
-                // Mark the current session's queue as abandoned - no tickets left
+            $activeCount = WaitingRoom::where('status', 'active')->count();
+            
+            // Calculate potential available sales slots
+            $availableSalesSlots = $saleLimit - $completedCount;
+            
+            // If all tickets have been PURCHASED (not just reserved), show sold out
+            if ($availableSalesSlots <= 0) {
+                // Mark the current session as abandoned
                 WaitingRoom::where('session_id', $session_id)
-                    ->whereIn('status', ['waiting', 'active'])
+                    ->where('status', 'waiting')
                     ->update(['status' => 'abandoned']);
 
                 return response()->json([
                     'status' => 'sold',
-                    'message' => 'Tickets are sold out.',
+                    'message' => 'All tickets have been sold.',
                     'session_id' => $session_id,
                 ]);
             }
 
-            // Calculate remaining tickets for display purposes
-            $remainingTickets = $totalLimit - $completedCount;
-
+            // Get or create the waiting room record
             $waitingRoom = WaitingRoom::where('session_id', $session_id)->first();
-
             if (!$waitingRoom) {
-                // Create a new record if one doesn't exist yet
                 try {
                     $waitingRoom = WaitingRoom::create([
                         'session_id' => $session_id,
@@ -113,65 +116,80 @@ class WaitingRoomController extends Controller
                 }
             }
 
-            // Get current position and stats
+            // Get queue position
             $queueStats = $this->getQueueStats($session_id);
             $position = $queueStats['position'];
             $total = $queueStats['total'];
             
-            // Set maximum active users to 80% of total quantity
-            $maxConcurrentActiveUsers = max(1, ceil($totalLimit * 0.8));
-            
-            // Improved estimated wait time calculation
+            // Calculate estimated wait time
             $averageProcessingTime = 3; // minutes per user
+            $estimatedTime = $position <= $waitingLimit ? 0 : 
+                ceil(($position - $waitingLimit) * $averageProcessingTime / $waitingLimit);
+
+            // THIS IS THE KEY ACTIVATION CHECK:
+            // 1. Ensure we don't exceed the concurrent active user limit
+            // 2. Ensure we can never oversell tickets
+            // 3. Only activate users who are at the front of the queue
+            $canActivate = 
+                // User is currently waiting
+                $waitingRoom->status === 'waiting' && 
+                // There's room in the active user limit
+                $activeCount < $waitingLimit &&
+                // User is near front of queue 
+                $position <= 3 &&
+                // THIS CHECK PREVENTS OVERSELLING:
+                ($completedCount + $activeCount) < $saleLimit &&
+                // There are still tickets available
+                $availableSalesSlots > 0;
             
-            if ($position > $maxConcurrentActiveUsers) {
-                $estimatedTime = ceil(($position - $maxConcurrentActiveUsers) * $averageProcessingTime / $maxConcurrentActiveUsers);
-            } else {
-                $estimatedTime = 0;
+            if ($canActivate) {
+                // Activate the user
+                $waitingRoom->status = 'active';
+                $waitingRoom->entered_at = Carbon::now();
+                $waitingRoom->expired_at = Carbon::now()->addMinutes(10);
+                $waitingRoom->save();
+
+                Session::put('action', 'pass');
+                Session::put('expired_at', $waitingRoom->expired_at);
+                
+                return response()->json([
+                    'status' => 'active',
+                    'position' => 0,
+                    'total' => $total,
+                    'estimatedTime' => 0,
+                    'session_id' => $session_id,
+                    'remainingTickets' => $availableSalesSlots - 1, // -1 for this reservation
+                    'expiresAt' => $waitingRoom->expired_at->timestamp,
+                    'debug' => [
+                        'activeCount' => $activeCount + 1,  // +1 for this user
+                        'completedCount' => $completedCount,
+                        'waitingLimit' => $waitingLimit,
+                        'saleLimit' => $saleLimit
+                    ]
+                ]);
             }
 
-            // Check if user can be activated based on available slots (80% rule)
-            $activeCount = WaitingRoom::where('status', 'active')->count();
-            
-            if ($activeCount < $maxConcurrentActiveUsers && $position <= $maxConcurrentActiveUsers && $waitingRoom->status !== 'active') {
-                // Only activate if completed count hasn't reached the limit yet
-                if ($completedCount < $totalLimit) {
-                    // User can be set to active
-                    $waitingRoom->status = 'active';
-                    $waitingRoom->entered_at = Carbon::now();
-                    $waitingRoom->expired_at = Carbon::now()->addMinutes(10); 
-                    $waitingRoom->save();
-
-                    Session::put('action', 'pass');
-                    Session::put('expired_at', $waitingRoom->expired_at);
-                    
-                    return response()->json([
-                        'status' => 'active',
-                        'position' => 0,
-                        'total' => $total,
-                        'estimatedTime' => 0,
-                        'session_id' => $session_id,
-                        'remainingTickets' => $remainingTickets,
-                        'expiresAt' => $waitingRoom->expired_at->timestamp,
-                    ]);
-                }
-            }
-
+            // User needs to wait in queue
             return response()->json([
                 'status' => $waitingRoom->status,
                 'position' => $position,
                 'total' => $total,
                 'estimatedTime' => $estimatedTime,
                 'session_id' => $session_id,
-                'remainingTickets' => $remainingTickets,
-                'maxActive' => $maxConcurrentActiveUsers,
-                'activeCount' => $activeCount,
+                'remainingTickets' => $availableSalesSlots,
+                'debug' => [
+                    'completed' => $completedCount,
+                    'active' => $activeCount,
+                    'waitingLimit' => $waitingLimit,
+                    'saleLimit' => $saleLimit,
+                    'availableSlots' => $saleLimit - ($completedCount + $activeCount)
+                ]
             ]);
         } catch (\Exception $e) {
             Log::error('Status check error: ' . $e->getMessage());
             return response()->json([
                 'status' => 'error', 
-                'message' => 'An unexpected error occurred.'
+                'message' => 'An unexpected error occurred: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -179,7 +197,7 @@ class WaitingRoomController extends Controller
     protected function calculateUserPosition($session_id)
     {
         try {
-            $records = WaitingRoom::whereNotIn('status', ['completed', 'abandoned'])
+            $records = WaitingRoom::whereIn('status', ['waiting', 'active'])
                 ->orderBy('entered_at')
                 ->get();
                 
@@ -227,26 +245,6 @@ class WaitingRoomController extends Controller
         }
     }
     
-    protected function getRemainingTicketCount()
-    {
-        try {
-            // Cache ticket count for 5 seconds to reduce database load during high traffic
-            return Cache::remember('remaining_tickets', 5, function() {
-                // Get quantity from control table with fallback value
-                $control = Control::first();
-                $totalLimit = $control ? ($control->quantity_waiting ?? 100) : 100;
-                
-                // Count only completed purchases against the limit
-                $completedCount = WaitingRoom::where('status', 'completed')->count();
-                
-                return max(0, $totalLimit - $completedCount);
-            });
-        } catch (\Exception $e) {
-            Log::error('Ticket count error: ' . $e->getMessage());
-            return 100; // Default value on error
-        }
-    }
-    
     protected function cleanupAbandonedSessions()
     {
         try {
@@ -261,7 +259,6 @@ class WaitingRoomController extends Controller
                 ->delete();
         } catch (\Exception $e) {
             Log::error('Cleanup error: ' . $e->getMessage());
-            // Continue execution even if cleanup fails
         }
     }
     
@@ -273,9 +270,6 @@ class WaitingRoomController extends Controller
             WaitingRoom::where('session_id', $session_id)
                 ->whereIn('status', ['waiting', 'active'])
                 ->update(['status' => 'abandoned']);
-                
-            // Clear the cache to update ticket counts
-            Cache::forget('remaining_tickets');
                 
             return response()->json(['status' => 'success']);
         } catch (\Exception $e) {
@@ -289,9 +283,6 @@ class WaitingRoomController extends Controller
         try {
             // Remove all records from the waiting_room table
             WaitingRoom::truncate();
-            
-            // Clear the cache
-            Cache::forget('remaining_tickets');
             
             return redirect()->route('dashboard.control')->with('success', 'Waiting room database has been reset successfully.');
         } catch (\Exception $e) {

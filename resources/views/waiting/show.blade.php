@@ -202,7 +202,7 @@
             <p class="text-yellow-100/80 text-sm mt-6" data-aos="fade-up" data-aos-delay="400">Please stay on this page. You'll be automatically redirected when it's your turn ✨</p>
             <div class="mt-4 text-yellow-100/60 text-xs">
                 <span class="font-semibold">Session ID:</span>
-                <span class="select-all bg-yellow-900/30 px-2 py-1 rounded">{{ $originPosition }}</span>
+                <span class="select-all bg-yellow-900/30 px-2 py-1 rounded">{{ $session_id }}</span>
             </div>
             
             <div class="mt-8 pt-6 border-t border-yellow-600/20" data-aos="fade-up" data-aos-delay="500">
@@ -440,19 +440,28 @@ function waitingRoom(hasUserAction) {
                         const waitTimeEl = document.getElementById('wait-time');
                         const positionEl = document.getElementById('queue-position');
                         const progressBarEl = document.getElementById('progress-bar');
-                        const remainingTicketsEl = document.getElementById('remaining-tickets');
+                        const remainingEl = document.getElementById('remaining-tickets');
+                        const statsEl = document.getElementById('queue-stats');
+
+                        if (statsEl) {
+                            // Add detailed stats if in debug mode
+                            statsEl.innerHTML = `
+                                <span class="text-xs">Active: ${data.active}/${data.waitingLimit}</span>
+                                <span class="text-xs ml-2">Completed: ${data.completed}/${data.saleLimit}</span>
+                            `;
+                        }
 
                         // Update remaining tickets indicator
-                        if (remainingTicketsEl) {
-                            remainingTicketsEl.textContent = data.remainingTickets !== undefined 
+                        if (remainingEl) {
+                            remainingEl.textContent = data.remainingTickets !== undefined 
                                 ? data.remainingTickets 
                                 : 'N/A';
                                 
                             // Add visual indication if tickets are running low
                             if (data.remainingTickets < 10) {
-                                remainingTicketsEl.classList.add('text-red-400', 'animate-pulse');
+                                remainingEl.classList.add('text-red-400', 'animate-pulse');
                             } else {
-                                remainingTicketsEl.classList.remove('text-red-400', 'animate-pulse');
+                                remainingEl.classList.remove('text-red-400', 'animate-pulse');
                             }
                         }
                         

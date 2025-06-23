@@ -144,7 +144,15 @@
                                     value="{{ $control->quantity_waiting }}" 
                                     class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 ease-in-out" 
                                     placeholder="Masukkan kuantitas waiting room">
-                                <p class="mt-2 text-sm text-gray-500">Jumlah tiket yang tersedia di waiting room. Masukkan 0 jika tidak dibatasi</p>
+                                <p class="mt-2 text-sm text-gray-500">Jumlah maksimum pengguna aktif di waiting room. Masukkan 0 jika tidak dibatasi</p>
+                            </div>
+                            <div>
+                                <label for="sale_quantity" class="block text-sm font-medium text-gray-700">Kuantitas Penjualan Waiting Room</label>
+                                <input type="number" name="sale_quantity" id="sale_quantity" 
+                                    value="{{ $control->sale_quantity }}" 
+                                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 ease-in-out" 
+                                    placeholder="Masukkan kuantitas penjualan waiting room">
+                                <p class="mt-2 text-sm text-gray-500">Jumlah tiket yang dapat dijual melalui waiting room. Masukkan 0 jika tidak dibatasi</p>
                             </div>
                             
                             <!-- Reset Waiting Room Button -->
