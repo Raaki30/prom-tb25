@@ -4,7 +4,7 @@
     
 
     $totalTiket = Tiket::where('order_id', '!=', 'MN-E26KYO')->sum('jumlah_tiket');
-    $totalPendapatan = Tiket::where('status', 'completed')->sum('harga');
+    $totalPendapatan = Tiket::whereIn('status', ['completed', 'half'])->sum('harga');
     $terverifikasi = Tiket::whereIn('status', ['completed', 'half'])
         ->where('order_id', '!=', 'MN-E26KYO')
         ->count();
