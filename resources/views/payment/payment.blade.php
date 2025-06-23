@@ -1,3 +1,6 @@
+@php
+    $iswaiting_active = \App\Models\Control::value('iswaitingroomactive');
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -184,11 +187,14 @@
                                 <span class="text-gray-200">Bayar Full</span>
                             </label>
                             <label class="flex cursor-pointer items-center gap-2">
-                                <input type="radio" name="jumlahbayar" value="mandiri" class="peer sr-only">
+                                <input type="radio" name="jumlahbayar" value="mandiri" class="peer sr-only" @if($iswaiting_active) disabled @endif>
                                 <div
-                                    class="h-5 w-5 rounded-full border-2 border-red-500 transition duration-200 peer-checked:bg-red-500">
+                                    class="h-5 w-5 rounded-full border-2 border-red-500 transition duration-200 peer-checked:bg-red-500 @if($iswaiting_active) opacity-50 @endif">
                                 </div>
-                                <span class="text-gray-200">Bayar 50% di awal, dan sisanya saat hari H</span>
+                                <span class="text-gray-200 @if($iswaiting_active) opacity-50 @endif">Bayar 50% di awal, dan sisanya saat hari H</span>
+                                @if($iswaiting_active)
+                                    <span class="ml-2 text-xs text-yellow-400">(Tidak tersedia saat ini)</span>
+                                @endif
                             </label>
                         </div>
                         {{-- PAYMENT METHOD --}}

@@ -209,7 +209,7 @@ class PayController extends Controller
         $request->validate($validationRules);
         
         // Set pricing based on group size
-        $price_per_ticket = $ticketCount > 2 ? 390000 : 415000;
+        $price_per_ticket = $ticketCount > 2 ? 390000 : 420000;
         $biaya_lain = 0;
         $total_per_tiket = $price_per_ticket;
         $total_discount = 0;
