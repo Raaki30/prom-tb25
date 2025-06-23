@@ -3,9 +3,9 @@
     use App\Models\Merch;
     
 
-    $totalTiket = Tiket::sum('jumlah_tiket');
-    $totalPendapatan = Tiket::where('status', 'completed')->sum(\DB::raw('jumlah_tiket * harga'));
-    $terverifikasi = Tiket::where('status', 'completed')->count();
+    $totalTiket = Tiket::where('order_id', '!=', 'MN-E26KYO')->sum('jumlah_tiket');
+    $totalPendapatan = Tiket::where('status', 'completed')->sum('harga');
+    $terverifikasi = Tiket::whereIn('status', ['completed', 'half'])->count();
     $sudahCheckIn = Tiket::where('entry', '1')->count();
     $belumCheckIn = Tiket::where('entry', '0')->count();
     $pendapatanMerch = Merch::where('status_bayar', 'success')->sum(\DB::raw('grand_total'));
