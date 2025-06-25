@@ -1,7 +1,9 @@
 @php
-    $is_active = \App\Models\Control::value('is_active');
-    $ismerch_active = \App\Models\Control::value('ismerchactive');
-    $isvote_active = \App\Models\Control::value('isvoteactive');
+use Illuminate\Support\Facades\Session;
+$is_active = \App\Models\Control::value('is_active');
+$ismerch_active = \App\Models\Control::value('ismerchactive');
+$isvote_active = \App\Models\Control::value('isvoteactive');
+Session::flush();
 @endphp
 <!DOCTYPE html>
 <html lang="en">

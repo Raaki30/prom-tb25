@@ -4,12 +4,14 @@
     $session_id = Session::getId();
     $hasAction = WaitingRoom::where('session_id', $session_id)->exists();
     $originPosition = Session::get('origin_position', 0);
+    $stats = Session::get('action');
+    
 @endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>🎟️ Virtual Waiting Room</title>
+    <title>Beli Tiket - Prom Casino De Lamour</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     @vite('resources/css/app.css')
@@ -147,16 +149,41 @@
 
     <div class="w-full max-w-md mx-auto bg-[#18181b]/80 shadow-2xl rounded-3xl p-8 border border-yellow-500/30 relative overflow-hidden" 
          data-aos="fade-up" data-aos-duration="1200">
-        <div class="absolute -top-8 -right-8 text-yellow-400 text-6xl opacity-10">
-            🎟️
+        
+         <!-- MODAL TANDA MASUK WAITING ROOM -->
+        <div id="couplePopup" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+            <div class="absolute inset-0 bg-black/40 backdrop-blur-md" id="popupOverlay"></div>
+            <div class="relative mx-auto flex max-w-md flex-col gap-4 rounded-2xl border border-yellow-600/30 bg-[#18181b] p-8 text-left font-medium text-white shadow-lg transform transition-all duration-300 scale-95 opacity-0"
+                style="box-shadow: 0 8px 32px 0 rgba(234, 179, 8, 0.15);" id="popupContent">
+                <button class="absolute right-4 top-4 text-white hover:text-yellow-400 transition-colors" id="closePopup" aria-label="Tutup">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+                <div class="flex items-center gap-3">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-100">
+                        <i class="fa-solid fa-hourglass-half text-2xl text-yellow-600"></i>
+                    </div>
+                    <p class="font-fancy text-3xl text-yellow-400">
+                        Mohon Tunggu
+                    </p>
+                </div>
+                <h3 class="text-xl font-semibold text-yellow-300 mt-2">Sistem Sedang Ramai</h3>
+                <p class="text-base text-yellow-100">
+                    Karena banyaknya pengunjung, Anda kami alihkan ke <span class="font-bold text-yellow-400">waiting room</span> agar proses pembelian tiket tetap adil dan lancar.<br>
+                    Silakan tunggu sebentar, Anda akan segera masuk ke antrian.
+                </p>
+                <button id="confirmPopupClose" class="mt-4 inline-block self-start rounded-xl bg-yellow-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-yellow-600">
+                    Mengerti
+                </button>
+            </div>
         </div>
+        
 
         <div x-show="!isActive && !hasAction" class="text-center space-y-6 animate-fade-in">
             <!-- Join Waiting Room -->
             <div class="text-5xl font-extrabold text-yellow-400 font-fancy cute-icon" data-aos="fade-down" data-aos-duration="1500">Welcome!</div>
-            <h1 class="text-2xl font-bold text-yellow-100">Virtual Waiting Room</h1>
+            <h1 class="text-2xl font-bold text-yellow-100">Udah Siap Belum Beli Tiketnya?</h1>
             <p class="text-yellow-100/80 leading-relaxed">
-                Karena jumlah tiket terbatas, kami menggunakan sistem antrian untuk memberikan anda pengalaman yang lebih baik. Klik untuk cek ketersediaan sebelum masuk ke ruang tunggu ✨
+                Sebelum lanjut beli tiket, yuk kita cek dulu ketersediaannya di sistem ✨
             </p>
             <button 
                 id="join-queue-btn" 
@@ -166,7 +193,7 @@
             </button>
         </div>
 
-        <div x-show="!isActive && hasAction" class="text-center space-y-6 animate-fade-in">
+        <div x-show="!isActive && hasAction" class="text-center space-y-6 animate-fade-in" id="waiting-room">
             <!-- In Queue -->
             <div class="text-5xl font-extrabold text-yellow-400 font-fancy cute-icon" data-aos="fade-down" data-aos-duration="1500">Hold Tight!</div>
             <h1 class="text-2xl font-bold text-yellow-100">You're in the Queue</h1>
@@ -265,7 +292,36 @@
         </div>
 
         <script>
+                        // Example JS to show/hide modal (call showModal() when needed)
+            function showModal() {
+                const popup = document.getElementById('couplePopup');
+                const content = document.getElementById('popupContent');
+                popup.classList.remove('hidden');
+                setTimeout(() => content.classList.remove('scale-95', 'opacity-0'), 10);
+            }
+            function hideModal() {
+                const popup = document.getElementById('couplePopup');
+                const content = document.getElementById('popupContent');
+                content.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => popup.classList.add('hidden'), 200);
+            }
+            document.getElementById('closePopup')?.addEventListener('click', hideModal);
+            document.getElementById('confirmPopupClose')?.addEventListener('click', hideModal);
+            document.getElementById('popupOverlay')?.addEventListener('click', hideModal);
+            
             document.addEventListener('DOMContentLoaded', function() {
+                // Show the modal if the user is in the waiting room
+                
+                    // Only show modal if #waiting-room is visible for more than 2 seconds
+                    if (@json($stats) === 'hold') {
+                        setTimeout(() => {
+                            const waitingRoomDiv = document.getElementById('waiting-room');
+                            if (waitingRoomDiv && waitingRoomDiv.offsetParent !== null) {
+                                showModal();
+                            }
+                        }, 2000);
+                    }
+                
                 // Initialize AOS
                 AOS.init({
                     once: true,
